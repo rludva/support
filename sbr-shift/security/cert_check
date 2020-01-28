@@ -1,0 +1,11 @@
+# !/bin/bash -e
+
+CERTIFICATE_FILE="certificate.crt"
+
+if [ ! -f "$CERTIFICATE_FILE" ]; then
+	echo "Certificate file: certificate.crt does not exist.."
+fi
+
+# This is not working!
+#openssl x509 -verify -text -noout -in "$CERTIFICATE_FILE"
+echo "Not implemented!"
