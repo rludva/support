@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: phppgadmin
+  name: phppgadmin
+  namespace: openshift-workspaces
+spec:
+  ports:
+  - name: phppgadmin
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: phpphadmin
+  sessionAffinity: None
+  type: ClusterIP
