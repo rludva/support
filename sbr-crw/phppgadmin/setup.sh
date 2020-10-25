@@ -5,8 +5,49 @@ PASSWORD=$(oc get secret/che-identity-secret -n openshift-workspaces -ojsonpath=
 echo "user: $USER"
 echo "password: $PASSWORD"
 
-oc create -f ./phppgadmin_pod.yaml
-oc create -f ./phppgadmin_service.yaml
+PHPPGADMIN_POD_FILE="./phppgadmin_pod.yaml"
+cat <<EOF > $PHPPGADMIN_POD_FILE
+apiVersion: v1
+kind: Pod
+metadata:
+  name: phppgadmin
+  labels:
+    app: phppgadmin
+  namespace: openshift-workspaces
+spec:
+  containers:
+  - env:
+    image: dockage/phppgadmin
+    name: phppgadmin
+    imagePullPolicy: IfNotPresent
+    ports:
+    - containerPort: 80
+      protocol: TCP
+EOF
+
+PHPPGADMIN_SERVICE_FILE="./phppgadmin_pod.yaml"
+cat <<EOF > $PHPPGADMIN_SERVICE_FILE
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: phppgadmin
+  name: phppgadmin
+  namespace: openshift-workspaces
+spec:
+  ports:
+  - name: phppgadmin
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: phpphadmin
+  sessionAffinity: None
+  type: ClusterIP
+EOF
+
+oc create -f "$PHPPGADMIN_POD_FILE"
+oc create -f "$PHPPGADMIN_SERVICE_FILE"
 oc expose service phppgadmin
 
 DBHOST=$(oc get pod -l component=postgres -ojsonpath='{..podIP}')
