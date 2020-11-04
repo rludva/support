@@ -1,0 +1,4 @@
+#! /usr/bin/bash
+
+crc setup
+crc start --memory 20000 --pull-secret-file $HOME/.passwd/crc-pull-secret
