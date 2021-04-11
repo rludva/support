@@ -1,0 +1,490 @@
+E0411 19:13:55.569876       1 helpers.go:134] Encountered config error json: unknown field "masterCount" in object *config.MasterConfig, raw JSON:
+{"admissionConfig":{"pluginConfig":{"BuildDefaults":{"configuration":{"apiVersion":"v1","env":[],"kind":"BuildDefaultsConfig","resources":{"limits":{},"requests":{}}}},"BuildOverrides":{"configuration":{"apiVersion":"v1","kind":"BuildOverridesConfig"}},"openshift.io/ImagePolicy":{"configuration":{"apiVersion":"v1","executionRules":[{"matchImageAnnotations":[{"key":"images.openshift.io/deny-execution","value":"true"}],"name":"execution-denied","onResources":[{"resource":"pods"},{"resource":"builds"}],"reject":true,"skipOnResolutionFailure":true}],"kind":"ImagePolicyConfig"}}}},"aggregatorConfig":{"proxyClientInfo":{"certFile":"aggregator-front-proxy.crt","keyFile":"aggregator-front-proxy.key"}},"apiLevels":["v1"],"apiVersion":"v1","authConfig":{"requestHeader":{"clientCA":"front-proxy-ca.crt","clientCommonNames":["aggregator-front-proxy"],"extraHeaderPrefixes":["X-Remote-Extra-"],"groupHeaders":["X-Remote-Group"],"usernameHeaders":["X-Remote-User"]}},"controllerConfig":{"election":{"lockName":"openshift-master-controllers"},"serviceServingCert":{"signer":{"certFile":"service-signer.crt","keyFile":"service-signer.key"}}},"controllers":"*","corsAllowedOrigins":["^(?i)https://127\\.0\\.0\\.1(:|\\z)","^(?i)https://localhost(:|\\z)","^(?i)https://192\\.168\\.0\\.11(:|\\z)","^(?i)https://openshift\\.default\\.svc(:|\\z)","^(?i)https://kubernetes\\.default(:|\\z)","^(?i)https://kubernetes\\.default\\.svc\\.cluster\\.local(:|\\z)","^(?i)https://kubernetes(:|\\z)","^(?i)https://openshift\\.default(:|\\z)","^(?i)https://torii\\-ichi\\-master\\.local\\.nutius\\.com(:|\\z)","^(?i)https://master\\.torii\\.local\\.nutius\\.com(:|\\z)","^(?i)https://172\\.30\\.0\\.1(:|\\z)","^(?i)https://openshift\\.default\\.svc\\.cluster\\.local(:|\\z)","^(?i)https://kubernetes\\.default\\.svc(:|\\z)","^(?i)https://openshift(:|\\z)"],"dnsConfig":{"bindAddress":"0.0.0.0:8053","bindNetwork":"tcp4"},"etcdClientInfo":{"ca":"master.etcd-ca.crt","certFile":"master.etcd-client.crt","keyFile":"master.etcd-client.key","urls":["https://torii-ichi-master.local.nutius.com:2379","https://torii-ni-master.local.nutius.com:2379","https://torii-san-master.local.nutius.com:2379"]},"etcdStorageConfig":{"kubernetesStoragePrefix":"kubernetes.io","kubernetesStorageVersion":"v1","openShiftStoragePrefix":"openshift.io","openShiftStorageVersion":"v1"},"imageConfig":{"format":"registry.redhat.io/openshift3/ose-${component}:${version}","latest":false},"imagePolicyConfig":{"internalRegistryHostname":"docker-registry.default.svc:5000"},"kind":"MasterConfig","kubeletClientInfo":{"ca":"ca-bundle.crt","certFile":"master.kubelet-client.crt","keyFile":"master.kubelet-client.key","port":10250},"kubernetesMasterConfig":{"apiServerArguments":{"storage-backend":["etcd3"],"storage-media-type":["application/vnd.kubernetes.protobuf"]},"controllerArguments":{"cluster-signing-cert-file":["/etc/origin/master/ca.crt"],"cluster-signing-key-file":["/etc/origin/master/ca.key"],"pv-recycler-pod-template-filepath-hostpath":["/etc/origin/master/recycler_pod.yaml"],"pv-recycler-pod-template-filepath-nfs":["/etc/origin/master/recycler_pod.yaml"]},"masterCount":3,"masterIP":"192.168.0.11","podEvictionTimeout":null,"proxyClientInfo":{"certFile":"master.proxy-client.crt","keyFile":"master.proxy-client.key"},"schedulerArguments":null,"schedulerConfigFile":"/etc/origin/master/scheduler.json","servicesNodePortRange":"","servicesSubnet":"172.30.0.0/16","staticNodeNames":[]},"masterClients":{"externalKubernetesClientConnectionOverrides":{"acceptContentTypes":"application/vnd.kubernetes.protobuf,application/json","burst":400,"contentType":"application/vnd.kubernetes.protobuf","qps":200},"externalKubernetesKubeConfig":"","openshiftLoopbackClientConnectionOverrides":{"acceptContentTypes":"application/vnd.kubernetes.protobuf,application/json","burst":600,"contentType":"application/vnd.kubernetes.protobuf","qps":300},"openshiftLoopbackKubeConfig":"openshift-master.kubeconfig"},"masterPublicURL":"https://master.torii.local.nutius.com:8443","networkConfig":{"clusterNetworks":[{"cidr":"10.128.0.0/14","hostSubnetLength":9}],"networkPluginName":"redhat/openshift-ovs-subnet","serviceNetworkCIDR":"172.30.0.0/16"},"oauthConfig":{"assetPublicURL":"https://master.torii.local.nutius.com:8443/console/","grantConfig":{"method":"auto"},"identityProviders":[{"challenge":true,"login":true,"mappingMethod":"claim","name":"htpasswd_auth","provider":{"apiVersion":"v1","file":"/etc/origin/master/htpasswd","kind":"HTPasswdPasswordIdentityProvider"}}],"masterCA":"ca-bundle.crt","masterPublicURL":"https://master.torii.local.nutius.com:8443","masterURL":"https://master.torii.local.nutius.com:8443","sessionConfig":{"sessionMaxAgeSeconds":3600,"sessionName":"ssn","sessionSecretsFile":"/etc/origin/master/session-secrets.yaml"},"tokenConfig":{"accessTokenMaxAgeSeconds":86400,"authorizeTokenMaxAgeSeconds":500}},"pauseControllers":false,"policyConfig":{"bootstrapPolicyFile":"/etc/origin/master/policy.json","openshiftInfrastructureNamespace":"openshift-infra","openshiftSharedResourcesNamespace":"openshift"},"projectConfig":{"defaultNodeSelector":"node-role.kubernetes.io/compute=true","projectRequestMessage":"","projectRequestTemplate":"","securityAllocator":{"mcsAllocatorRange":"s0:/2","mcsLabelsPerProject":5,"uidAllocatorRange":"1000000000-1999999999/10000"}},"routingConfig":{"subdomain":"apps.torii.local.nutius.com"},"serviceAccountConfig":{"limitSecretReferences":false,"managedNames":["default","builder","deployer"],"masterCA":"ca-bundle.crt","privateKeyFile":"serviceaccounts.private.key","publicKeyFiles":["serviceaccounts.public.key"]},"servingInfo":{"bindAddress":"0.0.0.0:8443","bindNetwork":"tcp4","certFile":"master.server.crt","clientCA":"ca.crt","keyFile":"master.server.key","maxRequestsInFlight":500,"requestTimeoutSeconds":3600},"volumeConfig":{"dynamicProvisioningEnabled":true}}
+I0411 19:13:55.570040       1 plugins.go:84] Registered admission plugin "NamespaceLifecycle"
+I0411 19:13:55.570052       1 plugins.go:84] Registered admission plugin "Initializers"
+I0411 19:13:55.570063       1 plugins.go:84] Registered admission plugin "ValidatingAdmissionWebhook"
+I0411 19:13:55.570071       1 plugins.go:84] Registered admission plugin "MutatingAdmissionWebhook"
+I0411 19:13:55.570078       1 plugins.go:84] Registered admission plugin "AlwaysAdmit"
+I0411 19:13:55.570086       1 plugins.go:84] Registered admission plugin "AlwaysPullImages"
+I0411 19:13:55.570094       1 plugins.go:84] Registered admission plugin "LimitPodHardAntiAffinityTopology"
+I0411 19:13:55.570100       1 plugins.go:84] Registered admission plugin "DefaultTolerationSeconds"
+I0411 19:13:55.570108       1 plugins.go:84] Registered admission plugin "AlwaysDeny"
+I0411 19:13:55.570116       1 plugins.go:84] Registered admission plugin "EventRateLimit"
+I0411 19:13:55.570124       1 plugins.go:84] Registered admission plugin "DenyEscalatingExec"
+I0411 19:13:55.570129       1 plugins.go:84] Registered admission plugin "DenyExecOnPrivileged"
+I0411 19:13:55.570135       1 plugins.go:84] Registered admission plugin "ExtendedResourceToleration"
+I0411 19:13:55.570143       1 plugins.go:84] Registered admission plugin "OwnerReferencesPermissionEnforcement"
+I0411 19:13:55.570158       1 plugins.go:84] Registered admission plugin "ImagePolicyWebhook"
+I0411 19:13:55.570166       1 plugins.go:84] Registered admission plugin "LimitRanger"
+I0411 19:13:55.570173       1 plugins.go:84] Registered admission plugin "NamespaceAutoProvision"
+I0411 19:13:55.570180       1 plugins.go:84] Registered admission plugin "NamespaceExists"
+I0411 19:13:55.570186       1 plugins.go:84] Registered admission plugin "NodeRestriction"
+I0411 19:13:55.570195       1 plugins.go:84] Registered admission plugin "PersistentVolumeLabel"
+I0411 19:13:55.570202       1 plugins.go:84] Registered admission plugin "PodNodeSelector"
+I0411 19:13:55.570208       1 plugins.go:84] Registered admission plugin "PodPreset"
+I0411 19:13:55.570215       1 plugins.go:84] Registered admission plugin "PodTolerationRestriction"
+I0411 19:13:55.570230       1 plugins.go:84] Registered admission plugin "ResourceQuota"
+I0411 19:13:55.570238       1 plugins.go:84] Registered admission plugin "PodSecurityPolicy"
+I0411 19:13:55.570244       1 plugins.go:84] Registered admission plugin "Priority"
+I0411 19:13:55.570250       1 plugins.go:84] Registered admission plugin "SecurityContextDeny"
+I0411 19:13:55.570260       1 plugins.go:84] Registered admission plugin "ServiceAccount"
+I0411 19:13:55.570267       1 plugins.go:84] Registered admission plugin "DefaultStorageClass"
+I0411 19:13:55.570273       1 plugins.go:84] Registered admission plugin "PersistentVolumeClaimResize"
+I0411 19:13:55.570280       1 plugins.go:84] Registered admission plugin "StorageObjectInUseProtection"
+I0411 19:13:55.623589       1 plugins.go:84] Registered admission plugin "NamespaceLifecycle"
+I0411 19:13:55.623615       1 plugins.go:84] Registered admission plugin "Initializers"
+I0411 19:13:55.623621       1 plugins.go:84] Registered admission plugin "ValidatingAdmissionWebhook"
+I0411 19:13:55.623627       1 plugins.go:84] Registered admission plugin "MutatingAdmissionWebhook"
+I0411 19:13:55.623635       1 plugins.go:84] Registered admission plugin "AlwaysAdmit"
+I0411 19:13:55.623856       1 plugins.go:84] Registered admission plugin "AlwaysPullImages"
+I0411 19:13:55.623869       1 plugins.go:84] Registered admission plugin "LimitPodHardAntiAffinityTopology"
+I0411 19:13:55.623875       1 plugins.go:84] Registered admission plugin "DefaultTolerationSeconds"
+I0411 19:13:55.623880       1 plugins.go:84] Registered admission plugin "AlwaysDeny"
+I0411 19:13:55.623887       1 plugins.go:84] Registered admission plugin "EventRateLimit"
+I0411 19:13:55.623895       1 plugins.go:84] Registered admission plugin "DenyEscalatingExec"
+I0411 19:13:55.623899       1 plugins.go:84] Registered admission plugin "DenyExecOnPrivileged"
+I0411 19:13:55.623905       1 plugins.go:84] Registered admission plugin "ExtendedResourceToleration"
+I0411 19:13:55.623920       1 plugins.go:84] Registered admission plugin "OwnerReferencesPermissionEnforcement"
+I0411 19:13:55.623927       1 plugins.go:84] Registered admission plugin "ImagePolicyWebhook"
+I0411 19:13:55.623932       1 plugins.go:84] Registered admission plugin "LimitRanger"
+I0411 19:13:55.623937       1 plugins.go:84] Registered admission plugin "NamespaceAutoProvision"
+I0411 19:13:55.623942       1 plugins.go:84] Registered admission plugin "NamespaceExists"
+I0411 19:13:55.623948       1 plugins.go:84] Registered admission plugin "NodeRestriction"
+I0411 19:13:55.624014       1 plugins.go:84] Registered admission plugin "PersistentVolumeLabel"
+I0411 19:13:55.624025       1 plugins.go:84] Registered admission plugin "PodNodeSelector"
+I0411 19:13:55.624032       1 plugins.go:84] Registered admission plugin "PodPreset"
+I0411 19:13:55.624044       1 plugins.go:84] Registered admission plugin "PodTolerationRestriction"
+I0411 19:13:55.624052       1 plugins.go:84] Registered admission plugin "ResourceQuota"
+I0411 19:13:55.624057       1 plugins.go:84] Registered admission plugin "PodSecurityPolicy"
+I0411 19:13:55.624101       1 plugins.go:84] Registered admission plugin "Priority"
+I0411 19:13:55.624111       1 plugins.go:84] Registered admission plugin "SecurityContextDeny"
+I0411 19:13:55.624119       1 plugins.go:84] Registered admission plugin "ServiceAccount"
+I0411 19:13:55.624128       1 plugins.go:84] Registered admission plugin "DefaultStorageClass"
+I0411 19:13:55.624142       1 plugins.go:84] Registered admission plugin "PersistentVolumeClaimResize"
+I0411 19:13:55.624147       1 plugins.go:84] Registered admission plugin "StorageObjectInUseProtection"
+I0411 19:13:56.310444       1 register.go:151] Admission plugin AlwaysAdmit is not enabled.  It will not be started.
+I0411 19:13:56.310827       1 register.go:151] Admission plugin NamespaceAutoProvision is not enabled.  It will not be started.
+I0411 19:13:56.311157       1 register.go:151] Admission plugin NamespaceExists is not enabled.  It will not be started.
+I0411 19:13:56.311529       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: NamespaceLifecycle.
+I0411 19:13:56.311876       1 register.go:151] Admission plugin EventRateLimit is not enabled.  It will not be started.
+I0411 19:13:56.312200       1 register.go:151] Admission plugin ProjectRequestLimit is not enabled.  It will not be started.
+I0411 19:13:56.312509       1 register.go:151] Admission plugin openshift.io/RestrictSubjectBindings is not enabled.  It will not be started.
+I0411 19:13:56.312906       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: openshift.io/JenkinsBootstrapper.
+I0411 19:13:56.313224       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: openshift.io/BuildConfigSecretInjector.
+I0411 19:13:56.313570       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: BuildByStrategy.
+I0411 19:13:56.313916       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: openshift.io/ImageLimitRange.
+I0411 19:13:56.313927       1 plugins.go:161] Loaded 1 validating admission controller(s) successfully in the following order: openshift.io/ImageLimitRange.
+I0411 19:13:56.314233       1 register.go:151] Admission plugin RunOnceDuration is not enabled.  It will not be started.
+I0411 19:13:56.314553       1 register.go:151] Admission plugin PodNodeConstraints is not enabled.  It will not be started.
+I0411 19:13:56.314881       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: OriginPodNodeEnvironment.
+I0411 19:13:56.315200       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: PodNodeSelector.
+I0411 19:13:56.315210       1 plugins.go:161] Loaded 1 validating admission controller(s) successfully in the following order: PodNodeSelector.
+I0411 19:13:56.315513       1 register.go:151] Admission plugin ClusterResourceOverride is not enabled.  It will not be started.
+I0411 19:13:56.315985       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: ExternalIPRanger.
+I0411 19:13:56.316430       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: openshift.io/RestrictedEndpointsAdmission.
+I0411 19:13:56.317308       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: openshift.io/ImagePolicy.
+I0411 19:13:56.317320       1 plugins.go:161] Loaded 1 validating admission controller(s) successfully in the following order: openshift.io/ImagePolicy.
+I0411 19:13:56.317637       1 register.go:151] Admission plugin ImagePolicyWebhook is not enabled.  It will not be started.
+I0411 19:13:56.317964       1 register.go:151] Admission plugin PodPreset is not enabled.  It will not be started.
+I0411 19:13:56.318310       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: LimitRanger.
+I0411 19:13:56.318320       1 plugins.go:161] Loaded 1 validating admission controller(s) successfully in the following order: LimitRanger.
+I0411 19:13:56.318657       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: ServiceAccount.
+I0411 19:13:56.318667       1 plugins.go:161] Loaded 1 validating admission controller(s) successfully in the following order: ServiceAccount.
+I0411 19:13:56.319004       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: NodeRestriction.
+I0411 19:13:56.319326       1 register.go:151] Admission plugin SecurityContextDeny is not enabled.  It will not be started.
+I0411 19:13:56.319667       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: SecurityContextConstraint.
+I0411 19:13:56.319677       1 plugins.go:161] Loaded 1 validating admission controller(s) successfully in the following order: SecurityContextConstraint.
+I0411 19:13:56.320000       1 register.go:151] Admission plugin PodSecurityPolicy is not enabled.  It will not be started.
+I0411 19:13:56.320316       1 register.go:151] Admission plugin DenyEscalatingExec is not enabled.  It will not be started.
+I0411 19:13:56.320677       1 register.go:151] Admission plugin DenyExecOnPrivileged is not enabled.  It will not be started.
+I0411 19:13:56.321008       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: DefaultStorageClass.
+I0411 19:13:56.321349       1 plugins.go:161] Loaded 1 validating admission controller(s) successfully in the following order: PersistentVolumeClaimResize.
+I0411 19:13:56.321664       1 register.go:151] Admission plugin AlwaysPullImages is not enabled.  It will not be started.
+I0411 19:13:56.321977       1 register.go:151] Admission plugin LimitPodHardAntiAffinityTopology is not enabled.  It will not be started.
+I0411 19:13:56.322314       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: SCCExecRestrictions.
+W0411 19:13:56.322626       1 admission.go:71] PersistentVolumeLabel admission controller is deprecated. Please remove this controller from your configuration files and scripts.
+I0411 19:13:56.322647       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: PersistentVolumeLabel.
+I0411 19:13:56.322978       1 plugins.go:161] Loaded 1 validating admission controller(s) successfully in the following order: OwnerReferencesPermissionEnforcement.
+I0411 19:13:56.323325       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: openshift.io/IngressAdmission.
+I0411 19:13:56.323650       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: Priority.
+I0411 19:13:56.323660       1 plugins.go:161] Loaded 1 validating admission controller(s) successfully in the following order: Priority.
+I0411 19:13:56.323978       1 register.go:151] Admission plugin ExtendedResourceToleration is not enabled.  It will not be started.
+I0411 19:13:56.324298       1 register.go:151] Admission plugin DefaultTolerationSeconds is not enabled.  It will not be started.
+I0411 19:13:56.324632       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: StorageObjectInUseProtection.
+I0411 19:13:56.324955       1 register.go:151] Admission plugin Initializers is not enabled.  It will not be started.
+I0411 19:13:56.325275       1 register.go:151] Admission plugin MutatingAdmissionWebhook is not enabled.  It will not be started.
+I0411 19:13:56.325603       1 register.go:151] Admission plugin ValidatingAdmissionWebhook is not enabled.  It will not be started.
+I0411 19:13:56.325954       1 plugins.go:158] Loaded 1 mutating admission controller(s) successfully in the following order: PodTolerationRestriction.
+I0411 19:13:56.325965       1 plugins.go:161] Loaded 1 validating admission controller(s) successfully in the following order: PodTolerationRestriction.
+I0411 19:13:56.326282       1 register.go:151] Admission plugin AlwaysDeny is not enabled.  It will not be started.
+I0411 19:13:56.326744       1 plugins.go:161] Loaded 1 validating admission controller(s) successfully in the following order: ResourceQuota.
+I0411 19:13:56.327107       1 plugins.go:161] Loaded 1 validating admission controller(s) successfully in the following order: openshift.io/ClusterResourceQuota.
+I0411 19:13:56.330844       1 master_config.go:414] Initializing cache sizes based on 0MB limit
+I0411 19:13:56.330950       1 master_config.go:476] Using the lease endpoint reconciler with TTL=15s and interval=10s
+I0411 19:13:56.403799       1 start_master.go:484] Starting master on 0.0.0.0:8443 (v3.11.404)
+I0411 19:13:56.403822       1 start_master.go:485] Public master address is https://master.torii.local.nutius.com:8443
+I0411 19:13:56.403853       1 start_master.go:489] Using images from "registry.redhat.io/openshift3/ose-<component>:v3.11.404"
+W0411 19:13:56.403941       1 dns_server.go:37] Binding DNS on port 8053 instead of 53, which may not be resolvable from all clients
+W0411 19:13:56.404149       1 server.go:79] Unable to keep dnsmasq up to date, 0.0.0.0:8053 must point to port 53
+I0411 19:13:56.404226       1 logs.go:49] skydns: ready for queries on cluster.local. for tcp4://0.0.0.0:8053 [rcache 0]
+I0411 19:13:56.404236       1 logs.go:49] skydns: ready for queries on cluster.local. for udp4://0.0.0.0:8053 [rcache 0]
+I0411 19:13:56.504478       1 dns_server.go:63] DNS listening at 0.0.0.0:8053
+I0411 19:13:56.507732       1 plugins.go:84] Registered admission plugin "NamespaceLifecycle"
+I0411 19:13:56.507755       1 plugins.go:84] Registered admission plugin "Initializers"
+I0411 19:13:56.507762       1 plugins.go:84] Registered admission plugin "ValidatingAdmissionWebhook"
+I0411 19:13:56.507768       1 plugins.go:84] Registered admission plugin "MutatingAdmissionWebhook"
+I0411 19:13:56.507774       1 plugins.go:84] Registered admission plugin "AlwaysAdmit"
+I0411 19:13:56.507780       1 plugins.go:84] Registered admission plugin "AlwaysPullImages"
+I0411 19:13:56.507786       1 plugins.go:84] Registered admission plugin "LimitPodHardAntiAffinityTopology"
+I0411 19:13:56.507792       1 plugins.go:84] Registered admission plugin "DefaultTolerationSeconds"
+I0411 19:13:56.507799       1 plugins.go:84] Registered admission plugin "AlwaysDeny"
+I0411 19:13:56.507814       1 plugins.go:84] Registered admission plugin "EventRateLimit"
+I0411 19:13:56.507821       1 plugins.go:84] Registered admission plugin "DenyEscalatingExec"
+I0411 19:13:56.507826       1 plugins.go:84] Registered admission plugin "DenyExecOnPrivileged"
+I0411 19:13:56.507832       1 plugins.go:84] Registered admission plugin "ExtendedResourceToleration"
+I0411 19:13:56.507838       1 plugins.go:84] Registered admission plugin "OwnerReferencesPermissionEnforcement"
+I0411 19:13:56.507845       1 plugins.go:84] Registered admission plugin "ImagePolicyWebhook"
+I0411 19:13:56.507851       1 plugins.go:84] Registered admission plugin "LimitRanger"
+I0411 19:13:56.507857       1 plugins.go:84] Registered admission plugin "NamespaceAutoProvision"
+I0411 19:13:56.507862       1 plugins.go:84] Registered admission plugin "NamespaceExists"
+I0411 19:13:56.507868       1 plugins.go:84] Registered admission plugin "NodeRestriction"
+I0411 19:13:56.507874       1 plugins.go:84] Registered admission plugin "PersistentVolumeLabel"
+I0411 19:13:56.507879       1 plugins.go:84] Registered admission plugin "PodNodeSelector"
+I0411 19:13:56.507886       1 plugins.go:84] Registered admission plugin "PodPreset"
+I0411 19:13:56.507893       1 plugins.go:84] Registered admission plugin "PodTolerationRestriction"
+I0411 19:13:56.507898       1 plugins.go:84] Registered admission plugin "ResourceQuota"
+I0411 19:13:56.507903       1 plugins.go:84] Registered admission plugin "PodSecurityPolicy"
+I0411 19:13:56.507908       1 plugins.go:84] Registered admission plugin "Priority"
+I0411 19:13:56.507914       1 plugins.go:84] Registered admission plugin "SecurityContextDeny"
+I0411 19:13:56.507921       1 plugins.go:84] Registered admission plugin "ServiceAccount"
+I0411 19:13:56.507928       1 plugins.go:84] Registered admission plugin "DefaultStorageClass"
+I0411 19:13:56.507934       1 plugins.go:84] Registered admission plugin "PersistentVolumeClaimResize"
+I0411 19:13:56.507939       1 plugins.go:84] Registered admission plugin "StorageObjectInUseProtection"
+I0411 19:13:56.508423       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:56.543489       1 store.go:1397] Monitoring customresourcedefinitions.apiextensions.k8s.io count at <storage-prefix>//apiextensions.k8s.io/customresourcedefinitions
+I0411 19:13:56.575074       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:56.620112       1 store.go:1397] Monitoring securitycontextconstraints.security.openshift.io count at <storage-prefix>//securitycontextconstraints
+I0411 19:13:56.620499       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:56.660839       1 store.go:1397] Monitoring deploymentconfigs.apps.openshift.io count at <storage-prefix>//deploymentconfigs
+W0411 19:13:56.758531       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+W0411 19:13:56.758553       1 swagger.go:37] No API exists for predefined swagger description /oapi/v1
+[restful] 2021/04/11 19:13:56 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:13:56 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:13:56.873431       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:56.916906       1 store.go:1397] Monitoring rolebindingrestrictions.authorization.openshift.io count at <storage-prefix>//rolebindingrestrictions
+W0411 19:13:57.022539       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+W0411 19:13:57.022563       1 swagger.go:37] No API exists for predefined swagger description /oapi/v1
+[restful] 2021/04/11 19:13:57 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:13:57 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:13:57.135077       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:57.177855       1 store.go:1397] Monitoring builds.build.openshift.io count at <storage-prefix>//builds
+I0411 19:13:57.218742       1 store.go:1397] Monitoring buildconfigs.build.openshift.io count at <storage-prefix>//buildconfigs
+W0411 19:13:57.330296       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+W0411 19:13:57.330320       1 swagger.go:37] No API exists for predefined swagger description /oapi/v1
+[restful] 2021/04/11 19:13:57 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:13:57 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:13:57.433280       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:57.489460       1 store.go:1397] Monitoring images.image.openshift.io count at <storage-prefix>//images
+I0411 19:13:57.508318       1 store.go:1397] Monitoring imagestreams.image.openshift.io count at <storage-prefix>//imagestreams
+W0411 19:13:57.638386       1 genericapiserver.go:346] Skipping API image.openshift.io/1.0 because it has no resources.
+W0411 19:13:57.638412       1 genericapiserver.go:346] Skipping API image.openshift.io/pre012 because it has no resources.
+W0411 19:13:57.646105       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+W0411 19:13:57.646123       1 swagger.go:37] No API exists for predefined swagger description /oapi/v1
+[restful] 2021/04/11 19:13:57 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:13:57 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:13:57.744638       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:57.782788       1 store.go:1397] Monitoring hostsubnets.network.openshift.io count at <storage-prefix>//registry/sdnsubnets
+I0411 19:13:57.794822       1 store.go:1397] Monitoring netnamespaces.network.openshift.io count at <storage-prefix>//registry/sdnnetnamespaces
+I0411 19:13:57.819345       1 store.go:1397] Monitoring clusternetworks.network.openshift.io count at <storage-prefix>//registry/sdnnetworks
+I0411 19:13:57.841009       1 store.go:1397] Monitoring egressnetworkpolicies.network.openshift.io count at <storage-prefix>//registry/egressnetworkpolicy
+W0411 19:13:57.888157       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+W0411 19:13:57.888198       1 swagger.go:37] No API exists for predefined swagger description /oapi/v1
+[restful] 2021/04/11 19:13:57 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:13:57 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:13:57.985525       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:58.019577       1 store.go:1397] Monitoring oauthclients.oauth.openshift.io count at <storage-prefix>//oauth/clients
+I0411 19:13:58.040676       1 store.go:1397] Monitoring oauthauthorizetokens.oauth.openshift.io count at <storage-prefix>//oauth/authorizetokens
+I0411 19:13:58.059898       1 store.go:1397] Monitoring oauthaccesstokens.oauth.openshift.io count at <storage-prefix>//oauth/accesstokens
+I0411 19:13:58.084100       1 store.go:1397] Monitoring oauthclientauthorizations.oauth.openshift.io count at <storage-prefix>//oauth/clientauthorizations
+W0411 19:13:58.133169       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+W0411 19:13:58.133240       1 swagger.go:37] No API exists for predefined swagger description /oapi/v1
+[restful] 2021/04/11 19:13:58 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:13:58 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:13:58.223967       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+W0411 19:13:58.261196       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+W0411 19:13:58.261220       1 swagger.go:37] No API exists for predefined swagger description /oapi/v1
+[restful] 2021/04/11 19:13:58 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:13:58 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:13:58.310623       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:58.345718       1 store.go:1397] Monitoring clusterresourcequotas.quota.openshift.io count at <storage-prefix>//clusterresourcequotas
+W0411 19:13:58.395135       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+W0411 19:13:58.395157       1 swagger.go:37] No API exists for predefined swagger description /oapi/v1
+[restful] 2021/04/11 19:13:58 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:13:58 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:13:58.455349       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:58.504068       1 store.go:1397] Monitoring routes.route.openshift.io count at <storage-prefix>//routes
+W0411 19:13:58.535209       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+W0411 19:13:58.535233       1 swagger.go:37] No API exists for predefined swagger description /oapi/v1
+[restful] 2021/04/11 19:13:58 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:13:58 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:13:58.596275       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:58.640476       1 store.go:1397] Monitoring rangeallocations.security.openshift.io count at <storage-prefix>//rangeallocations
+W0411 19:13:58.753500       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+W0411 19:13:58.753547       1 swagger.go:37] No API exists for predefined swagger description /oapi/v1
+[restful] 2021/04/11 19:13:58 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:13:58 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:13:58.865037       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:58.902728       1 store.go:1397] Monitoring templates.template.openshift.io count at <storage-prefix>//templates
+I0411 19:13:58.936672       1 store.go:1397] Monitoring templateinstances.template.openshift.io count at <storage-prefix>//templateinstances
+I0411 19:13:58.976500       1 store.go:1397] Monitoring brokertemplateinstances.template.openshift.io count at <storage-prefix>//brokertemplateinstances
+W0411 19:13:59.042038       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+W0411 19:13:59.042064       1 swagger.go:37] No API exists for predefined swagger description /oapi/v1
+[restful] 2021/04/11 19:13:59 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:13:59 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:13:59.138490       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:13:59.181426       1 store.go:1397] Monitoring users.user.openshift.io count at <storage-prefix>//users
+I0411 19:13:59.212526       1 store.go:1397] Monitoring identities.user.openshift.io count at <storage-prefix>//useridentities
+I0411 19:13:59.244608       1 store.go:1397] Monitoring groups.user.openshift.io count at <storage-prefix>//groups
+W0411 19:13:59.308202       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+W0411 19:13:59.308230       1 swagger.go:37] No API exists for predefined swagger description /oapi/v1
+[restful] 2021/04/11 19:13:59 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:13:59 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:13:59.385003       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:14:00.081139       1 openshift_apiserver.go:566] Started Origin API at /oapi/v1
+W0411 19:14:00.107712       1 swagger.go:37] No API exists for predefined swagger description /api/v1
+[restful] 2021/04/11 19:14:00 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:14:00 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:14:00.657626       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:14:00.701744       1 store.go:1397] Monitoring podtemplates count at <storage-prefix>//podtemplates
+I0411 19:14:00.733558       1 store.go:1397] Monitoring events count at <storage-prefix>//events
+I0411 19:14:00.751117       1 store.go:1397] Monitoring limitranges count at <storage-prefix>//limitranges
+I0411 19:14:00.765535       1 store.go:1397] Monitoring resourcequotas count at <storage-prefix>//resourcequotas
+I0411 19:14:00.786117       1 store.go:1397] Monitoring secrets count at <storage-prefix>//secrets
+I0411 19:14:00.800962       1 store.go:1397] Monitoring persistentvolumes count at <storage-prefix>//persistentvolumes
+I0411 19:14:00.829369       1 store.go:1397] Monitoring persistentvolumeclaims count at <storage-prefix>//persistentvolumeclaims
+I0411 19:14:00.858785       1 store.go:1397] Monitoring configmaps count at <storage-prefix>//configmaps
+I0411 19:14:00.895068       1 store.go:1397] Monitoring namespaces count at <storage-prefix>//namespaces
+I0411 19:14:00.929357       1 store.go:1397] Monitoring endpoints count at <storage-prefix>//services/endpoints
+I0411 19:14:00.964856       1 store.go:1397] Monitoring nodes count at <storage-prefix>//minions
+I0411 19:14:00.980260       1 store.go:1397] Monitoring pods count at <storage-prefix>//pods
+I0411 19:14:00.996579       1 store.go:1397] Monitoring serviceaccounts count at <storage-prefix>//serviceaccounts
+I0411 19:14:01.016741       1 store.go:1397] Monitoring services count at <storage-prefix>//services/specs
+I0411 19:14:01.082697       1 store.go:1397] Monitoring replicationcontrollers count at <storage-prefix>//controllers
+W0411 19:14:01.641583       1 genericapiserver.go:346] Skipping API 1.0 because it has no resources.
+W0411 19:14:01.641615       1 genericapiserver.go:346] Skipping API pre012 because it has no resources.
+I0411 19:14:01.641670       1 master.go:418] Enabling API group "authentication.k8s.io".
+I0411 19:14:01.641690       1 master.go:418] Enabling API group "authorization.k8s.io".
+I0411 19:14:01.675301       1 store.go:1397] Monitoring horizontalpodautoscalers.autoscaling count at <storage-prefix>//horizontalpodautoscalers
+I0411 19:14:01.707815       1 store.go:1397] Monitoring horizontalpodautoscalers.autoscaling count at <storage-prefix>//horizontalpodautoscalers
+I0411 19:14:01.707836       1 master.go:418] Enabling API group "autoscaling".
+I0411 19:14:01.741572       1 store.go:1397] Monitoring jobs.batch count at <storage-prefix>//jobs
+I0411 19:14:01.772780       1 store.go:1397] Monitoring cronjobs.batch count at <storage-prefix>//cronjobs
+I0411 19:14:01.772801       1 master.go:418] Enabling API group "batch".
+I0411 19:14:01.805332       1 store.go:1397] Monitoring certificatesigningrequests.certificates.k8s.io count at <storage-prefix>//certificatesigningrequests
+I0411 19:14:01.805493       1 master.go:418] Enabling API group "certificates.k8s.io".
+I0411 19:14:01.835314       1 store.go:1397] Monitoring replicationcontrollers count at <storage-prefix>//controllers
+I0411 19:14:01.874949       1 store.go:1397] Monitoring daemonsets.extensions count at <storage-prefix>//daemonsets
+I0411 19:14:01.912634       1 store.go:1397] Monitoring deployments.extensions count at <storage-prefix>//deployments
+I0411 19:14:01.927486       1 store.go:1397] Monitoring ingresses.extensions count at <storage-prefix>//ingress
+I0411 19:14:01.943753       1 store.go:1397] Monitoring podsecuritypolicies.policy count at <storage-prefix>//podsecuritypolicy
+I0411 19:14:01.960456       1 store.go:1397] Monitoring replicasets.extensions count at <storage-prefix>//replicasets
+I0411 19:14:01.987703       1 store.go:1397] Monitoring networkpolicies.networking.k8s.io count at <storage-prefix>//networkpolicies
+I0411 19:14:01.987751       1 master.go:418] Enabling API group "extensions".
+I0411 19:14:02.018987       1 store.go:1397] Monitoring networkpolicies.networking.k8s.io count at <storage-prefix>//networkpolicies
+I0411 19:14:02.019024       1 master.go:418] Enabling API group "networking.k8s.io".
+I0411 19:14:02.058668       1 store.go:1397] Monitoring poddisruptionbudgets.policy count at <storage-prefix>//poddisruptionbudgets
+I0411 19:14:02.074640       1 store.go:1397] Monitoring podsecuritypolicies.policy count at <storage-prefix>//podsecuritypolicy
+I0411 19:14:02.074662       1 master.go:418] Enabling API group "policy".
+I0411 19:14:02.092894       1 store.go:1397] Monitoring roles.rbac.authorization.k8s.io count at <storage-prefix>//roles
+I0411 19:14:02.109838       1 store.go:1397] Monitoring rolebindings.rbac.authorization.k8s.io count at <storage-prefix>//rolebindings
+I0411 19:14:02.126499       1 store.go:1397] Monitoring clusterroles.rbac.authorization.k8s.io count at <storage-prefix>//clusterroles
+I0411 19:14:02.143431       1 store.go:1397] Monitoring clusterrolebindings.rbac.authorization.k8s.io count at <storage-prefix>//clusterrolebindings
+I0411 19:14:02.163120       1 store.go:1397] Monitoring roles.rbac.authorization.k8s.io count at <storage-prefix>//roles
+I0411 19:14:02.177079       1 store.go:1397] Monitoring rolebindings.rbac.authorization.k8s.io count at <storage-prefix>//rolebindings
+I0411 19:14:02.196000       1 store.go:1397] Monitoring clusterroles.rbac.authorization.k8s.io count at <storage-prefix>//clusterroles
+I0411 19:14:02.216469       1 store.go:1397] Monitoring clusterrolebindings.rbac.authorization.k8s.io count at <storage-prefix>//clusterrolebindings
+I0411 19:14:02.216511       1 master.go:418] Enabling API group "rbac.authorization.k8s.io".
+I0411 19:14:02.229891       1 store.go:1397] Monitoring priorityclasses.scheduling.k8s.io count at <storage-prefix>//priorityclasses
+I0411 19:14:02.229927       1 master.go:418] Enabling API group "scheduling.k8s.io".
+I0411 19:14:02.229942       1 master.go:410] Skipping disabled API group "settings.k8s.io".
+I0411 19:14:02.251144       1 store.go:1397] Monitoring storageclasses.storage.k8s.io count at <storage-prefix>//storageclasses
+I0411 19:14:02.266561       1 store.go:1397] Monitoring volumeattachments.storage.k8s.io count at <storage-prefix>//volumeattachments
+I0411 19:14:02.286756       1 store.go:1397] Monitoring storageclasses.storage.k8s.io count at <storage-prefix>//storageclasses
+I0411 19:14:02.286791       1 master.go:418] Enabling API group "storage.k8s.io".
+I0411 19:14:02.299537       1 store.go:1397] Monitoring deployments.extensions count at <storage-prefix>//deployments
+I0411 19:14:02.322758       1 store.go:1397] Monitoring statefulsets.apps count at <storage-prefix>//statefulsets
+I0411 19:14:02.353954       1 store.go:1397] Monitoring controllerrevisions.apps count at <storage-prefix>//controllerrevisions
+I0411 19:14:02.384920       1 store.go:1397] Monitoring deployments.extensions count at <storage-prefix>//deployments
+I0411 19:14:02.421140       1 store.go:1397] Monitoring statefulsets.apps count at <storage-prefix>//statefulsets
+I0411 19:14:02.453014       1 store.go:1397] Monitoring daemonsets.extensions count at <storage-prefix>//daemonsets
+I0411 19:14:02.485236       1 store.go:1397] Monitoring replicasets.extensions count at <storage-prefix>//replicasets
+I0411 19:14:02.519897       1 store.go:1397] Monitoring controllerrevisions.apps count at <storage-prefix>//controllerrevisions
+I0411 19:14:02.556465       1 store.go:1397] Monitoring deployments.extensions count at <storage-prefix>//deployments
+I0411 19:14:02.588835       1 store.go:1397] Monitoring statefulsets.apps count at <storage-prefix>//statefulsets
+I0411 19:14:02.625330       1 store.go:1397] Monitoring daemonsets.extensions count at <storage-prefix>//daemonsets
+I0411 19:14:02.661483       1 store.go:1397] Monitoring replicasets.extensions count at <storage-prefix>//replicasets
+I0411 19:14:02.697580       1 store.go:1397] Monitoring controllerrevisions.apps count at <storage-prefix>//controllerrevisions
+I0411 19:14:02.697754       1 master.go:418] Enabling API group "apps".
+I0411 19:14:02.732087       1 store.go:1397] Monitoring validatingwebhookconfigurations.admissionregistration.k8s.io count at <storage-prefix>//validatingwebhookconfigurations
+I0411 19:14:02.762798       1 store.go:1397] Monitoring mutatingwebhookconfigurations.admissionregistration.k8s.io count at <storage-prefix>//mutatingwebhookconfigurations
+I0411 19:14:02.762828       1 master.go:418] Enabling API group "admissionregistration.k8s.io".
+I0411 19:14:02.804312       1 store.go:1397] Monitoring events count at <storage-prefix>//events
+I0411 19:14:02.804366       1 master.go:418] Enabling API group "events.k8s.io".
+W0411 19:14:03.060255       1 genericapiserver.go:346] Skipping API batch/v2alpha1 because it has no resources.
+W0411 19:14:03.476390       1 genericapiserver.go:346] Skipping API rbac.authorization.k8s.io/v1alpha1 because it has no resources.
+W0411 19:14:03.498671       1 genericapiserver.go:346] Skipping API scheduling.k8s.io/v1alpha1 because it has no resources.
+W0411 19:14:03.526882       1 genericapiserver.go:346] Skipping API storage.k8s.io/v1alpha1 because it has no resources.
+W0411 19:14:04.197125       1 genericapiserver.go:346] Skipping API admissionregistration.k8s.io/v1alpha1 because it has no resources.
+[restful] 2021/04/11 19:14:04 log.go:33: [restful/swagger] listing is available at https://master.torii.local.nutius.com:8443/swaggerapi
+[restful] 2021/04/11 19:14:04 log.go:33: [restful/swagger] https://master.torii.local.nutius.com:8443/swaggerui/ is mapped to folder /swagger-ui/
+I0411 19:14:05.554677       1 patch_handlerchain.go:91] Starting OAuth2 API at /oauth
+I0411 19:14:05.598323       1 store.go:1397] Monitoring apiservices.apiregistration.k8s.io count at <storage-prefix>//apiservices
+I0411 19:14:05.634637       1 store.go:1397] Monitoring apiservices.apiregistration.k8s.io count at <storage-prefix>//apiservices
+I0411 19:14:10.215490       1 serve.go:116] Serving securely on 0.0.0.0:8443
+I0411 19:14:10.215544       1 clusterquotamapping.go:160] Starting ClusterQuotaMappingController controller
+I0411 19:14:10.215553       1 apiservice_controller.go:90] Starting APIServiceRegistrationController
+I0411 19:14:10.215563       1 cache.go:32] Waiting for caches to sync for APIServiceRegistrationController controller
+I0411 19:14:10.216380       1 crdregistration_controller.go:112] Starting crd-autoregister controller
+I0411 19:14:10.216398       1 controller_utils.go:1025] Waiting for caches to sync for crd-autoregister controller
+I0411 19:14:10.220508       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47299: EOF
+I0411 19:14:10.222608       1 logs.go:49] http: TLS handshake error from 192.168.0.10:60326: EOF
+I0411 19:14:10.222976       1 controller.go:84] Starting OpenAPI AggregationController
+I0411 19:14:10.223064       1 crd_finalizer.go:242] Starting CRDFinalizer
+I0411 19:14:10.223670       1 logs.go:49] http: TLS handshake error from 192.168.0.10:60328: EOF
+I0411 19:14:10.226133       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47294: EOF
+I0411 19:14:10.226169       1 customresource_discovery_controller.go:199] Starting DiscoveryController
+I0411 19:14:10.226185       1 naming_controller.go:284] Starting NamingConditionController
+I0411 19:14:10.226205       1 establishing_controller.go:73] Starting EstablishingController
+I0411 19:14:10.226841       1 logs.go:49] http: TLS handshake error from 192.168.0.10:60330: EOF
+I0411 19:14:10.229163       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47302: EOF
+I0411 19:14:10.229931       1 logs.go:49] http: TLS handshake error from 192.168.0.10:60332: EOF
+I0411 19:14:10.232294       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47304: EOF
+I0411 19:14:10.232992       1 logs.go:49] http: TLS handshake error from 192.168.0.10:60334: EOF
+I0411 19:14:10.235400       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47306: EOF
+I0411 19:14:10.235425       1 openshift_apiserver.go:681] Using default project node label selector: node-role.kubernetes.io/compute=true
+I0411 19:14:10.236028       1 available_controller.go:283] Starting AvailableConditionController
+I0411 19:14:10.236040       1 cache.go:32] Waiting for caches to sync for AvailableConditionController controller
+I0411 19:14:10.236083       1 logs.go:49] http: TLS handshake error from 192.168.0.10:60336: EOF
+I0411 19:14:10.238956       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47308: EOF
+I0411 19:14:10.239464       1 logs.go:49] http: TLS handshake error from 192.168.0.10:60338: EOF
+I0411 19:14:10.242199       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47310: EOF
+I0411 19:14:10.242535       1 logs.go:49] http: TLS handshake error from 192.168.0.10:60340: EOF
+I0411 19:14:10.245495       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47312: EOF
+I0411 19:14:10.245613       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47298: EOF
+I0411 19:14:10.247151       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47368: EOF
+I0411 19:14:10.249135       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47340: EOF
+I0411 19:14:10.249889       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47370: EOF
+I0411 19:14:10.250656       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47342: EOF
+I0411 19:14:10.252208       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47314: EOF
+I0411 19:14:10.252966       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47372: EOF
+I0411 19:14:10.254012       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47344: EOF
+I0411 19:14:10.255485       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47316: EOF
+I0411 19:14:10.256106       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47374: EOF
+I0411 19:14:10.257298       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47346: EOF
+I0411 19:14:10.258079       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48016: EOF
+I0411 19:14:10.258553       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47318: EOF
+I0411 19:14:10.259187       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47376: EOF
+I0411 19:14:10.260683       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47348: EOF
+I0411 19:14:10.261176       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48017: EOF
+I0411 19:14:10.261620       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47320: EOF
+I0411 19:14:10.262245       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47378: EOF
+I0411 19:14:10.263990       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47350: EOF
+I0411 19:14:10.264260       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48018: EOF
+I0411 19:14:10.264699       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47322: EOF
+I0411 19:14:10.265310       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47380: EOF
+I0411 19:14:10.267288       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47351: EOF
+I0411 19:14:10.267369       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48024: EOF
+I0411 19:14:10.267757       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47324: EOF
+I0411 19:14:10.268366       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47382: EOF
+I0411 19:14:10.270430       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48026: EOF
+I0411 19:14:10.270634       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47354: EOF
+I0411 19:14:10.270835       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47326: EOF
+I0411 19:14:10.271424       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47384: EOF
+I0411 19:14:10.273650       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48028: EOF
+I0411 19:14:10.273942       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47356: EOF
+I0411 19:14:10.274012       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47328: EOF
+I0411 19:14:10.274632       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47386: EOF
+I0411 19:14:10.276998       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47330: EOF
+I0411 19:14:10.277245       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47358: EOF
+I0411 19:14:10.277713       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47388: EOF
+I0411 19:14:10.280058       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47332: EOF
+I0411 19:14:10.280504       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47360: EOF
+I0411 19:14:10.280771       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47390: EOF
+I0411 19:14:10.280883       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48030: EOF
+I0411 19:14:10.283116       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47334: EOF
+I0411 19:14:10.283826       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47392: EOF
+I0411 19:14:10.283968       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48033: EOF
+I0411 19:14:10.284050       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47362: EOF
+I0411 19:14:10.286207       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47336: EOF
+I0411 19:14:10.286914       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47394: EOF
+I0411 19:14:10.287063       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48032: EOF
+I0411 19:14:10.287343       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47364: EOF
+I0411 19:14:10.289270       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47338: EOF
+I0411 19:14:10.290033       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47396: EOF
+I0411 19:14:10.290165       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48036: EOF
+I0411 19:14:10.290630       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47366: EOF
+I0411 19:14:10.293089       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47398: EOF
+I0411 19:14:10.293269       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48038: EOF
+I0411 19:14:10.296248       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47402: EOF
+I0411 19:14:10.296421       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48040: EOF
+I0411 19:14:10.299299       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47404: EOF
+I0411 19:14:10.299796       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48042: EOF
+I0411 19:14:10.302793       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47508: EOF
+I0411 19:14:10.303568       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48044: EOF
+I0411 19:14:10.306049       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48046: EOF
+I0411 19:14:10.306943       1 logs.go:49] http: TLS handshake error from 192.168.0.11:47586: EOF
+I0411 19:14:10.309245       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48048: EOF
+I0411 19:14:10.312476       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48050: EOF
+I0411 19:14:10.315901       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48052: EOF
+I0411 19:14:10.316846       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48002: EOF
+I0411 19:14:10.319052       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48054: EOF
+I0411 19:14:10.322770       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48056: EOF
+I0411 19:14:10.326021       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48058: EOF
+I0411 19:14:10.329155       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48060: EOF
+I0411 19:14:10.332922       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48062: EOF
+I0411 19:14:10.336010       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48064: EOF
+I0411 19:14:10.339788       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48066: EOF
+I0411 19:14:10.342933       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48068: EOF
+I0411 19:14:10.346083       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48070: EOF
+I0411 19:14:10.349653       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48071: EOF
+I0411 19:14:10.351336       1 cache.go:39] Caches are synced for APIServiceRegistrationController controller
+I0411 19:14:10.352743       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48072: EOF
+I0411 19:14:10.367422       1 controller_utils.go:1032] Caches are synced for crd-autoregister controller
+I0411 19:14:10.370952       1 autoregister_controller.go:136] Starting autoregister controller
+I0411 19:14:10.370981       1 cache.go:32] Waiting for caches to sync for autoregister controller
+I0411 19:14:10.375903       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48078: EOF
+I0411 19:14:10.381902       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48080: EOF
+I0411 19:14:10.385479       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48082: EOF
+I0411 19:14:10.389341       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48084: EOF
+I0411 19:14:10.393724       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48086: EOF
+I0411 19:14:10.398561       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48088: EOF
+I0411 19:14:10.404968       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48090: EOF
+I0411 19:14:10.409158       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48092: EOF
+I0411 19:14:10.413321       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48094: EOF
+I0411 19:14:10.416721       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48096: EOF
+I0411 19:14:10.420247       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48098: EOF
+I0411 19:14:10.424599       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48100: EOF
+I0411 19:14:10.428652       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48102: EOF
+I0411 19:14:10.432154       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48104: EOF
+I0411 19:14:10.435507       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48106: EOF
+I0411 19:14:10.438751       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48108: EOF
+I0411 19:14:10.442354       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48110: EOF
+W0411 19:14:10.442767       1 lease_endpoint_reconciler.go:176] Resetting endpoints for master service "kubernetes" to [192.168.0.11 192.168.0.12 192.168.0.13]
+I0411 19:14:10.445785       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48112: EOF
+I0411 19:14:10.449400       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48114: EOF
+I0411 19:14:10.453133       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48116: EOF
+I0411 19:14:10.453516       1 cache.go:39] Caches are synced for AvailableConditionController controller
+I0411 19:14:10.460473       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48118: EOF
+I0411 19:14:10.464273       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48120: EOF
+I0411 19:14:10.468214       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48122: EOF
+I0411 19:14:10.472971       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48124: EOF
+I0411 19:14:10.476548       1 cache.go:39] Caches are synced for autoregister controller
+E0411 19:14:10.550076       1 memcache.go:147] couldn't get resource list for metrics.k8s.io/v1beta1: the server could not find the requested resource
+E0411 19:14:10.551781       1 memcache.go:147] couldn't get resource list for servicecatalog.k8s.io/v1beta1: the server could not find the requested resource
+E0411 19:14:10.591467       1 memcache.go:147] couldn't get resource list for metrics.k8s.io/v1beta1: the server could not find the requested resource
+E0411 19:14:10.592764       1 memcache.go:147] couldn't get resource list for servicecatalog.k8s.io/v1beta1: the server could not find the requested resource
+I0411 19:14:11.122930       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48140: EOF
+I0411 19:14:11.235476       1 storage_scheduling.go:100] all system priority classes are created successfully or already exist.
+I0411 19:14:11.254095       1 controller.go:597] quota admission added evaluator for: { serviceaccounts}
+I0411 19:14:11.813887       1 logs.go:49] http: TLS handshake error from 192.168.0.11:48146: EOF
+I0411 19:14:14.585086       1 controller.go:105] OpenAPI AggregationController: Processing item v1beta1.metrics.k8s.io
