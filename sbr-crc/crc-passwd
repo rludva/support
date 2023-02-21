@@ -1,0 +1,3 @@
+#! /usr/bin/bash
+
+cat $HOME/.passwd/crc-kubeadmin.passwd | xclip -selection c

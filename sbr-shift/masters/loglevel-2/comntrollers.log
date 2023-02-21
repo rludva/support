@@ -1,0 +1,212 @@
+E0411 19:14:09.613071       1 helpers.go:134] Encountered config error json: unknown field "masterCount" in object *config.MasterConfig, raw JSON:
+{"admissionConfig":{"pluginConfig":{"BuildDefaults":{"configuration":{"apiVersion":"v1","env":[],"kind":"BuildDefaultsConfig","resources":{"limits":{},"requests":{}}}},"BuildOverrides":{"configuration":{"apiVersion":"v1","kind":"BuildOverridesConfig"}},"openshift.io/ImagePolicy":{"configuration":{"apiVersion":"v1","executionRules":[{"matchImageAnnotations":[{"key":"images.openshift.io/deny-execution","value":"true"}],"name":"execution-denied","onResources":[{"resource":"pods"},{"resource":"builds"}],"reject":true,"skipOnResolutionFailure":true}],"kind":"ImagePolicyConfig"}}}},"aggregatorConfig":{"proxyClientInfo":{"certFile":"aggregator-front-proxy.crt","keyFile":"aggregator-front-proxy.key"}},"apiLevels":["v1"],"apiVersion":"v1","authConfig":{"requestHeader":{"clientCA":"front-proxy-ca.crt","clientCommonNames":["aggregator-front-proxy"],"extraHeaderPrefixes":["X-Remote-Extra-"],"groupHeaders":["X-Remote-Group"],"usernameHeaders":["X-Remote-User"]}},"controllerConfig":{"election":{"lockName":"openshift-master-controllers"},"serviceServingCert":{"signer":{"certFile":"service-signer.crt","keyFile":"service-signer.key"}}},"controllers":"*","corsAllowedOrigins":["^(?i)https://127\\.0\\.0\\.1(:|\\z)","^(?i)https://localhost(:|\\z)","^(?i)https://192\\.168\\.0\\.11(:|\\z)","^(?i)https://openshift\\.default\\.svc(:|\\z)","^(?i)https://kubernetes\\.default(:|\\z)","^(?i)https://kubernetes\\.default\\.svc\\.cluster\\.local(:|\\z)","^(?i)https://kubernetes(:|\\z)","^(?i)https://openshift\\.default(:|\\z)","^(?i)https://torii\\-ichi\\-master\\.local\\.nutius\\.com(:|\\z)","^(?i)https://master\\.torii\\.local\\.nutius\\.com(:|\\z)","^(?i)https://172\\.30\\.0\\.1(:|\\z)","^(?i)https://openshift\\.default\\.svc\\.cluster\\.local(:|\\z)","^(?i)https://kubernetes\\.default\\.svc(:|\\z)","^(?i)https://openshift(:|\\z)"],"dnsConfig":{"bindAddress":"0.0.0.0:8053","bindNetwork":"tcp4"},"etcdClientInfo":{"ca":"master.etcd-ca.crt","certFile":"master.etcd-client.crt","keyFile":"master.etcd-client.key","urls":["https://torii-ichi-master.local.nutius.com:2379","https://torii-ni-master.local.nutius.com:2379","https://torii-san-master.local.nutius.com:2379"]},"etcdStorageConfig":{"kubernetesStoragePrefix":"kubernetes.io","kubernetesStorageVersion":"v1","openShiftStoragePrefix":"openshift.io","openShiftStorageVersion":"v1"},"imageConfig":{"format":"registry.redhat.io/openshift3/ose-${component}:${version}","latest":false},"imagePolicyConfig":{"internalRegistryHostname":"docker-registry.default.svc:5000"},"kind":"MasterConfig","kubeletClientInfo":{"ca":"ca-bundle.crt","certFile":"master.kubelet-client.crt","keyFile":"master.kubelet-client.key","port":10250},"kubernetesMasterConfig":{"apiServerArguments":{"storage-backend":["etcd3"],"storage-media-type":["application/vnd.kubernetes.protobuf"]},"controllerArguments":{"cluster-signing-cert-file":["/etc/origin/master/ca.crt"],"cluster-signing-key-file":["/etc/origin/master/ca.key"],"pv-recycler-pod-template-filepath-hostpath":["/etc/origin/master/recycler_pod.yaml"],"pv-recycler-pod-template-filepath-nfs":["/etc/origin/master/recycler_pod.yaml"]},"masterCount":3,"masterIP":"192.168.0.11","podEvictionTimeout":null,"proxyClientInfo":{"certFile":"master.proxy-client.crt","keyFile":"master.proxy-client.key"},"schedulerArguments":null,"schedulerConfigFile":"/etc/origin/master/scheduler.json","servicesNodePortRange":"","servicesSubnet":"172.30.0.0/16","staticNodeNames":[]},"masterClients":{"externalKubernetesClientConnectionOverrides":{"acceptContentTypes":"application/vnd.kubernetes.protobuf,application/json","burst":400,"contentType":"application/vnd.kubernetes.protobuf","qps":200},"externalKubernetesKubeConfig":"","openshiftLoopbackClientConnectionOverrides":{"acceptContentTypes":"application/vnd.kubernetes.protobuf,application/json","burst":600,"contentType":"application/vnd.kubernetes.protobuf","qps":300},"openshiftLoopbackKubeConfig":"openshift-master.kubeconfig"},"masterPublicURL":"https://master.torii.local.nutius.com:8443","networkConfig":{"clusterNetworks":[{"cidr":"10.128.0.0/14","hostSubnetLength":9}],"networkPluginName":"redhat/openshift-ovs-subnet","serviceNetworkCIDR":"172.30.0.0/16"},"oauthConfig":{"assetPublicURL":"https://master.torii.local.nutius.com:8443/console/","grantConfig":{"method":"auto"},"identityProviders":[{"challenge":true,"login":true,"mappingMethod":"claim","name":"htpasswd_auth","provider":{"apiVersion":"v1","file":"/etc/origin/master/htpasswd","kind":"HTPasswdPasswordIdentityProvider"}}],"masterCA":"ca-bundle.crt","masterPublicURL":"https://master.torii.local.nutius.com:8443","masterURL":"https://master.torii.local.nutius.com:8443","sessionConfig":{"sessionMaxAgeSeconds":3600,"sessionName":"ssn","sessionSecretsFile":"/etc/origin/master/session-secrets.yaml"},"tokenConfig":{"accessTokenMaxAgeSeconds":86400,"authorizeTokenMaxAgeSeconds":500}},"pauseControllers":false,"policyConfig":{"bootstrapPolicyFile":"/etc/origin/master/policy.json","openshiftInfrastructureNamespace":"openshift-infra","openshiftSharedResourcesNamespace":"openshift"},"projectConfig":{"defaultNodeSelector":"node-role.kubernetes.io/compute=true","projectRequestMessage":"","projectRequestTemplate":"","securityAllocator":{"mcsAllocatorRange":"s0:/2","mcsLabelsPerProject":5,"uidAllocatorRange":"1000000000-1999999999/10000"}},"routingConfig":{"subdomain":"apps.torii.local.nutius.com"},"serviceAccountConfig":{"limitSecretReferences":false,"managedNames":["default","builder","deployer"],"masterCA":"ca-bundle.crt","privateKeyFile":"serviceaccounts.private.key","publicKeyFiles":["serviceaccounts.public.key"]},"servingInfo":{"bindAddress":"0.0.0.0:8443","bindNetwork":"tcp4","certFile":"master.server.crt","clientCA":"ca.crt","keyFile":"master.server.key","maxRequestsInFlight":500,"requestTimeoutSeconds":3600},"volumeConfig":{"dynamicProvisioningEnabled":true}}
+I0411 19:14:09.613240       1 plugins.go:84] Registered admission plugin "NamespaceLifecycle"
+I0411 19:14:09.613252       1 plugins.go:84] Registered admission plugin "Initializers"
+I0411 19:14:09.613261       1 plugins.go:84] Registered admission plugin "ValidatingAdmissionWebhook"
+I0411 19:14:09.613269       1 plugins.go:84] Registered admission plugin "MutatingAdmissionWebhook"
+I0411 19:14:09.613275       1 plugins.go:84] Registered admission plugin "AlwaysAdmit"
+I0411 19:14:09.613283       1 plugins.go:84] Registered admission plugin "AlwaysPullImages"
+I0411 19:14:09.613290       1 plugins.go:84] Registered admission plugin "LimitPodHardAntiAffinityTopology"
+I0411 19:14:09.613296       1 plugins.go:84] Registered admission plugin "DefaultTolerationSeconds"
+I0411 19:14:09.613302       1 plugins.go:84] Registered admission plugin "AlwaysDeny"
+I0411 19:14:09.613312       1 plugins.go:84] Registered admission plugin "EventRateLimit"
+I0411 19:14:09.613320       1 plugins.go:84] Registered admission plugin "DenyEscalatingExec"
+I0411 19:14:09.613325       1 plugins.go:84] Registered admission plugin "DenyExecOnPrivileged"
+I0411 19:14:09.613333       1 plugins.go:84] Registered admission plugin "ExtendedResourceToleration"
+I0411 19:14:09.613340       1 plugins.go:84] Registered admission plugin "OwnerReferencesPermissionEnforcement"
+I0411 19:14:09.613350       1 plugins.go:84] Registered admission plugin "ImagePolicyWebhook"
+I0411 19:14:09.613357       1 plugins.go:84] Registered admission plugin "LimitRanger"
+I0411 19:14:09.613364       1 plugins.go:84] Registered admission plugin "NamespaceAutoProvision"
+I0411 19:14:09.613372       1 plugins.go:84] Registered admission plugin "NamespaceExists"
+I0411 19:14:09.613378       1 plugins.go:84] Registered admission plugin "NodeRestriction"
+I0411 19:14:09.613386       1 plugins.go:84] Registered admission plugin "PersistentVolumeLabel"
+I0411 19:14:09.613393       1 plugins.go:84] Registered admission plugin "PodNodeSelector"
+I0411 19:14:09.613400       1 plugins.go:84] Registered admission plugin "PodPreset"
+I0411 19:14:09.613407       1 plugins.go:84] Registered admission plugin "PodTolerationRestriction"
+I0411 19:14:09.613414       1 plugins.go:84] Registered admission plugin "ResourceQuota"
+I0411 19:14:09.613422       1 plugins.go:84] Registered admission plugin "PodSecurityPolicy"
+I0411 19:14:09.613427       1 plugins.go:84] Registered admission plugin "Priority"
+I0411 19:14:09.613434       1 plugins.go:84] Registered admission plugin "SecurityContextDeny"
+I0411 19:14:09.613442       1 plugins.go:84] Registered admission plugin "ServiceAccount"
+I0411 19:14:09.613449       1 plugins.go:84] Registered admission plugin "DefaultStorageClass"
+I0411 19:14:09.613459       1 plugins.go:84] Registered admission plugin "PersistentVolumeClaimResize"
+I0411 19:14:09.613467       1 plugins.go:84] Registered admission plugin "StorageObjectInUseProtection"
+I0411 19:14:09.616260       1 start_kube_scheduler.go:62] `kube-scheduler [--kube-api-burst=600 --leader-elect=true --leader-elect-resource-lock=configmaps --port=0 --kubeconfig=/etc/origin/master/openshift-master.kubeconfig --policy-config-file=/etc/origin/master/scheduler.json --kube-api-content-type=application/vnd.kubernetes.protobuf --kube-api-qps=300]`
+I0411 19:14:09.616318       1 flags.go:27] FLAG: --address="0.0.0.0"
+I0411 19:14:09.616341       1 flags.go:27] FLAG: --algorithm-provider=""
+I0411 19:14:09.616355       1 flags.go:27] FLAG: --azure-container-registry-config=""
+I0411 19:14:09.616368       1 flags.go:27] FLAG: --config=""
+I0411 19:14:09.616381       1 flags.go:27] FLAG: --contention-profiling="false"
+I0411 19:14:09.616431       1 flags.go:27] FLAG: --failure-domains="kubernetes.io/hostname,failure-domain.beta.kubernetes.io/zone,failure-domain.beta.kubernetes.io/region"
+I0411 19:14:09.616477       1 flags.go:27] FLAG: --feature-gates=""
+I0411 19:14:09.616524       1 flags.go:27] FLAG: --google-json-key=""
+I0411 19:14:09.616542       1 flags.go:27] FLAG: --hard-pod-affinity-symmetric-weight="1"
+I0411 19:14:09.616561       1 flags.go:27] FLAG: --kube-api-burst="600"
+I0411 19:14:09.616608       1 flags.go:27] FLAG: --kube-api-content-type="application/vnd.kubernetes.protobuf"
+I0411 19:14:09.616628       1 flags.go:27] FLAG: --kube-api-qps="300"
+I0411 19:14:09.616648       1 flags.go:27] FLAG: --kubeconfig="/etc/origin/master/openshift-master.kubeconfig"
+I0411 19:14:09.616664       1 flags.go:27] FLAG: --leader-elect="true"
+I0411 19:14:09.616678       1 flags.go:27] FLAG: --leader-elect-lease-duration="15s"
+I0411 19:14:09.616695       1 flags.go:27] FLAG: --leader-elect-renew-deadline="10s"
+I0411 19:14:09.616723       1 flags.go:27] FLAG: --leader-elect-resource-lock="configmaps"
+I0411 19:14:09.616738       1 flags.go:27] FLAG: --leader-elect-retry-period="2s"
+I0411 19:14:09.616752       1 flags.go:27] FLAG: --lock-object-name="kube-scheduler"
+I0411 19:14:09.616765       1 flags.go:27] FLAG: --lock-object-namespace="kube-system"
+I0411 19:14:09.616782       1 flags.go:27] FLAG: --log-flush-frequency="5s"
+I0411 19:14:09.616799       1 flags.go:27] FLAG: --master=""
+I0411 19:14:09.616813       1 flags.go:27] FLAG: --policy-config-file="/etc/origin/master/scheduler.json"
+I0411 19:14:09.616826       1 flags.go:27] FLAG: --policy-configmap=""
+I0411 19:14:09.616839       1 flags.go:27] FLAG: --policy-configmap-namespace="kube-system"
+I0411 19:14:09.616853       1 flags.go:27] FLAG: --port="0"
+I0411 19:14:09.616868       1 flags.go:27] FLAG: --profiling="false"
+I0411 19:14:09.616881       1 flags.go:27] FLAG: --scheduler-name="default-scheduler"
+I0411 19:14:09.616894       1 flags.go:27] FLAG: --use-legacy-policy-config="false"
+I0411 19:14:09.616907       1 flags.go:27] FLAG: --version="false"
+I0411 19:14:09.616925       1 flags.go:27] FLAG: --write-config-to=""
+I0411 19:14:09.619299       1 server.go:126] Version: v1.11.0+d4cacc0
+I0411 19:14:09.620625       1 factory.go:960] Creating scheduler from configuration: {{ } [{NoVolumeZoneConflict <nil>} {MaxEBSVolumeCount <nil>} {MaxGCEPDVolumeCount <nil>} {MaxAzureDiskVolumeCount <nil>} {MatchInterPodAffinity <nil>} {NoDiskConflict <nil>} {GeneralPredicates <nil>} {PodToleratesNodeTaints <nil>} {CheckNodeMemoryPressure <nil>} {CheckNodeDiskPressure <nil>} {CheckVolumeBinding <nil>} {Region 0xc421a70f40}] [{SelectorSpreadPriority 1 <nil>} {InterPodAffinityPriority 1 <nil>} {LeastRequestedPriority 1 <nil>} {BalancedResourceAllocation 1 <nil>} {NodePreferAvoidPodsPriority 10000 <nil>} {NodeAffinityPriority 1 <nil>} {TaintTolerationPriority 1 <nil>} {Zone 2 0xc420714d80}] [] 0 false}
+I0411 19:14:09.620682       1 factory.go:977] Registering predicate: NoVolumeZoneConflict
+I0411 19:14:09.620696       1 plugins.go:224] Predicate type NoVolumeZoneConflict already registered, reusing.
+I0411 19:14:09.620704       1 factory.go:977] Registering predicate: MaxEBSVolumeCount
+I0411 19:14:09.620719       1 plugins.go:224] Predicate type MaxEBSVolumeCount already registered, reusing.
+I0411 19:14:09.620725       1 factory.go:977] Registering predicate: MaxGCEPDVolumeCount
+I0411 19:14:09.620729       1 plugins.go:224] Predicate type MaxGCEPDVolumeCount already registered, reusing.
+I0411 19:14:09.620733       1 factory.go:977] Registering predicate: MaxAzureDiskVolumeCount
+I0411 19:14:09.620737       1 plugins.go:224] Predicate type MaxAzureDiskVolumeCount already registered, reusing.
+I0411 19:14:09.620742       1 factory.go:977] Registering predicate: MatchInterPodAffinity
+I0411 19:14:09.620746       1 plugins.go:224] Predicate type MatchInterPodAffinity already registered, reusing.
+I0411 19:14:09.620750       1 factory.go:977] Registering predicate: NoDiskConflict
+I0411 19:14:09.620754       1 plugins.go:224] Predicate type NoDiskConflict already registered, reusing.
+I0411 19:14:09.620758       1 factory.go:977] Registering predicate: GeneralPredicates
+I0411 19:14:09.620762       1 plugins.go:224] Predicate type GeneralPredicates already registered, reusing.
+I0411 19:14:09.620766       1 factory.go:977] Registering predicate: PodToleratesNodeTaints
+I0411 19:14:09.620770       1 plugins.go:224] Predicate type PodToleratesNodeTaints already registered, reusing.
+I0411 19:14:09.620775       1 factory.go:977] Registering predicate: CheckNodeMemoryPressure
+I0411 19:14:09.620780       1 plugins.go:224] Predicate type CheckNodeMemoryPressure already registered, reusing.
+I0411 19:14:09.620787       1 factory.go:977] Registering predicate: CheckNodeDiskPressure
+I0411 19:14:09.620791       1 plugins.go:224] Predicate type CheckNodeDiskPressure already registered, reusing.
+I0411 19:14:09.620811       1 factory.go:977] Registering predicate: CheckVolumeBinding
+I0411 19:14:09.620825       1 plugins.go:224] Predicate type CheckVolumeBinding already registered, reusing.
+I0411 19:14:09.620838       1 factory.go:977] Registering predicate: Region
+I0411 19:14:09.620855       1 factory.go:992] Registering priority: SelectorSpreadPriority
+I0411 19:14:09.620869       1 plugins.go:336] Priority type SelectorSpreadPriority already registered, reusing.
+I0411 19:14:09.620884       1 factory.go:992] Registering priority: InterPodAffinityPriority
+I0411 19:14:09.620897       1 plugins.go:336] Priority type InterPodAffinityPriority already registered, reusing.
+I0411 19:14:09.620911       1 factory.go:992] Registering priority: LeastRequestedPriority
+I0411 19:14:09.620925       1 plugins.go:336] Priority type LeastRequestedPriority already registered, reusing.
+I0411 19:14:09.620975       1 factory.go:992] Registering priority: BalancedResourceAllocation
+I0411 19:14:09.620995       1 plugins.go:336] Priority type BalancedResourceAllocation already registered, reusing.
+I0411 19:14:09.621016       1 factory.go:992] Registering priority: NodePreferAvoidPodsPriority
+I0411 19:14:09.621060       1 plugins.go:336] Priority type NodePreferAvoidPodsPriority already registered, reusing.
+I0411 19:14:09.621070       1 factory.go:992] Registering priority: NodeAffinityPriority
+I0411 19:14:09.621075       1 plugins.go:336] Priority type NodeAffinityPriority already registered, reusing.
+I0411 19:14:09.621081       1 factory.go:992] Registering priority: TaintTolerationPriority
+I0411 19:14:09.621085       1 plugins.go:336] Priority type TaintTolerationPriority already registered, reusing.
+I0411 19:14:09.621099       1 factory.go:992] Registering priority: Zone
+I0411 19:14:09.621128       1 factory.go:1049] Creating scheduler with fit predicates 'map[CheckNodeMemoryPressure:{} CheckVolumeBinding:{} Region:{} NoVolumeZoneConflict:{} MaxEBSVolumeCount:{} MaxGCEPDVolumeCount:{} PodToleratesNodeTaints:{} CheckNodeDiskPressure:{} MaxAzureDiskVolumeCount:{} MatchInterPodAffinity:{} NoDiskConflict:{} GeneralPredicates:{}]' and priority functions 'map[LeastRequestedPriority:{} BalancedResourceAllocation:{} NodePreferAvoidPodsPriority:{} NodeAffinityPriority:{} TaintTolerationPriority:{} Zone:{} SelectorSpreadPriority:{} InterPodAffinityPriority:{}]'
+I0411 19:14:09.620999       1 controller_manager.go:35] Starting controllers on 0.0.0.0:8444 (v3.11.404)
+I0411 19:14:09.621341       1 start_kube_controller_manager.go:87] `kube-controller-manager [--service-account-private-key-file=/etc/origin/master/serviceaccounts.private.key --kube-api-content-type=application/vnd.kubernetes.protobuf --cluster-signing-cert-file= --leader-elect-retry-period=3s --enable-dynamic-provisioning=true --port=0 --leader-elect-resource-lock=configmaps --root-ca-file=/etc/origin/master/ca-bundle.crt --pod-eviction-timeout=5m --kube-api-qps=300 --controllers=* --controllers=-ttl --controllers=-bootstrapsigner --controllers=-tokencleaner --kubeconfig=/etc/origin/master/openshift-master.kubeconfig --kube-api-burst=600 --use-service-account-credentials=true --cluster-signing-key-file= --openshift-config=/tmp/openshift-kube-controller-manager-config-033370586/master-config.yaml]`
+I0411 19:14:09.621398       1 flags.go:27] FLAG: --address="0.0.0.0"
+I0411 19:14:09.621447       1 flags.go:27] FLAG: --allocate-node-cidrs="false"
+I0411 19:14:09.621458       1 flags.go:27] FLAG: --allow-untagged-cloud="false"
+I0411 19:14:09.621463       1 flags.go:27] FLAG: --attach-detach-reconcile-sync-period="1m0s"
+I0411 19:14:09.621469       1 flags.go:27] FLAG: --azure-container-registry-config=""
+I0411 19:14:09.621475       1 flags.go:27] FLAG: --bind-address="0.0.0.0"
+I0411 19:14:09.621481       1 flags.go:27] FLAG: --cert-dir="/var/run/kubernetes"
+I0411 19:14:09.621496       1 flags.go:27] FLAG: --cidr-allocator-type="RangeAllocator"
+I0411 19:14:09.621505       1 flags.go:27] FLAG: --cloud-config=""
+I0411 19:14:09.621510       1 flags.go:27] FLAG: --cloud-provider=""
+I0411 19:14:09.621562       1 flags.go:27] FLAG: --cluster-cidr=""
+I0411 19:14:09.621572       1 flags.go:27] FLAG: --cluster-name="kubernetes"
+I0411 19:14:09.621577       1 flags.go:27] FLAG: --cluster-signing-cert-file=""
+I0411 19:14:09.621581       1 flags.go:27] FLAG: --cluster-signing-key-file=""
+I0411 19:14:09.621586       1 flags.go:27] FLAG: --concurrent-deployment-syncs="5"
+I0411 19:14:09.621593       1 flags.go:27] FLAG: --concurrent-endpoint-syncs="5"
+I0411 19:14:09.621597       1 flags.go:27] FLAG: --concurrent-gc-syncs="20"
+I0411 19:14:09.621602       1 flags.go:27] FLAG: --concurrent-namespace-syncs="10"
+I0411 19:14:09.621606       1 flags.go:27] FLAG: --concurrent-replicaset-syncs="5"
+I0411 19:14:09.621610       1 flags.go:27] FLAG: --concurrent-resource-quota-syncs="5"
+I0411 19:14:09.621614       1 flags.go:27] FLAG: --concurrent-service-syncs="1"
+I0411 19:14:09.621619       1 flags.go:27] FLAG: --concurrent-serviceaccount-token-syncs="5"
+I0411 19:14:09.621623       1 flags.go:27] FLAG: --concurrent_rc_syncs="5"
+I0411 19:14:09.621627       1 flags.go:27] FLAG: --configure-cloud-routes="true"
+I0411 19:14:09.621632       1 flags.go:27] FLAG: --contention-profiling="false"
+I0411 19:14:09.621636       1 flags.go:27] FLAG: --controller-start-interval="0s"
+I0411 19:14:09.621643       1 flags.go:27] FLAG: --controllers="[*,-ttl,-bootstrapsigner,-tokencleaner]"
+I0411 19:14:09.621655       1 flags.go:27] FLAG: --deleting-pods-burst="0"
+I0411 19:14:09.621659       1 flags.go:27] FLAG: --deleting-pods-qps="0.1"
+I0411 19:14:09.621665       1 flags.go:27] FLAG: --deployment-controller-sync-period="30s"
+I0411 19:14:09.621670       1 flags.go:27] FLAG: --disable-attach-detach-reconcile-sync="false"
+I0411 19:14:09.621674       1 flags.go:27] FLAG: --enable-dynamic-provisioning="true"
+I0411 19:14:09.621679       1 flags.go:27] FLAG: --enable-garbage-collector="true"
+I0411 19:14:09.621683       1 flags.go:27] FLAG: --enable-hostpath-provisioner="false"
+I0411 19:14:09.621687       1 flags.go:27] FLAG: --enable-taint-manager="true"
+I0411 19:14:09.621692       1 flags.go:27] FLAG: --experimental-cluster-signing-duration="8760h0m0s"
+I0411 19:14:09.621696       1 flags.go:27] FLAG: --external-cloud-volume-plugin=""
+I0411 19:14:09.621701       1 flags.go:27] FLAG: --feature-gates=""
+I0411 19:14:09.621713       1 flags.go:27] FLAG: --flex-volume-plugin-dir="/usr/libexec/kubernetes/kubelet-plugins/volume/exec/"
+I0411 19:14:09.621722       1 flags.go:27] FLAG: --google-json-key=""
+I0411 19:14:09.621727       1 flags.go:27] FLAG: --horizontal-pod-autoscaler-downscale-delay="5m0s"
+I0411 19:14:09.621733       1 flags.go:27] FLAG: --horizontal-pod-autoscaler-sync-period="30s"
+I0411 19:14:09.621737       1 flags.go:27] FLAG: --horizontal-pod-autoscaler-tolerance="0.1"
+I0411 19:14:09.621744       1 flags.go:27] FLAG: --horizontal-pod-autoscaler-upscale-delay="3m0s"
+I0411 19:14:09.621748       1 flags.go:27] FLAG: --horizontal-pod-autoscaler-use-rest-clients="true"
+I0411 19:14:09.621753       1 flags.go:27] FLAG: --http2-max-streams-per-connection="0"
+I0411 19:14:09.621757       1 flags.go:27] FLAG: --insecure-experimental-approve-all-kubelet-csrs-for-group=""
+I0411 19:14:09.621762       1 flags.go:27] FLAG: --kube-api-burst="600"
+I0411 19:14:09.621766       1 flags.go:27] FLAG: --kube-api-content-type="application/vnd.kubernetes.protobuf"
+I0411 19:14:09.621771       1 flags.go:27] FLAG: --kube-api-qps="300"
+I0411 19:14:09.621776       1 flags.go:27] FLAG: --kubeconfig="/etc/origin/master/openshift-master.kubeconfig"
+I0411 19:14:09.621781       1 flags.go:27] FLAG: --large-cluster-size-threshold="50"
+I0411 19:14:09.621786       1 flags.go:27] FLAG: --leader-elect="true"
+I0411 19:14:09.621794       1 flags.go:27] FLAG: --leader-elect-lease-duration="15s"
+I0411 19:14:09.621801       1 flags.go:27] FLAG: --leader-elect-renew-deadline="10s"
+I0411 19:14:09.621805       1 flags.go:27] FLAG: --leader-elect-resource-lock="configmaps"
+I0411 19:14:09.621810       1 flags.go:27] FLAG: --leader-elect-retry-period="3s"
+I0411 19:14:09.621815       1 flags.go:27] FLAG: --log-flush-frequency="5s"
+I0411 19:14:09.621819       1 flags.go:27] FLAG: --master=""
+I0411 19:14:09.621823       1 flags.go:27] FLAG: --min-resync-period="12h0m0s"
+I0411 19:14:09.621828       1 flags.go:27] FLAG: --namespace-sync-period="5m0s"
+I0411 19:14:09.621832       1 flags.go:27] FLAG: --node-cidr-mask-size="24"
+I0411 19:14:09.628060       1 flags.go:27] FLAG: --node-eviction-rate="0.1"
+I0411 19:14:09.628276       1 flags.go:27] FLAG: --node-monitor-grace-period="40s"
+I0411 19:14:09.628301       1 flags.go:27] FLAG: --node-monitor-period="5s"
+I0411 19:14:09.628317       1 flags.go:27] FLAG: --node-startup-grace-period="1m0s"
+I0411 19:14:09.628339       1 flags.go:27] FLAG: --node-sync-period="0s"
+I0411 19:14:09.628365       1 flags.go:27] FLAG: --openshift-config="/tmp/openshift-kube-controller-manager-config-033370586/master-config.yaml"
+I0411 19:14:09.628389       1 flags.go:27] FLAG: --pod-eviction-timeout="5m0s"
+I0411 19:14:09.628418       1 flags.go:27] FLAG: --port="0"
+I0411 19:14:09.628436       1 flags.go:27] FLAG: --profiling="false"
+I0411 19:14:09.628455       1 flags.go:27] FLAG: --pv-recycler-increment-timeout-nfs="30"
+I0411 19:14:09.628478       1 flags.go:27] FLAG: --pv-recycler-minimum-timeout-hostpath="60"
+I0411 19:14:09.628503       1 flags.go:27] FLAG: --pv-recycler-minimum-timeout-nfs="300"
+I0411 19:14:09.628520       1 flags.go:27] FLAG: --pv-recycler-pod-template-filepath-hostpath=""
+I0411 19:14:09.628547       1 flags.go:27] FLAG: --pv-recycler-pod-template-filepath-nfs=""
+I0411 19:14:09.628563       1 flags.go:27] FLAG: --pv-recycler-timeout-increment-hostpath="30"
+I0411 19:14:09.628581       1 flags.go:27] FLAG: --pvclaimbinder-sync-period="15s"
+I0411 19:14:09.628608       1 flags.go:27] FLAG: --register-retry-count="10"
+I0411 19:14:09.628632       1 flags.go:27] FLAG: --resource-quota-sync-period="5m0s"
+I0411 19:14:09.628660       1 flags.go:27] FLAG: --root-ca-file="/etc/origin/master/ca-bundle.crt"
+I0411 19:14:09.628677       1 flags.go:27] FLAG: --route-reconciliation-period="10s"
+I0411 19:14:09.628722       1 flags.go:27] FLAG: --secondary-node-eviction-rate="0.01"
+I0411 19:14:09.628747       1 flags.go:27] FLAG: --secure-port="0"
+I0411 19:14:09.628777       1 flags.go:27] FLAG: --service-account-private-key-file="/etc/origin/master/serviceaccounts.private.key"
+I0411 19:14:09.628803       1 flags.go:27] FLAG: --service-cluster-ip-range=""
+I0411 19:14:09.628827       1 flags.go:27] FLAG: --terminated-pod-gc-threshold="12500"
+I0411 19:14:09.628847       1 flags.go:27] FLAG: --tls-cert-file=""
+I0411 19:14:09.628875       1 flags.go:27] FLAG: --tls-cipher-suites="[]"
+I0411 19:14:09.628905       1 flags.go:27] FLAG: --tls-min-version=""
+I0411 19:14:09.628925       1 flags.go:27] FLAG: --tls-private-key-file=""
+I0411 19:14:09.628949       1 flags.go:27] FLAG: --tls-sni-cert-key="[]"
+I0411 19:14:09.628981       1 flags.go:27] FLAG: --unhealthy-zone-threshold="0.55"
+I0411 19:14:09.629008       1 flags.go:27] FLAG: --use-service-account-credentials="true"
+I0411 19:14:09.629027       1 flags.go:27] FLAG: --version="false"
+I0411 19:14:09.624390       1 controller_manager.go:46] DeploymentConfig controller using images from "registry.redhat.io/openshift3/ose-<component>:v3.11.404"
+I0411 19:14:09.629489       1 controller_manager.go:52] Build controller using images from "registry.redhat.io/openshift3/ose-<component>:v3.11.404"
+I0411 19:14:09.624408       1 standalone_apiserver.go:101] Started health checks at 0.0.0.0:8444
+I0411 19:14:09.629636       1 leaderelection.go:185] attempting to acquire leader lease  kube-system/openshift-master-controllers...
+I0411 19:14:09.633327       1 controllermanager.go:128] Version: v1.11.0+d4cacc0
+I0411 19:14:09.633380       1 leaderelection.go:185] attempting to acquire leader lease  kube-system/kube-controller-manager...
+I0411 19:14:11.539780       1 controller_utils.go:1025] Waiting for caches to sync for scheduler controller
+I0411 19:14:11.640051       1 controller_utils.go:1032] Caches are synced for scheduler controller
+I0411 19:14:11.640073       1 leaderelection.go:185] attempting to acquire leader lease  kube-system/kube-scheduler...

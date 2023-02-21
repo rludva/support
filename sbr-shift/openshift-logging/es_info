@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+
+OPENSHIFT_LOGGING_NAMESPACE="openshift-logging"
+if [ `oc version | grep "openshift v" | cut -d " " -f 2 | cut -d "." -f 1,2` = "v3.9" ]; then 
+	OPENSHIFT_LOGGING_NAMESPACE="logging"
+fi
+
+DATA_FILE="/tmp/es_pod"
+if [ -e "$DATA_FILE" ]; then
+	rm "$DATA_FILE"
+fi
+
+oc get pods | grep logging-es-data-master | while read -r name ready status restars age
+do
+	echo "$name" >> $DATA_FILE
+done
+
+for ES_POD in `cat $DATA_FILE`
+do
+	echo 
+	echo "$ES_POD:"
+	oc -n $OPENSHIFT_LOGGING_NAMESPACE exec -c elasticsearch $ES_POD -- es_util --query=_cat/shards?h=index,shard,prirep,state,unassigned.reason,ip,store  | grep searchguard
+done

@@ -1,0 +1,33 @@
+apiVersion: v1
+data:
+  mregistry-ca.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIDszCCApugAwIBAgIUBOHotmPZT2iHQiJDfcI6zMguqYIwDQYJKoZIhvcNAQEL
+    BQAwaTELMAkGA1UEBhMCQ1oxCzAJBgNVBAgMAkNaMQ0wCwYDVQQHDAR0ZXN0MQ0w
+    CwYDVQQKDAR0ZXN0MQ0wCwYDVQQLDAR0ZXN0MSAwHgYDVQQDDBdvcmVuamkubG9j
+    YWwubnV0aXVzLmNvbTAeFw0yMDA0MTUxMzI2MDRaFw0yNDA0MTQxMzI2MDRaMGkx
+    CzAJBgNVBAYTAkNaMQswCQYDVQQIDAJDWjENMAsGA1UEBwwEdGVzdDENMAsGA1UE
+    CgwEdGVzdDENMAsGA1UECwwEdGVzdDEgMB4GA1UEAwwXb3JlbmppLmxvY2FsLm51
+    dGl1cy5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDgHKhEaO/T
+    4din+zLiyBWUEzn5JjvpHj7PkgNA8ipKRVgLuEb7DuBKYE8B1oGB4KMrab1FY8SQ
+    pDc5fgEIorn4vwHYl2VUeMtMjEk3uPTDqQ7XNGKFw6CwfuE+/3bMxk6jY0hKXHEC
+    Wbx/Mns2UZOHqiKA/Ug2pnGufJ9Ktr8EnRn+U3Md+rUVvpf8jSMQHgVlKEXWrUP5
+    jQxxQyhHQvIu6vZgZ2QjufUYFVuqCXTs0WW1Xq86ZVSVk4U2sBqHsM7OgQrM/P+r
+    8YI6+wpEEcbx3Kee0KxOea/Bgt5pGKp6kUMarBPjHVB7rdJcicNekIvkk32EXYQi
+    F43oQvyP1O7LAgMBAAGjUzBRMB0GA1UdDgQWBBSuDp91FKDIDnKVutMngvOiAfvE
+    fjAfBgNVHSMEGDAWgBSuDp91FKDIDnKVutMngvOiAfvEfjAPBgNVHRMBAf8EBTAD
+    AQH/MA0GCSqGSIb3DQEBCwUAA4IBAQDQd6/SDKGfBF+GXlJAOxM1g/Z5z2v4l0RJ
+    Q72p48HaZQXxpFNHG/ebmCab1Klo0ZSBLztRQ50Fwp1ol8Hqnj4e5k/nNCqA4ydE
+    mq7uNNPWEpqccWGpeX7HlYOdlvU+WVrSOpuoVB6JctYnfz5+mWYES1ikXPdcw8yW
+    LUWw8jmgVEBaz/eQ+4FjvCjepBHImstA0vu4TFRkoGjhrgdowMKdG0WCBOI39YgJ
+    t2kK1k3W5/RJqY6HRhre+dGmbVaj0Pfpm/AgOarnfj+8UUDNbCZ+tTPlxTZjPoyb
+    EY4eQcUmG0R4klWmCjPEo9h5nzO75HfKDxZy7CI32X6+Bnp1x6i1
+    -----END CERTIFICATE-----
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2020-04-15T11:44:23Z"
+  name: registry-config
+  namespace: openshift-config
+  resourceVersion: "3134041"
+  selfLink: /api/v1/namespaces/openshift-config/configmaps/registry-config
+  uid: 7575f208-714a-43e9-85e4-bba21f02372b

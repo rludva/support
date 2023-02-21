@@ -1,0 +1,119 @@
+#! /usr/bin/bash
+
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+
+function clear_file() {
+  FILENAME="$1"
+  if [ -e "$FILENAME" ]; then
+    rm "$FILENAME"
+    touch "$FILENAME"
+  fi
+}
+
+SLEEP_SECONDS=0.5
+
+COMMAND1_FILE="/tmp/crc-dashboard-command1.txt"
+echo "not available" > "$COMMAND1_FILE"
+
+COMMAND2_FILE="/tmp/crc-dashboard-command2.txt"
+echo "not available" > "$COMMAND2_FILE"
+
+COMMAND3_FILE="/tmp/crc-dashboard-command3.txt"
+echo "not available" > "$COMMAND3_FILE"
+
+COMMAND4_FILE="/tmp/crc-dashboard-command4.txt"
+echo "not available" > "$COMMAND4_FILE"
+
+COMMAND5_FILE="/tmp/crc-dashboard-command5.txt"
+echo "not available" > "$COMMAND5_FILE"
+
+COMMAND6_FILE="/tmp/crc-dashboard-command6.txt"
+echo "not available" > "$COMMAND6_FILE"
+
+COMMAND7_FILE="/tmp/crc-dashboard-command7.txt"
+echo "not available" > "$COMMAND7_FILE"
+
+while true; do
+
+  if [ -s "$COMMAND1_FILE" ]; then
+    CRC_VERSION=$(cat $COMMAND1_FILE)
+    clear_file "$COMMAND1_FILE"
+    crc version > $COMMAND1_FILE &
+  fi
+
+  if [ -s "$COMMAND2_FILE" ]; then
+    OC_VERSION=$(cat $COMMAND2_FILE)
+    clear_file "$COMMAND2_FILE"
+    oc version> $COMMAND2_FILE &
+  fi
+  
+  if [ -s "$COMMAND3_FILE" ]; then
+    CRC_CONFIG_VIEW=$(cat $COMMAND3_FILE)
+    clear_file "$COMMAND3_FILE"
+    crc config view > $COMMAND3_FILE &
+  fi
+  
+  if [ -s "$COMMAND4_FILE" ]; then
+    CRC_STATUS=$(cat $COMMAND4_FILE)
+    clear_file "$COMMAND4_FILE"
+    crc status > $COMMAND4_FILE &
+  fi
+
+  if [ -s "$COMMAND5_FILE" ]; then
+    OC_GET_NODES=$(cat $COMMAND5_FILE)
+    clear_file "$COMMAND5_FILE"
+    oc get nodes > $COMMAND5_FILE &
+  fi
+
+  if [ -s "$COMMAND6_FILE" ]; then
+    OC_GET_PODS_COUNT=$(cat $COMMAND6_FILE)
+    clear_file "$COMMAND6_FILE"
+    oc get pods --all-namespaces --no-headers | wc -l > $COMMAND6_FILE &
+  fi
+
+  if [ -s "$COMMAND7_FILE" ]; then
+    OC_GET_NAMESPACES_COUNT=$(cat $COMMAND7_FILE)
+    clear_file "$COMMAND7_FILE"
+    oc get namespaces --no-headers | wc -l > $COMMAND7_FILE &
+  fi
+
+  clear
+  echo "${BOLD}${YELLOW}Red Hat CodeReady Containers Terminal Dashboard..${RESET}"
+  echo "${BOLD}${YELLOW}================================================${RESET}"
+
+  echo
+  echo "${BOLD}${YELLOW}CRC Version:${RESET}"
+  echo "${BOLD}${YELLOW}------------${RESET}"
+  echo "$CRC_VERSION"
+  
+  echo 
+  echo "${BOLD}${YELLOW}Cluster version:${RESET}"
+  echo "${BOLD}${YELLOW}----------------${RESET}"
+  echo "$OC_VERSION"
+
+  echo
+  echo "${BOLD}${YELLOW}CRC Configuration:${RESET}"
+  echo "${BOLD}${YELLOW}------------------${RESET}"
+  echo "$CRC_CONFIG_VIEW"
+  
+  echo
+  echo "${BOLD}${YELLOW}Status of CRC Cluster:${RESET}"
+  echo "${BOLD}${YELLOW}----------------------${RESET}"
+  echo "$CRC_STATUS"
+
+  echo
+  echo "${BOLD}${YELLOW}Nodes of CRC Cluster:${RESET}"
+  echo "${BOLD}${YELLOW}---------------------${RESET}"
+  echo "$OC_GET_NODES"
+
+  echo
+  echo "${BOLD}${YELLOW}Number of pods:${RESET} $OC_GET_PODS_COUNT${RESET}"
+  echo "${BOLD}${YELLOW}Number of namespaces:${RESET} $OC_GET_NAMESPACES_COUNT${RESET}"
+
+  sleep $SLEEP_SECONDS
+done

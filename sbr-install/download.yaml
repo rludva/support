@@ -1,0 +1,68 @@
+
+---
+- name: "Download artefacts for OpenShift bare-metal UPI installation.."
+  hosts:
+    - localhost
+  become: true
+  vars:
+    url: "https://github.com/prometheus/prometheus/releases/download"
+    openshift_cli: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-client-linux.tar.gz"
+    openshift_install: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/openshift-install-linux.tar.gz"
+    coreos_iso: "https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/latest/latest/rhcos-live.x86_64.iso"
+    coreos_raw: "https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/latest/latest/rhcos-metal.x86_64.raw.gz"
+    pwd: "{{ lookup('env', 'PWD') }}"
+
+  tasks:
+    - name: "Download openshift-clints tools (oc, kubectl).."
+      get_url:
+        url: "{{openshift_cli}}"
+        dest: "/tmp/openshift-client-linux.tar.gz"
+
+    - name: "Download openshift-install.."
+      get_url:
+        url: "{{openshift_install}}"
+        dest: "/tmp/openshift-install-linux.tar.gz"
+
+    - name: "Download Red Hat CoreOS ISO Image.."
+      get_url:
+        url: "{{coreos_iso}}"
+        dest: "{{pwd}}/rhcos-live.x86_64.iso"
+
+    - name: "Download Red Hat CoreOS RAW Image.."
+      get_url:
+        url: "{{coreos_raw}}"
+        dest: "{{pwd}}/rhcos-metal.86_64.raw.gz"
+
+    - name: "Extract openshift-install archive.."
+      ansible.builtin.unarchive:
+        src: "/tmp/openshift-install-linux.tar.gz"
+        dest: "/tmp"
+
+    - name: "Copy openshift-install binary to standard binary folder.."
+      ansible.builtin.copy:
+        src: "/tmp/openshift-install"
+        dest: "/usr/local/sbin/openshift-install"
+        mode: "0755"
+
+    - name: "Copy openshift-install binary to current folder (it's better to have it in folder with install-config.yaml).."
+      ansible.builtin.copy:
+        src: "/tmp/openshift-install"
+        dest: "{{pwd}}/openshift-install"
+        mode: "0755"
+
+    - name: "Extract openshift-cli tools archive.."
+      ansible.builtin.unarchive:
+        src: "/tmp/openshift-client-linux.tar.gz"
+        dest: "/tmp"
+
+    - name: "Copy openshift client tool to standard binary folder.. (/usr/local/sbin).."
+      ansible.builtin.copy:
+        src: "/tmp/oc"
+        dest: "/usr/local/sbin/oc"
+        mode: "0755"
+
+    - name: "Copy openshift client tool to current folder to have it also available locally.."
+      ansible.builtin.copy:
+        src: "/tmp/oc"
+        dest: "{{pwd}}/oc"
+        mode: "0755"

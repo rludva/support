@@ -1,0 +1,5 @@
+#!/bin/bash
+
+USER="core"
+IP_ADDRESS="192.168.130.11"
+ssh -i ~/.crc/machines/crc/id_ecdsa -o StrictHostKeyChecking=no $USER@$IP_ADDRESS

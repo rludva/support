@@ -1,0 +1,88 @@
+#! /usr/bin/bash
+
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+WHITE=$(tput setaf 7)
+
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+
+function information() {
+  MESSAGE="$1"
+  echo
+  echo -e "${YELLOW}${MESSAGE}${RESET}"
+}
+
+function print_yaml() {
+  FILE="$1"
+  echo "Content of: $FILE"
+
+  HIGHLIGHT=$(which highlight 2>/dev/null)
+  if [ -z "$HIGHLIGHT" ]; then
+    cat "$FILE" 
+    echo
+    return
+  fi
+
+  cat "$FILE" | highlight --out-format=xterm256 --syntax=yaml
+  echo
+}
+
+function sleepx() {
+ count="$1"
+ while [ $count -gt 0 ]; do
+   echo -ne "${MAGENTA}We are wating for ${count}s..${RESET}\033[0K\r"
+   sleep 1
+   ((count--))
+  done
+
+  echo -ne "\033[0K\r"
+}
+
+SCENE_COUNTER=0
+SCENE_01=10
+SCENE_02=20
+SCENE_03=20
+
+while true; do
+  codeready_pods=$(oc get pods -n openshift-workspaces -o wide)
+  codeready_csv=$(oc get csv -n openshift-workspaces)
+  codeready_operator_logs=$(POD=$(oc get pods -o name -n openshift-workspaces --selector app=codeready-operator) && oc logs $POD -n openshift-workspaces | tail -n 30 | highlight --out-format=xterm256 --syntax=json)
+  codeready_checlusters=$(oc get checlusters.org.eclipse.che)
+  codeready_checlusters_yaml=$(oc get checlusters.org.eclipse.che  codeready-workspaces -o yaml | highlight --out-format=xterm256 --syntax=yaml)
+
+  clear
+
+  if [ $SCENE_COUNTER -lt $SCENE_01 ]; then
+    information "CodeReady Workspaces pods in [openshift-workspaces].."
+    echo "$codeready_pods"
+
+    information "CodeReady Workspaces Cluster Service Version in [openshift-workspaces].."
+    echo "$codeready_csv"
+  fi
+
+
+  if [ $SCENE_COUNTER -ge $SCENE_01 ] && [ $SCENE_COUNTER -lt $(($SCENE_01 + $SCENE_02)) ]; then
+    information "CodeReady Workspaces operator logs.."
+    echo "$codeready_operator_logs"
+  fi
+
+  if [ $SCENE_COUNTER -ge $(($SCENE_01+$SCENE_02)) ]; then
+    information "CheClusters Custom Resource Definition.."
+    echo "$codeready_checlusters"
+
+    information "CheClusters Custom Resource Definition [codeready-workspaces].."
+    echo "$codeready_checlusters_yaml"
+  fi
+
+  sleep 1
+
+  ((SCENE_COUNTER++))
+  if [ $SCENE_COUNTER -ge $(($SCENE_01 + $SCENE_02 + $SCENE_03)) ]; then
+    SCENE_COUNTER=0
+  fi
+done

@@ -1,0 +1,51 @@
+#! /usr/bin/bash
+
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+WHITE=$(tput setaf 7)
+
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+
+function information() {
+  MESSAGE="$1"
+  echo
+  echo "${YELLOW}${MESSAGE}${RESET}"
+}
+
+function error_message() {
+  MESSAGE="$1"
+  echo "${RED}${MESSAGE}${RESET}"
+  echo
+}
+
+function sleepx() {
+ count="$1"
+ while [ $count -gt 0 ]; do
+   echo -ne "${MAGENTA}We are wating for ${count}s..${RESET}\033[0K\r"
+   sleep 1
+   ((count--))
+  done
+
+  echo -ne "\033[0K\r"
+}
+
+
+CRWCTL=$(which crwctl 2> /dev/null)
+
+if [ -z "$CRWCTL" ]; then
+  echo "The installation tool not found.."
+  echo
+  exit
+fi
+
+information "Print current version of crwctl utility.."
+crwctl version
+sleepx 10
+
+information "Deploy Red Hat CodeReady Workspaces.."
+crwctl server:deploy --telemetry=off

@@ -1,0 +1,12 @@
+#! /usr/bin/bash
+
+echo
+echo "Extracting certificates.."
+oc get secrets self-signed-certificate -n openshift-workspaces -o json \
+	| jq --raw-output '.data."ca.crt"' \
+	| base64 -d \
+	| awk '/BEGIN/ { i++; } /BEGIN/, /END/ { print > "crw-cert-" i ".crt"  }'
+
+echo
+echo "Move extracted certificates to /tmp folder.."
+mv crw-cert-? /tmp

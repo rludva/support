@@ -1,0 +1,162 @@
+#!/bin/bash
+
+# Load common dependencies for bash scripts..
+MY_PATH=$(dirname "$0") 
+. $MY_PATH/script_dependencies.sh
+
+function print_header {
+	header="$1"
+  echo
+  tput smul # set mode underline
+  echo "${WHITE}${BOLD}$header${RESET}"
+  tput rmul # reset mode underline
+}
+
+INTERVAL=50
+
+#omc use .
+omc get clusterversion
+version=$(omc get clusterversion -o json | jq '.items[].spec.desiredUpdate.version' --raw-output | tr "." "\n")
+aversion=($version)
+version_major="${aversion[0]}"
+version_menor="${aversion[1]}"
+version_minor="${aversion[2]}"
+
+print_header "clusterID:"
+omc get clusterversion -n openshift-config -o=json | jq -r '.items[0].spec.clusterID'
+echo -n ${RESET}
+echo "${BOLD}Action: ${RESET}${YELLOW}Compare cluserID and cluster version with the one from case..${RESET}"
+echo
+sleepx $INTERVAL
+
+clear
+master_nodes=0
+worker_nodes=0
+infra_nodes=0
+print_header "Cluster nodes:"
+while IFS=: read -r line
+do
+	xline="$line"
+  if [[ "$line" == *"master"* ]]; then
+	  xline="${MAGENTA}$line${RESET}"
+		((master_nodes=master_nodes+1))
+  fi
+  if [[ "$line" == *"worker"* ]]; then
+	  xline="${YELLOW}$line${RESET}"
+		((worker_nodes=worker_nodes+1))
+  fi
+  if [[ "$line" == *"infra"* ]]; then
+	  xline="${BLUE}$line${RESET}"
+		((infra_nodes=infra_nodes+1))
+  fi
+  if [[ "$line" == *"NotReady"* || "$line" == *"SchedulingDisabled"* ]]; then
+	  xline="${RED}$line${RESET}"
+  fi
+	echo "$xline"
+done <<< $(omc get nodes)
+echo 
+echo "Number of master nodes: $master_nodes"
+echo "Number of worker nodes: $worker_nodes"
+echo "Number of infra nodes: $infra_nodes"
+sleepx $INTERVAL
+
+clear
+print_header "Cluster infrastructure object:"
+omc get infrastructure -o yaml | bat -l yaml --paging always
+
+clear
+print_header "Cluster ETCD Details"
+ETCD_PODS=$(omc get pods -n openshift-etcd -l k8s-app=etcd -o name)
+omc get pods -n openshift-etcd
+
+print_header "Checking ETCD fragmentation:"
+function etcd_fragmentation_check() {
+	file=$(find . -name endpoint_status.json)
+	if [ -z "$file" ]; then
+		return
+	fi
+
+	result=$(cat $file |jq --raw-output '.[0].Status|(.dbSize|tostring) + " " + (.dbSizeInUse|tostring) + " " + ((.dbSize - .dbSizeInUse)/.dbSizeInUse*100|tostring)')
+	aresult=($result)
+	dbSize="${aresult[0]}"
+	dbSizeInUse="${aresult[1]}"
+	fragmentation=$(echo "${aresult[2]}" | xargs printf "%2.1f%%")
+	echo "ETCD_POD_01: dbSize: $dbSize, dbSizeInUse: $dbSizeInUse, Fragmentation: $fragmentation"
+
+	result=$(cat $file |jq --raw-output '.[1].Status|(.dbSize|tostring) + " " + (.dbSizeInUse|tostring) + " " + ((.dbSize - .dbSizeInUse)/.dbSizeInUse*100|tostring)')
+	aresult=($result)
+	dbSize="${aresult[0]}"
+	dbSizeInUse="${aresult[1]}"
+	fragmentation=$(echo "${aresult[2]}" | xargs printf "%2.1f%%")
+	echo "ETCD_POD_02: dbSize: $dbSize, dbSizeInUse: $dbSizeInUse, Fragmentation: $fragmentation"
+
+	result=$(cat $file |jq --raw-output '.[2].Status|(.dbSize|tostring) + " " + (.dbSizeInUse|tostring) + " " + ((.dbSize - .dbSizeInUse)/.dbSizeInUse*100|tostring)')
+	aresult=($result)
+	dbSize="${aresult[0]}"
+	dbSizeInUse="${aresult[1]}"
+	fragmentation=$(echo "${aresult[2]}" | xargs printf "%2.1f%%")
+	echo "ETCD_POD_02: dbSize: $dbSize, dbSizeInUse: $dbSizeInUse, Fragmentation: $fragmentation"
+
+	#result=$(cat $file |jq '.[0].Status|"dbSize: " + (.dbSize|tostring) + ", dbSizeInUse: " + (.dbSizeInUse|tostring) + ", (dbSize-dbSizeInUse)/dbSize => " + ((.dbSize - .dbSizeInUse)/.dbSizeInUse*100|tostring)+"%"')
+	#echo $result
+	#result=$(cat $file |jq '.[1].Status|"dbSize: " + (.dbSize|tostring) + ", dbSizeInUse: " + (.dbSizeInUse|tostring) + ", (dbSize-dbSizeInUse)/dbSize => " + ((.dbSize - .dbSizeInUse)/.dbSizeInUse*100|tostring)+"%"')
+	#echo $result
+	#result=$(cat $file |jq '.[2].Status|"dbSize: " + (.dbSize|tostring) + ", dbSizeInUse: " + (.dbSizeInUse|tostring) + ", (dbSize-dbSizeInUse)/dbSize => " + ((.dbSize - .dbSizeInUse)/.dbSizeInUse*100|tostring)+"%"')
+	#echo $result
+	echo ${WHITE}
+	echo "[1] How to check if etcd needs defragmentation?"
+	echo "    https://access.redhat.com/solutions/6960497"
+	echo "[2] How to defrag etcd to decrease DB size in OpenShift 4"
+	echo "    https://access.redhat.com/solutions/5564771"
+	if [ $version_major = "3" -a $version_menor = "11" ]; then
+	  echo "[1] OCP v3.11: Defragmenting etcd data"
+	  echo "    ???"
+	fi
+	if [ $version_major = "4" -a $version_menor = "6" ]; then
+	  echo "[1] OCP v4.6: Defragmenting etcd data"
+	  echo "    https://docs.openshift.com/container-platform/4.6/post_installation_configuration/cluster-tasks.html#etcd-defrag_post-install-cluster-tasks"
+	fi
+	if [ $version_major = "4" -a $version_menor = "7" ]; then
+	   echo "[1] OCP v4.7: Defragmenting etcd data"
+	  echo "    https://docs.openshift.com/container-platform/4.7/post_installation_configuration/cluster-tasks.html#etcd-defrag_post-install-cluster-tasks"
+	fi
+	if [ $version_major = "4" -a $version_menor = "8" ]; then
+	  echo "[1] OCP v4.8: Defragmenting etcd data"
+  	echo "    https://docs.openshift.com/container-platform/4.8/post_installation_configuration/cluster-tasks.html#etcd-defrag_post-install-cluster-tasks"
+	fi
+	if [ $version_major = "4" -a $version_menor = "9" ]; then
+	  echo "[1] OCP v4.9: Defragmenting etcd data"
+	  echo "    https://docs.openshift.com/container-platform/4.9/post_installation_configuration/cluster-tasks.html#etcd-defrag_post-install-cluster-tasks"
+	fi
+	if [ $version_major = "4" -a $version_menor = "10" ]; then
+	  echo "[1] OCP v4.10: Defragmenting etcd data"
+	  echo "    https://docs.openshift.com/container-platform/4.10/post_installation_configuration/cluster-tasks.html#etcd-defrag_post-install-cluster-tasks"
+	fi
+	if [ $version_major = "4" -a $version_menor = "11" ]; then
+	  echo "[1] OCP v4.11: Defragmenting etcd data"
+	  echo "    https://docs.openshift.com/container-platform/4.11/post_installation_configuration/cluster-tasks.html#etcd-defrag_post-install-cluster-tasksecho"
+	fi
+	echo ${RESET}
+	sleepx $INTERVAL
+}
+etcd_fragmentation_check
+
+print_header "Checking compaction of the ETCD:"
+for etcd_pod in $ETCD_PODS; do
+  number=$(omc logs -n openshift-etcd -c etcd $etcd_pod | grep overload | wc -l)
+	echo "${BLUE}$ omc logs -n openshift-etcd -c etcd $etcd_pod | grep overload | wc -l${RESET}"
+	echo -n "Number of overloads in $etcd_pod: ${BOLD}$number${RESET}"
+	if [ $number -gt 0 ]; then
+	  echo " ${RED}${BLINK}!${RESET}"
+
+		dates=$(omc logs -n openshift-etcd -c etcd pod/etcd-nzd2c201v.nz.unix.test | grep overload | awk -F "T" '{print $1}' | uniq)
+		#dates=`echo $string | tr '\n' ' '`
+
+		echo " - The overload was found during these dates:"
+		echo "$dates"
+ fi
+ echo
+ echo
+done 
+echo
+echo

@@ -1,0 +1,13 @@
+[Unit]
+Description={{description}}
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User={{user}}
+Group={{group}}
+Type=simple
+ExecStart={{exec}}
+
+[Install]
+WantedBy=multi-user.target

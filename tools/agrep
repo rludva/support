@@ -1,0 +1,70 @@
+#!/bin/bash
+
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+WHITE=$(tput setaf 7)
+
+BOLD=$(tput bold)
+UNDERLINE=$(tput smul)
+BLINK=$(tput blink)
+RESET=$(tput sgr0)
+
+
+function iterate_namespaces() {
+  namespaces=$(oc get namespaces -o json | jq ".items[].metadata.name" --raw-output)
+
+  while read namespace 
+  do
+    iterate_pods $namespace
+  done <<< $namespaces
+}
+
+function iterate_pods() {
+  namespace="$1"
+  pods=$(oc get pods -n $namespace -o json | jq ".items[].metadata.name" --raw-output)
+
+  if [ -z "$pods" ]; then
+    return
+  fi
+
+  while read pod
+  do
+    iterate_containers $namespace $pod
+  done <<< $pods
+}
+
+iterate_containers() {
+  namespace="$1"
+  pod="$2"
+
+  containers=$(oc get pod -n $namespace $pod -o json | jq ".spec.containers[].name" --raw-output)
+
+  while read container
+  do
+    echo -ne "${YELLOW}Namespace: $namespace, Pod:$pod, Container: $container ${RESET}\033[0K\r"
+    logs=$(oc logs $pod -n $namespace -c $container| grep "$PATTERN" --color='always')
+
+    if [ ! -z "$logs" ]; then
+      echo 
+      echo "oc logs -n $namespace $pod -c $container"
+      echo "----------------------------------------"
+      echo $logs
+    fi
+  done <<< $containers
+
+}
+
+PATTERN="$1"
+if [ -z "$PATTERN" ]; then
+  echo "Search for a pattern string in the logs of pods in all namespaces.."
+  echo "You need ${YELLOW}oc${RESET} and ${YELLOW}jq${RESET} in your system.."
+  echo "Usage: pgrep <patter>"
+  echo
+  exit
+fi
+
+iterate_namespaces

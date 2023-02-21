@@ -1,0 +1,73 @@
+
+---
+- name: "Install Prometheus Node Exporter.."
+  hosts:
+    - localhost
+  become: true
+  vars:
+    # https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+    url: "https://github.com/prometheus/node_exporter/releases/download"
+    version: "1.3.1"
+    application: "node_exporter"
+    architecture: "linux-amd64"
+
+    port: "9100"
+    description: "Prometheus Node Exporter"
+    user: "node_exporter"
+    group: "node_exporter"
+    exec: "/usr/local/sbin/node_exporter"
+
+  tasks:
+    - name: "Create {{user}} user.."
+      user:
+        name: "{{user}}"
+        create_home: false
+        shell: /usr/bin/false
+
+    - name: "Download {{application}} binaries.."
+      get_url:
+        url: "{{url}}/v{{version}}/{{application}}-{{version}}.{{architecture}}.tar.gz"
+        dest: /tmp/{{application}}-{{version}}.{{architecture}}.tar.gz
+
+    - name: "Extract {{application}} archive.."
+      ansible.builtin.unarchive:
+        src: /tmp/{{application}}-{{version}}.{{architecture}}.tar.gz
+        dest: /tmp
+
+    - name: "Copy {{application}} binary to standard binary folder.."
+      ansible.builtin.copy:
+        src: /tmp/{{application}}-{{version}}.{{architecture}}/{{application}}
+        dest: /usr/local/sbin/{{application}}
+        owner: "{{user}}"
+        group: "{{user}}"
+        mode: "0755"
+
+    - name: debug
+      service:
+        name: "{{application}}"
+        state: stopped
+
+    - name: "Create systemd service file for {{application}}.."
+      template:
+        src: ./root/etc/systemd/system/{{application}}.service.j2
+        dest: /etc/systemd/system/{{application}}.service
+
+    - name: "Start and enable service for {{application}}.."
+      service:
+        name: "{{application}}"
+        enabled: yes
+        state: reloaded
+
+    - name: "Add firewall exception for {{application}} port: {{port}}/tcp.."
+      firewalld:
+        port: "{{port}}/tcp"
+        immediate: yes
+        permanent: true
+        state: enabled
+
+    - name: "Print additional configuration that must be added to prometheus.conf.."
+      ansible.builtin.debug:
+        msg:
+        - "     - job_name: 'node_exporter_{{ lookup('env', 'HOSTNAME') | replace('.', '_') }}'"
+        - "       static_configs:"
+        - "       - targets: ['{{ lookup('env', 'HOSTNAME') }}:{{port}}']"

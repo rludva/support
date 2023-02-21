@@ -1,0 +1,4 @@
+#! /bin/bash -e
+
+PASSWORD=`cat $HOME/.passwd/crc-kubeadmin.passwd`
+oc login -u kubeadmin -p $PASSWORD https://api.crc.testing:6443

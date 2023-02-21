@@ -1,0 +1,12 @@
+#! /usr/bin/bash
+
+crc cleanup
+#rm -rf $HOME/.crc
+rm -rf $HOME/.kube
+
+if [ -e "$HOME/.passwd/crc-kubeadmin.passwd" ]; then
+  rm $HOME/.passwd/crc-kubeadmin.passwd
+fi
+
+echo "Current virtual machines:"
+sudo virsh list --all

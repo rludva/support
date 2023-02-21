@@ -1,0 +1,91 @@
+
+---
+- name: "Install Prometheus.."
+  hosts:
+    - localhost
+  become: true
+  vars:
+    # https://github.com/prometheus/prometheus/releases/download/v2.32.1/
+    url: "https://github.com/prometheus/prometheus/releases/download"
+    version: "2.39.1"
+    application: "prometheus"
+    architecture: "linux-amd64"
+
+    hostname: "localhost"
+    port: "9090"
+    description: "Prometheus"
+    user: "prometheus"
+    group: "prometheus"
+    exec: "/usr/local/sbin/prometheus"
+
+  tasks:
+    - name: "Create {{user}} user.."
+      user:
+        name: "{{user}}"
+        create_home: false
+        shell: /usr/bin/false
+
+    - name: "Download {{application}} binaries.."
+      get_url:
+        url: "{{url}}/v{{version}}/{{application}}-{{version}}.{{architecture}}.tar.gz"
+        dest: "/tmp/{{application}}-{{version}}.{{architecture}}.tar.gz"
+
+    - name: "Extract {{application}} archive.."
+      ansible.builtin.unarchive:
+        src: "/tmp/{{application}}-{{version}}.{{architecture}}.tar.gz"
+        dest: "/tmp"
+
+    - name: "Copy {{application}} binary to standard binary folder.."
+      ansible.builtin.copy:
+        src: /tmp/{{application}}-{{version}}.{{architecture}}/{{application}}
+        dest: /usr/local/sbin/{{application}}
+        owner: "{{user}}"
+        group: "{{user}}"
+        mode: "0755"
+
+    - name: "Create storage folder for the {{application}} in /var/lib/{{application}}.."
+      file:
+        name: "/var/lib/{{application}}"
+        state: directory
+        owner: "{{user}}"
+        group: "{{group}}"
+
+    - name: "Create configuration folder for the {{application}} in /etc/{{application}}.."
+      file:
+        name: "/etc/{{application}}"
+        state: directory
+
+    - name: "Create the configuration file for {{application}}.."
+      template:
+        src: "./root/etc/prometheus/prometheus.yml.j2"
+        dest: "/etc/prometheus/prometheus.yml"
+
+    - name: "Create systemd service file for {{application}}.."
+      template:
+        src: ./root/etc/systemd/system/{{application}}.service.j2
+        dest: /etc/systemd/system/{{application}}.service
+
+    - name: Reload systemd..
+      ansible.builtin.systemd:
+        daemon_reload: yes
+
+    - name: "Start and enable service for {{application}}.."
+      service:
+        name: "{{application}}"
+        enabled: yes
+        state: started
+
+    - name: "Add firewall exception for {{application}} port: {{port}}/tcp.."
+      firewalld:
+        port: "{{port}}/tcp"
+        immediate: yes
+        permanent: true
+        state: enabled
+
+    - name: "Collect  facts about the current status of the {{application}} system services.."
+      service_facts:
+      register: services_state
+
+    - name: "Debug: print service_state.."
+      debug:
+        var: services_state.service["{{application}}"]

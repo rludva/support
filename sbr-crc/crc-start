@@ -1,0 +1,68 @@
+#! /usr/bin/bash
+
+#
+# To use this script in an effective way, define CRC_MEMORY, CRC_CPU, CRC_KUBEADMIN, CRC_HTTP_PROXY, 
+# CRC_HTTPS_PROXY and CRC_NO_PROXY in your .basrhc profile.
+#
+
+# Set new default values for memory and CPU cores..
+MEMORY=32000
+CPU=4
+
+# If there are specified local variables, then use them..
+if [ -n "$CRC_MEMORY" ]; then
+  MEMORY="$CRC_MEMORY"
+fi
+if [ -n "$CRC_CPU" ]; then
+  CPU="$CRC_CPU"
+fi
+
+if [ -z "$CRC_KUBEADMIN" ]; then
+  echo "CRC_KUBEADMIN environment variable is not set. A new kubeadmin password will be generated.."
+  sleep 2
+fi
+
+if [ -n "$CRC_KUBEADMIN" ]; then
+  crc config set kubeadmin-password "$CRC_KUBEADMIN"
+fi
+
+# If PROX is configured use it..
+if [ -n "CRC_HTTP_PROXY" ]; then
+  crc config set http-proxy "$CRC_HTTP_PROXY"
+fi
+if [ -n "CRC_HTTPS_PROXY" ]; then
+  crc config set https-proxy "$CRC_HTTPS_PROXY"
+fi
+if [ -n "CRC_NO_PROXY" ]; then
+  crc config set no-proxy "$CRC_NO_PROXY"
+fi
+
+# By default do not set telemetry data..
+crc config set consent-telemetry no
+
+# By default we want monitoring enabled..
+crc config set enable-cluster-monitoring true
+
+# Summary..
+echo "Configuration of Red Hat CodeReady Containers:"
+echo "Memory: $MEMORY"
+echo "CPU: $CPU"
+crc config view
+sleep 5
+
+CRC_PULL_SECRET_FILE="$HOME/.passwd/crc-pull-secret"
+if [ ! -e "$CRC_PULL_SECRET_FILE" ]; then
+  echo "Pull secret file does not exists: $CRC_PULL_SECRET_FILE"
+  exit
+fi
+
+# Ready? Go!
+crc setup
+crc start --pull-secret-file $CRC_PULL_SECRET_FILE --memory $MEMORY --cpus $CPU --log-level debug > /tmp/crc-start.log
+
+# Backup current kubeadmin password..
+KUBEADMIN_PASSWORD=$(crc console --credentials -o json | jq .clusterConfig.adminCredentials.password --raw-output)
+echo "$KUBEADMIN_PASSWORD" > $HOME/.passwd/crc-kubeadmin.passwd
+
+# Delete the OpenShift WebConsole Top Line Warning about producation usage of CRC..
+#crc-login && oc delete consolenotifications.console.openshift.io security-notice
