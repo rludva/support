@@ -6,6 +6,9 @@ MY_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 # Destination folder..
 DESTINATION="/usr/local/bin"
 
+# Copy script dependencies..
+cp -v $MY_PATH/tools/script_dependencies.sh $DESTINATION
+
 # Extended CRC Stuff..
 echo "Copy extended CRC commands to $DESTINATION"
 cp -v $MY_PATH/sbr-crc/crc-cleanup $DESTINATION
