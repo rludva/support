@@ -1,0 +1,75 @@
+
+---
+- name: "Download and prepare {{application}} artifacts for offline installation.."
+  hosts:
+    - localhost
+  become: true
+  vars:  
+    application: "alertmanager"
+
+    versions:
+    - "0.18.0"
+    - "0.19.0"
+    - "0.20.0"
+    - "0.21.0"
+    - "0.22.0"
+    - "0.23.0"
+    - "0.24.0"
+    - "0.25.0"
+
+    architectures:
+    - "linux-amd64"
+    - "windows-amd64"
+    - "darwin-amd64"
+    
+    artifact_folder: "/opt/support/sbr-monitoring/artifacts"
+
+    application_url: "https://github.com/prometheus/{{application}}/releases/download"
+    source_code_url: "https://github.com/prometheus/{{application}}/archive/refs/tags"
+    release_sha256_url: "https://github.com/prometheus/{{application}}/releases/download"
+
+  tasks:
+    - name: "Create main artifacts folder.."
+      file:
+        name: "{{artifact_folder}}"
+        state: directory
+
+    - name: "Create applicatiopn artifacts folder.."
+      file:
+        name: "{{artifact_folder}}/{{application}}"
+        state: directory
+
+    - name: "Create folders for {{application}} versions.."
+      file:
+        name: "{{artifact_folder}}/{{application}}/v{{item}}"
+        state: directory
+      with_items: "{{versions}}"
+
+    # Download binaries for all declared versions and architectures..
+    - name: "Download {{application}} binaries.."
+      get_url:
+        url: "{{application_url}}/v{{item.0}}/{{application}}-{{item.0}}.{{item.1}}.tar.gz"
+        dest: "{{artifact_folder}}/{{application}}/v{{item.0}}/{{application}}-{{item.0}}.{{item.1}}.tar.gz"
+      with_nested:
+      - "{{versions}}"
+      - "{{architectures}}"
+    
+    # Download source code in tar.gz and zip..
+    - name: "Download source code in tar.gz of {{application}}.."
+      get_url:
+        url: "{{source_code_url}}/v{{item}}.tar.gz"
+        dest: "{{artifact_folder}}/{{application}}/v{{item}}/{{application}}-{{item}}-source-code.tar.gz"
+      with_items: "{{versions}}"
+     
+    - name: "Download source code in zip of {{application}}.."
+      get_url:
+        url: "{{source_code_url}}/v{{item}}.zip"
+        dest: "{{artifact_folder}}/{{application}}/v{{item}}/{{application}}-{{item}}-source-code.zip"
+      with_items: "{{versions}}"
+
+    # Download sha256sums.txt..
+    - name: "Download sha256sums.txt of {{application}}.."
+      get_url:
+        url: "{{release_sha256_url}}/v{{item}}/sha256sums.txt"
+        dest: "{{artifact_folder}}/{{application}}/v{{item}}/sha256sums.txt"
+      with_items: "{{versions}}"
