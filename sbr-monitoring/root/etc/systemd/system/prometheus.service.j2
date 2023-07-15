@@ -7,7 +7,7 @@ After=network-online.target
 User={{user}}
 Group={{group}}
 Type=simple
-ExecStart=/usr/local/sbin/prometheus \
+ExecStart=/usr/local/bin/prometheus \
     --config.file /etc/prometheus/prometheus.yml \
     --storage.tsdb.path /var/lib/prometheus/ \
     --web.console.templates=/etc/prometheus/consoles \

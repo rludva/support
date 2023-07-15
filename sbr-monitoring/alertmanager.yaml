@@ -1,22 +1,21 @@
 
 ---
-- name: "Install Prometheus.."
+- name: "Install Alertmanager and amtool.."
   hosts:
     - localhost
   become: true
   vars:
-    # https://github.com/prometheus/prometheus/releases/download/v2.32.1/
-    url: "https://github.com/prometheus/prometheus/releases/download"
-    version: "2.43.0"
-    application: "prometheus"
+    url: "https://github.com/prometheus/alertmanager/releases/download"
+    version: "0.25.0"
+    application: "alertmanager"
     architecture: "linux-amd64"
 
     hostname: "localhost"
-    port: "9090"
-    description: "Prometheus"
+    port: "9093"
+    description: "Alertmanager"
     user: "prometheus"
     group: "prometheus"
-    exec: "/usr/local/bin/prometheus"
+    exec: "/usr/local/bin/alertmanager"
 
   tasks:
     - name: "Create {{user}} user.."
@@ -43,6 +42,15 @@
         group: "{{user}}"
         mode: "0755"
 
+    # Alertmanager specific tool: amtool - View and modify the current Alertmanager state
+    - name: "Copy `amtool` binary to standard binary folder.."
+      ansible.builtin.copy:
+        src: /tmp/{{application}}-{{version}}.{{architecture}}/amtool
+        dest: /usr/local/bin/amtool
+        owner: "{{user}}"
+        group: "{{user}}"
+        mode: "0755"
+
     - name: "Create storage folder for the {{application}} in /var/lib/{{application}}.."
       file:
         name: "/var/lib/{{application}}"
@@ -57,9 +65,17 @@
 
     - name: "Create the configuration file for {{application}}.."
       template:
-        src: "./root/etc/prometheus/prometheus.yml.j2"
-        dest: "/etc/prometheus/prometheus.yml"
+        src: "./root/etc/alertmanager/alertmanager.yml.j2"
+        dest: "/etc/alertmanager/alertmanager.yml"
 
+    - name: "Coyp default configuration file from the package to have it as an example.."
+      ansible.builtin.copy:
+        src: "/tmp/{{application}}-{{version}}.{{architecture}}/alertmanager.yml"
+        dest: "/etc/{{application}}/alertmanager.yml.origin"
+        owner: "{{user}}"
+        group: "{{user}}"
+        mode: "0664"        
+    
     - name: "Create systemd service file for {{application}}.."
       template:
         src: ./root/etc/systemd/system/{{application}}.service.j2
@@ -82,10 +98,26 @@
         permanent: true
         state: enabled
 
-    - name: "Collect  facts about the current status of the {{application}} system services.."
-      service_facts:
+    # Remove the downloaded and extracted package..
+    - name: "Remove and clean the downloaded package.."
+      ansible.builtin.file:
+        path: "/tmp/{{application}}-{{version}}.{{architecture}}.tar.gz"
+        state: absent       
+    - name: "Remove and clean the extracted package.."
+      ansible.builtin.file:
+        path: "/tmp/{{application}}-{{version}}.{{architecture}}"
+        state: absent
+
+    # Finish the installation with useful information..
+    - name: "Collect the facts about the current status of the {{application}} system service.."
+      ansible.builtin.systemd:
+        name: "{{application}}"
       register: services_state
 
-    - name: "Debug: print service_state.."
+    - name: "Print information about the {{application}} service.."
       debug:
-        var: services_state.service["{{application}}"]
+        msg: "The {{application}} service is {{services_state.status.ActiveState}}."
+
+    - name: "Print information about the user-interface address.."
+      debug:
+        msg: "The {{application}} user-interface is available at http://{{hostname}}:{{port}}."

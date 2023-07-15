@@ -15,7 +15,7 @@
     description: "Prometheus Node Exporter"
     user: "node_exporter"
     group: "node_exporter"
-    exec: "/usr/local/sbin/node_exporter"
+    exec: "/usr/local/bin/node_exporter"
 
   tasks:
     - name: "Create {{user}} user.."
@@ -37,7 +37,7 @@
     - name: "Copy {{application}} binary to standard binary folder.."
       ansible.builtin.copy:
         src: /tmp/{{application}}-{{version}}.{{architecture}}/{{application}}
-        dest: /usr/local/sbin/{{application}}
+        dest: /usr/local/bin/{{application}}
         owner: "{{user}}"
         group: "{{user}}"
         mode: "0755"
