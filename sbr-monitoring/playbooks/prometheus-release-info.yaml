@@ -1,0 +1,26 @@
+- name: Get latest release information
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Make API request
+      uri:
+        url: "https://api.github.com/repos/prometheus/prometheus/releases/latest"
+        method: GET
+        return_content: yes
+        headers:
+          Accept: "application/vnd.github.v3+json"
+      register: api_response
+
+    - name: Extract release details
+      set_fact:
+        version: "{{ api_response.json.tag_name }}"
+        release_date: "{{ api_response.json.published_at }}"
+        release_url: "{{ api_response.json.html_url }}"
+
+    - name: Print release information
+      debug:
+        msg:
+          - "Latest release: {{ version }}"
+          - "Release date: {{ release_date }}"
+          - "Release URL: {{ release_url }}"
+

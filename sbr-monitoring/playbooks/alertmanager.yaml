@@ -103,6 +103,7 @@
       ansible.builtin.file:
         path: "/tmp/{{application}}-{{version}}.{{architecture}}.tar.gz"
         state: absent       
+        
     - name: "Remove and clean the extracted package.."
       ansible.builtin.file:
         path: "/tmp/{{application}}-{{version}}.{{architecture}}"
