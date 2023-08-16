@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# TODO:
+# - get pods of openshfit-operators namespace
+# - get pods of CHECLUSTER_NAMESPACE_NAME (default: openshift-devspaces)
+# - get name of devspaces-operator-XXXXXXXXX-XXXXX pod into DEVSPACES_OPERATOR_POD_NAME variable
+# - get logs of DEVSPACES_OPERATOR_POD_NAME
+# - get name of devworkspace-controller-manager-77b7b8d6bd-b657l pod into DEVWORKSPACE_CONTROLLER_MANAGER_POD_NAME variable
+# - get logs of DEVWORKSPACE_CONTROLLER_MANAGER_POD_NAME
+# - get name of devworkspace-webhook-server-578fc7dd5-bhnx8 pod into DEVWORKSPACE_WEBHOOK_SERVER_POD_NAME variable
+# - get logs of DEVWORKSPACE_WEBHOOK_SERVER_POD_NAME
+
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
 YELLOW=$(tput setaf 3)
@@ -121,3 +131,4 @@ function test_default_checluster_name() {
   fi
 }
 test_default_checluster_name
+
