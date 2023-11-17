@@ -1,0 +1,94 @@
+#/bin/bash
+
+# Usage:
+# ------
+# `$ oc-package 4.8.34`   List packages in RHCOS for OCP v4.8.34 
+# `$ oc-package 4.8`      with out y release and latest will be chosen
+#
+#  Resources:
+#  ----------
+#  [1] Original link for the source code (github.com/rjhowe: ocpkg.sh)
+#      https://gist.github.com/rjhowe/cdd1f8e10f401037bb32eb7d880ebe4b
+#
+#  [2] RHEL Versions Utilized by RHEL CoreOS and OCP	
+#      https://access.redhat.com/articles/6907891
+#
+
+DEPENDENCIES=("oc" "jq")
+IFS=. read -r Ver4 VerX VerY <<< ${1}
+STREAM=fast
+CHANNEL="${STREAM}-4.${VerX}"
+
+
+_CHECK_DEPENDENCIES () {
+  if ! [ -x "$(command -v $1)" ]; then
+    echo "Error: $1 is not installed." >&2
+    exit 1
+  fi
+}
+
+_SET_LATEST_VERSION () {
+  version=$(curl -sH 'Accept: application/json'  "https://api.openshift.com/api/upgrades_info/v1/graph?channel=${CHANNEL}&arch=amd64" | jq -rS '.nodes | sort_by(.version | gsub ("[a-z,A-Z,-]";"") | split(".") | map(tonumber)) | last | .version')
+}
+
+
+_MAIN () {
+
+  export VERSION=${version}
+  RELEASE_IMAGE=$(curl -sH 'Accept: application/json'  "https://api.openshift.com/api/upgrades_info/v1/graph?channel=${CHANNEL}&arch=amd64" | jq -r --arg VERSION "${VERSION}" -S '.nodes | sort_by(.version | gsub ("[a-z,A-Z,-]";"") | split(".") | map(tonumber)) | .[] | select(.version == $VERSION) | .payload')
+
+  RHCOS_VERSION=$(oc adm release info  "${RELEASE_IMAGE}" -o json 2>/dev/null  | jq -r '.displayVersions."machine-os".Version')
+
+  KUBE_VERSION=$(oc adm release info  "${RELEASE_IMAGE}" -o json 2>/dev/null | jq -r '.displayVersions.kubernetes.Version')
+  RHCOS_IMAGE=$(oc adm release info 4.13.9 --image-for=rhel-coreos 2>/dev/null)
+
+  #KERNEL_VERSION=$(skopeo inspect --config docker://${RHCOS_IMAGE} 2>/dev/null | jq -r '.config.Labels["ostree.linux"]')
+
+
+  if (( "$VerX" <= 12 )); then
+     PACKAGES=$(curl -sS https://releases-rhcos-art.apps.ocp-virt.prod.psi.redhat.com/storage/prod/streams/4.${VerX}/builds/${RHCOS_VERSION}/x86_64/commitmeta.json | jq -r '."rpmostree.rpmdb.pkglist"| .[] | @csv' | awk -F ',' '{print $1,$3,$4,$5}' | tr -d '",') 
+  else 
+     PACKAGES=$(curl -sS https://releases-rhcos-art.apps.ocp-virt.prod.psi.redhat.com/storage/prod/streams/4.${VerX}-9.2/builds/${RHCOS_VERSION}/x86_64/commitmeta.json | jq -r '."rpmostree.rpmdb.pkglist"| .[] | @csv' | awk -F ',' '{print $1,$3,$4,$5}' | tr -d '",') 
+  fi
+
+  KERNEL_VERSION=$(awk '/kernel /' <<<$PACKAGES)
+
+
+  echo -e "Package List\n\n" 
+  echo -e "${PACKAGES}\n\n"
+  
+ 
+  echo -e "OpenShift Version:  ${VERSION}"
+  echo -e "Kubernetes Version: ${KUBE_VERSION}"
+  echo -e "RHCOS Version:      rhcos-4.${VerX} ${RHCOS_VERSION}" 
+  
+  echo -e "Kernel Version:     ${KERNEL_VERSION}"
+  echo -e "Release Image:      ${RELEASE_IMAGE}"
+  echo -e "\nView list here: https://releases-rhcos-art.apps.ocp-virt.prod.psi.redhat.com/?stream=releases%2Frhcos-4.${VerX}&${RHCOS_VERSION}"
+}
+
+
+# Not used as it takes to long to do podman pull
+_LIST_PACKAGES_PODMAN (){
+   OS_IMAGE=$(oc adm release info --pullspecs "${RELEASE_IMAGE}" -o json 2>/dev/null | jq -r '.references.spec.tags[] | select(.name == "machine-os-content") | .from.name ')
+   echo ${OS_IMAGE}
+   podman run \
+          --rm -it \
+          --entrypoint /bin/cat \
+          ${OS_IMAGE} pkglist.txt 
+}
+
+
+for dep in ${DEPENDENCIES[@]}; do
+  _CHECK_DEPENDENCIES $dep
+done
+
+if [ -z ${VerY} ]; then
+  _SET_LATEST_VERSION
+else
+   version="4.${VerX}.${VerY}"
+fi
+
+ 
+_MAIN
+
