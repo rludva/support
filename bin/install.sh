@@ -33,3 +33,7 @@ cp -v $MY_PATH/sbr-crw/bin/crw-get-ca $DESTINATION
 echo
 echo "Copy o-must-gather extented tools.."
 cp -v $MY_PATH/tools/omc-init $DESTINATION
+
+echo
+echo "Copy oc-package tool.."
+cp -v $MY_PATH/sbr-coreos/oc-package $DESTINATION
