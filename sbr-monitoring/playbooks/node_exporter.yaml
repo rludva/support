@@ -7,7 +7,7 @@
   vars:
     # https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
     url: "https://github.com/prometheus/node_exporter/releases/download"
-    version: "1.3.1"
+    version: "1.9.1"
     application: "node_exporter"
     architecture: "linux-amd64"
 
@@ -52,12 +52,18 @@
         src: "{{ (playbook_dir + '/../root/etc/systemd/system/' + application + '.service.j2') | realpath }}"
         dest: /etc/systemd/system/{{application}}.service
 
-    - name: "Start and enable service for {{application}}.."
+    - name: "Stop service {{ application }}"
       service:
-        name: "{{application}}"
-        enabled: yes
-        state: reloaded
+        name: "{{ application }}"
+        state: stopped
+      ignore_errors: yes
 
+    - name: "Start and enable service {{ application }}"
+      service:
+        name: "{{ application }}"
+        state: started
+        enabled: yes
+        
     - name: "Add firewall exception for {{application}} port: {{port}}/tcp.."
       firewalld:
         port: "{{port}}/tcp"
