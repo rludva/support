@@ -57,12 +57,12 @@
 
     - name: "Create the configuration file for {{application}}.."
       template:
-        src: "./root/etc/prometheus/prometheus.yml.j2"
+        src: "{{ (playbook_dir + '/../root/etc/prometheus/prometheus.yml.j2') | realpath }}"
         dest: "/etc/prometheus/prometheus.yml"
 
     - name: "Create systemd service file for {{application}}.."
       template:
-        src: ./root/etc/systemd/system/{{application}}.service.j2
+        src: "{{ (playbook_dir + '/../root/etc/systemd/system/' + application + '.service.j2') | realpath }}"
         dest: /etc/systemd/system/{{application}}.service
 
     - name: Reload systemd..
