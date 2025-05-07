@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Namespace (změň nebo nech prázdné pro default)
+# Namespace (by default openshift-logging)
 NAMESPACE="openshift-logging"
 LABEL="app.kubernetes.io/name=vector"
 
-# Výstupní adresář
+# Output files..
 export OUTPUT="/tmp/vector-logs.log"
 if [ -f "$OUTPUT" ]; then
     rm -f "$OUTPUT"
@@ -17,6 +17,13 @@ if [ -f "$OUTPUT_ERRORS" ]; then
 fi
 touch $OUTPUT_ERRORS
 
+export OUTPUT_WATCHER="/tmp/vector-logs-watcher.log"
+if [ -f "$OUTPUT_WATCHER" ]; then
+    rm -f "$OUTPUT_WATCHER"
+fi
+touch $OUTPUT_WATCHER
+
+
 function output() {
   text="$1"
 	param="$2"
@@ -26,11 +33,14 @@ function output() {
 		echo "$text" >> $OUTPUT_ERRORS
   fi
   if echo "$text" | grep -iq "ERROR"; then
-    echo "$text" >> $OUTPUT_ERRORS
+    echo "$text" >> $OUTPUT_ERROR
+  fi
+  if echo "$text" | grep -iq "Watcher"; then
+    echo "$text" >> $OUTPUT_WATCHER
   fi
 }
 
-# Získání seznamu podů obsahujících "v"
+# Get list of all vector pods in the namespace..
 pods=$(omc get pods -n $NAMESPACE -l $LABEL -o name)
 		
 # Basic information output..		
@@ -44,7 +54,7 @@ lines=$(omc get pods -n $NAMESPACE -l $LABEL)
 output "$lines" "header"
 output "" "header"
 
-# Výpis logů do souborů
+# Process the output..
 for pod in $pods; do 
   echo "reading logs from $pod"
     output "Logs from: $pod" "header"
@@ -52,10 +62,9 @@ for pod in $pods; do
 
 		omc logs -n "$NAMESPACE" "$pod" >> $OUTPUT
 		omc logs -n "$NAMESPACE" "$pod" | grep -i "error" >> $OUTPUT_ERRORS
+		omc logs -n "$NAMESPACE" "$pod" | grep -i "Watcher" >> $OUTPUT_WATCHER
 
 		output "" "header"
 		output "" "header"
 		output "" "header"
 done
-
-lnav "$OUTPUT"
