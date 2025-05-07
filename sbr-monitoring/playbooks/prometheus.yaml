@@ -7,7 +7,8 @@
   vars:
     # https://github.com/prometheus/prometheus/releases/download/v2.32.1/
     url: "https://github.com/prometheus/prometheus/releases/download"
-    version: "2.43.0"
+    #version: "2.43.0"
+    version: "3.3.1"
     application: "prometheus"
     architecture: "linux-amd64"
 
@@ -68,6 +69,12 @@
     - name: Reload systemd..
       ansible.builtin.systemd:
         daemon_reload: yes
+
+    - name: "Stop {{ application }} if running.."
+      service:
+        name: "{{ application }}"
+        state: stopped
+      ignore_errors: yes
 
     - name: "Start and enable service for {{application}}.."
       service:
