@@ -1,0 +1,83 @@
+---
+- name: "Install Grafana.."
+  hosts:
+    - localhost
+  become: true
+  vars:
+    url: "https://dl.grafana.com/enterprise/release/{{application}}-{{version}}.{{architecture}}.tar.gz"
+    version: "12.0.0"
+    application: "grafana-enterprise"
+    architecture: "linux-amd64"
+
+    hostname: "localhost"
+    port: "3000"
+    description: "Grafana"
+    mapplication: "grafana"
+    user: "grafana"
+    group: "grafana"
+    application_folder: "/opt/{{mapplication}}"
+
+  tasks:
+    - name: "Create {{user}} user.."
+      user:
+        name: "{{user}}"
+        create_home: false
+        shell: /usr/bin/false
+
+    - name: "Download {{application}} binaries.."
+      get_url:
+        url: "{{url}}"
+        dest: "/tmp/{{application}}-{{version}}.{{architecture}}.tar.gz"
+
+    - name: "Delete the local application folder if it exists.."
+      file:
+        path: "{{application_folder}}"
+        state: absent
+
+    - name: "Create /opt/{{application}} folder.."
+      file:
+        name: "{{application_folder}}"
+        state: directory
+
+    - name: "Extract {{application}} archive.."
+      ansible.builtin.unarchive:
+        src: "/tmp/{{application}}-{{version}}.{{architecture}}.tar.gz"
+        dest: "{{application_folder}}"
+        extra_opts: [--strip-components=1]
+
+    - name: "Change owner and group of {{ application_folder }} to {{ user }}:{{ group }}.."
+      ansible.builtin.file:
+        path: "{{ application_folder }}"
+        owner: "{{ user }}"
+        group: "{{ group }}"
+        recurse: true       
+
+    - name: "Create systemd service file for {{application}}.."
+      template:
+        src: "{{ (playbook_dir + '/../root/etc/systemd/system/' + application + '.service.j2') | realpath }}"
+        dest: /etc/systemd/system/{{application}}.service
+
+    - name: Reload systemd..
+      ansible.builtin.systemd:
+        daemon_reload: yes
+
+    - name: "Add firewall exception for {{application}} port: {{port}}/tcp.."
+      firewalld:
+        port: "{{port}}/tcp"
+        immediate: yes
+        permanent: true
+        state: enabled
+
+    - name: "Start and enable service for {{application}}.."
+      service:
+        name: "{{application}}"
+        enabled: yes
+        state: started
+
+    - name: "Collect  facts about the current status of the {{application}} system services.."
+      service_facts:
+      register: services_state
+
+    - name: "Debug: print service_state.."
+      debug:
+        var: services_state.service["{{application}}"]
