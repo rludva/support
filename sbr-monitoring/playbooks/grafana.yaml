@@ -35,7 +35,7 @@
         path: "{{application_folder}}"
         state: absent
 
-    - name: "Create /opt/{{application}} folder.."
+    - name: "Create {{application_folder}} folder.."
       file:
         name: "{{application_folder}}"
         state: directory
