@@ -8,6 +8,7 @@
     url: "https://github.com/prometheus/alertmanager/releases/download"
     version: "0.25.0"
     application: "alertmanager"
+    application_service: "{{ application }}.service"
     architecture: "linux-amd64"
 
     hostname: "localhost"
@@ -109,16 +110,17 @@
         path: "/tmp/{{application}}-{{version}}.{{architecture}}"
         state: absent
 
-    # Finish the installation with useful information..
-    - name: "Collect the facts about the current status of the {{application}} system service.."
-      ansible.builtin.systemd:
-        name: "{{application}}"
-      register: services_state
+    - name: "Check if {{ application_service }} is running"
+      shell: "systemctl is-active {{ application_service }}"
+      register: application_service_status
+      changed_when: false
+      failed_when: false
 
-    - name: "Print information about the {{application}} service.."
+    - name: "Debug service status"
       debug:
-        msg: "The {{application}} service is {{services_state.status.ActiveState}}."
+        msg: "Service {{ application_service }} is in state: {{ application_service_status.stdout }}"
 
-    - name: "Print information about the user-interface address.."
-      debug:
-        msg: "The {{application}} user-interface is available at http://{{hostname}}:{{port}}."
+    - name: "Fail if {{ application_service }} is not running"
+      fail:
+        msg: "Service {{ application_service }} is not running!"
+      when: application_service_status.stdout != "active"

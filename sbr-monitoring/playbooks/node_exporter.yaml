@@ -9,6 +9,7 @@
     url: "https://github.com/prometheus/node_exporter/releases/download"
     version: "1.9.1"
     application: "node_exporter"
+    application_service: "{{ application }}.service"
     architecture: "linux-amd64"
 
     port: "9100"
@@ -47,6 +48,13 @@
 #        name: "{{application}}"
 #        state: stopped
 
+    - name: "Add firewall exception for {{application}} port: {{port}}/tcp.."
+      firewalld:
+        port: "{{port}}/tcp"
+        immediate: yes
+        permanent: true
+        state: enabled
+
     - name: "Create systemd service file for {{application}}.."
       template:
         src: "{{ (playbook_dir + '/../root/etc/systemd/system/' + application + '.service.j2') | realpath }}"
@@ -64,12 +72,20 @@
         state: started
         enabled: yes
         
-    - name: "Add firewall exception for {{application}} port: {{port}}/tcp.."
-      firewalld:
-        port: "{{port}}/tcp"
-        immediate: yes
-        permanent: true
-        state: enabled
+    - name: "Check if {{ application_service }} is running"
+      shell: "systemctl is-active {{ application_service }}"
+      register: application_service_status
+      changed_when: false
+      failed_when: false
+
+    - name: "Debug service status"
+      debug:
+        msg: "Service {{ application_service }} is in state: {{ application_service_status.stdout }}"
+
+    - name: "Fail if {{ application_service }} is not running"
+      fail:
+        msg: "Service {{ application_service }} is not running!"
+      when: application_service_status.stdout != "active"
 
     - name: "Print additional configuration that must be added to prometheus.conf.."
       ansible.builtin.debug:

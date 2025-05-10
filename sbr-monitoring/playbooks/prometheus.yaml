@@ -10,6 +10,7 @@
     #version: "2.43.0"
     version: "3.3.1"
     application: "prometheus"
+    application_service: "{{ application }}.service"
     architecture: "linux-amd64"
 
     hostname: "localhost"
@@ -61,6 +62,13 @@
         src: "{{ (playbook_dir + '/../root/etc/prometheus/prometheus.yml.j2') | realpath }}"
         dest: "/etc/prometheus/prometheus.yml"
 
+    - name: "Add firewall exception for {{application}} port: {{port}}/tcp.."
+      firewalld:
+        port: "{{port}}/tcp"
+        immediate: yes
+        permanent: true
+        state: enabled
+
     - name: "Create systemd service file for {{application}}.."
       template:
         src: "{{ (playbook_dir + '/../root/etc/systemd/system/' + application + '.service.j2') | realpath }}"
@@ -82,17 +90,17 @@
         enabled: yes
         state: started
 
-    - name: "Add firewall exception for {{application}} port: {{port}}/tcp.."
-      firewalld:
-        port: "{{port}}/tcp"
-        immediate: yes
-        permanent: true
-        state: enabled
+    - name: "Check if {{ application_service }} is running"
+      shell: "systemctl is-active {{ application_service }}"
+      register: application_service_status
+      changed_when: false
+      failed_when: false
 
-    - name: "Collect  facts about the current status of the {{application}} system services.."
-      service_facts:
-      register: services_state
-
-    - name: "Debug: print service_state.."
+    - name: "Debug service status"
       debug:
-        var: services_state.service["{{application}}"]
+        msg: "Service {{ application_service }} is in state: {{ application_service_status.stdout }}"
+
+    - name: "Fail if {{ application_service }} is not running"
+      fail:
+        msg: "Service {{ application_service }} is not running!"
+      when: application_service_status.stdout != "active"
