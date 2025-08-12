@@ -18,21 +18,20 @@ process_certificate() {
   echo "TMP_FOLDER: $TMP_FOLDER"
   
   
-	# Retrieve the certificate from the bastion host..
+  # Retrieve the certificate from the bastion host..
   ssh $MANAGEMENT_ACCOUNT@$BASTION_HOST "sudo bash -c '
     cd /etc/letsencrypt/live/$DOMAIN
     scp *.pem $MANAGEMENT_ACCOUNT@$PROCESS_HOST:$TMP_FOLDER
   '"
   ls -l "$TMP_FOLDER"
-  
 
   # Delete the secret if it exists..
-  oc get secret "$SECRET_NAME" -n "$NAMESPACE" >/dev/null 2>&1 || {
-    oc delete secret "$SECRET_NAME" -n "$NAMESPACE" --ignore-not-found || {
+  if oc get secret "$SECRET_NAME" -n "$NAMESPACE" >/dev/null 2>&1; then 
+    if ! oc delete secret "$SECRET_NAME" -n "$NAMESPACE" --ignore-not-found; then
       echo "Error: failed to delete secret $SECRET_NAME"
       exit 1
-		}
-  }
+		fi
+  fi
 
 	# Print the certificate details..
   openssl x509 -in "$TMP_FOLDER/cert.pem" -text -noout -dates
@@ -43,6 +42,7 @@ process_certificate() {
 	# Remove the temporary folder..
   rm -rf "$TMP_FOLDER"
 }
+
 
 #
 # Process certificates for different clusters..
