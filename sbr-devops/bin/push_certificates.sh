@@ -29,8 +29,9 @@ process_certificate() {
   # Delete the secret if it exists..
   oc get secret "$SECRET_NAME" -n "$NAMESPACE" >/dev/null 2>&1 || {
     oc delete secret "$SECRET_NAME" -n "$NAMESPACE" --ignore-not-found || {
-    echo "Error: failed to delete secret $SECRET_NAME"
-    exit 1
+      echo "Error: failed to delete secret $SECRET_NAME"
+      exit 1
+		}
   }
 
 	# Print the certificate details..
