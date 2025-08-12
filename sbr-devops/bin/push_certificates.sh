@@ -12,12 +12,12 @@ process_certificate() {
   SECRET_NAME="$1"
   DOMAIN="$2"
   NAMESPACE="$3"
-  
+
   echo "Processing certificate: $SECRET_NAME"
   TMP_FOLDER=$(mktemp -d /tmp/certs_XXXXXX)
   echo "TMP_FOLDER: $TMP_FOLDER"
-  
-  
+
+
   # Retrieve the certificate from the bastion host..
   ssh $MANAGEMENT_ACCOUNT@$BASTION_HOST "sudo bash -c '
     cd /etc/letsencrypt/live/$DOMAIN
@@ -30,16 +30,16 @@ process_certificate() {
     if ! oc delete secret "$SECRET_NAME" -n "$NAMESPACE" --ignore-not-found; then
       echo "Error: failed to delete secret $SECRET_NAME"
       exit 1
-		fi
+    fi
   fi
 
-	# Print the certificate details..
+  # Print the certificate details..
   openssl x509 -in "$TMP_FOLDER/cert.pem" -text -noout -dates
 
-	# Create the secret with the new certificate..
+  # Create the secret with the new certificate..
   oc create secret tls $SECRET_NAME --cert="$TMP_FOLDER/fullchain.pem" --key="$TMP_FOLDER/privkey.pem" -n $NAMESPACE
-  
-	# Remove the temporary folder..
+
+  # Remove the temporary folder..
   rm -rf "$TMP_FOLDER"
 }
 
