@@ -7,7 +7,7 @@ MANAGEMENT_ACCOUNT="$USER"
 BASTION_HOST="bastion.example.com"
 PROCESS_HOST="$HOSTNAME"
 
-# 1. console-tls
+# Function to process a certificate and update the OpenShift secret..
 process_certificate() {
   SECRET_NAME="$1"
   DOMAIN="$2"
@@ -15,34 +15,31 @@ process_certificate() {
   
   echo "Processing certificate: $SECRET_NAME"
   TMP_FOLDER=$(mktemp -d /tmp/certs_XXXXXX)
-  
   echo "TMP_FOLDER: $TMP_FOLDER"
   
   
+	# Retrieve the certificate from the bastion host..
   ssh $MANAGEMENT_ACCOUNT@$BASTION_HOST "sudo bash -c '
     cd /etc/letsencrypt/live/$DOMAIN
     scp *.pem $MANAGEMENT_ACCOUNT@$PROCESS_HOST:$TMP_FOLDER
   '"
-  
   ls -l "$TMP_FOLDER"
   
 
-  # Pokud secret neexistuje, rovnou skončíme (vrátíme 0 a pokračujeme)
+  # Delete the secret if it exists..
   oc get secret "$SECRET_NAME" -n "$NAMESPACE" >/dev/null 2>&1 || {
-    echo "Secret $SECRET_NAME not found, skipping delete."
-    exit 1
-  }  
-
-  # Pokud delete selže, ukončíme skript s chybou
-  oc delete secret "$SECRET_NAME" -n "$NAMESPACE" --ignore-not-found || {
+    oc delete secret "$SECRET_NAME" -n "$NAMESPACE" --ignore-not-found || {
     echo "Error: failed to delete secret $SECRET_NAME"
     exit 1
   }
 
+	# Print the certificate details..
   openssl x509 -in "$TMP_FOLDER/cert.pem" -text -noout -dates
 
+	# Create the secret with the new certificate..
   oc create secret tls $SECRET_NAME --cert="$TMP_FOLDER/fullchain.pem" --key="$TMP_FOLDER/privkey.pem" -n $NAMESPACE
   
+	# Remove the temporary folder..
   rm -rf "$TMP_FOLDER"
 }
 
