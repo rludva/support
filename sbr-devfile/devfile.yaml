@@ -1,0 +1,51 @@
+schemaVersion: 2.2.0
+metadata:
+  name: python-example
+  version: 1.0.0
+
+components:
+  - name: runtime
+    container:
+      # Základní Docker image s Pythonem (např. verze 3.10)
+      image: registry.access.redhat.com/ubi8/python-39:latest
+      # Nastavení pracovního adresáře v kontejneru
+      mountSources: true
+      # Přiřazení portu (standardní pro webové aplikace v Pythonu, např. Django/Flask)
+      endpoints:
+        - name: http-server
+          targetPort: 8080
+          exposure: public
+
+  - name: python-tools
+    container:
+      image: registry.access.redhat.com/ubi8/python-39:latest
+      # Případné další nástroje, které byste mohli potřebovat (např. lintery, debuggery)
+      memoryLimit: 512Mi
+
+commands:
+  - id: install-dependencies
+    exec:
+      component: runtime
+      # Příkaz pro instalaci závislostí z requirements.txt
+      commandLine: pip install -r requirements.txt
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: build
+        is
+  - id: run-app
+    exec:
+      component: runtime
+      # Příkaz pro spuštění aplikace (nahraďte 'app.py' za skutečný spouštěcí soubor)
+      commandLine: python app.py
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: run
+        isDefault: true # Nastaveno jako výchozí příkaz pro spuštění
+  - id: test-app
+    exec:
+      component: runtime
+      # Příkaz pro spuštění testů (předpokládá se použití pytest)
+      commandLine: pytest
+      workingDir: ${PROJECT_SOURCE}
+      group:
+        kind: test
