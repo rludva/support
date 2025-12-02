@@ -1,0 +1,110 @@
+# --- BASIC SETUP ---
+# Use text installation mode (no graphics)
+text
+# Install from CD-ROM (virtual drive)
+cdrom
+
+# Language and keyboard
+lang en_US.UTF-8
+keyboard cz-qwerty
+timezone Europe/Prague --utc
+
+# --- NETWORKING ---
+# Set hostname and enable network via DHCP
+network --bootproto=dhcp --device=link --hostname=ldap.local.nutius.com --activate
+
+# --- SECURITY ---
+# Password for root (here "mypassword" is shown as plaintext for illustration)
+# In practice, a hash is used, but plaintext is enough for the first test
+rootpw --iscrypted {{ROOT_PASSWORD_HASH}}
+
+# 2. Create group {{GROUP_NAME}} with GID {{GROUP_ID}}
+group --name={{GROUP_NAME}} --gid={{GROUP_ID}}
+
+# 3. Create user {{USER_NAME}} with UID {{USER_ID}} and GID {{GROUP_ID}}
+# --gid={{GROUP_ID}}  : The main group must already exist!
+# --groups=wheel      : Add user to the wheel group for sudo access.
+user --name={{USER_NAME}} --uid={{USER_ID}} --gid={{GROUP_ID}} --groups=wheel --password={{USER_PASSWORD_HASH}} --iscrypted
+
+# Enable firewall and open SSH
+firewall --enabled --service=ssh
+selinux --enforcing
+
+# --- DISK ---
+# Clear all partitions on the VM disk and create new ones automatically
+bootloader --location=mbr
+zerombr
+clearpart --all --initlabel
+autopart --type=lvm
+
+# --- PACKAGES ---
+%packages
+# Core system
+@core
+
+# Virtualization (to allow the host to see the IP address)
+qemu-guest-agent
+
+# System Tools (the System Tools group from the menu)
+@system-tools
+
+# The LDAP server and tools itself
+389-ds-base
+389-ds-base-snmp
+
+# Web administration (Cockpit) + plugin for 389-ds
+cockpit
+#This package is not available in RHEL10?
+#cockpit-389-ds
+
+# Useful utilities
+tar
+bzip2
+bash-completion
+vim-enhanced
+mc
+%end
+
+# --- POST INSTALLATION ---
+# Enable services after startup
+%post
+
+# 01. NOPASSWD for user {{USER_NAME}} ---
+# Create a sudoers drop-in file
+cat << 'EOF' > /etc/sudoers.d/{{USER_NAME}}-nopasswd
+{{USER_NAME}} ALL=(ALL) NOPASSWD: ALL
+EOF
+
+# 02. Set up SSH key for {{USER_NAME}} ---
+mkdir -p /home/{{USER_NAME}}/.ssh
+chown {{USER_NAME}}:{{GROUP_NAME}} /home/{{USER_NAME}}/.ssh
+chmod 700 /home/{{USER_NAME}}/.ssh
+
+echo "{{AUTHORIZED_SSH_KEYS_B64}}" | base64 -d > /home/{{USER_NAME}}/.ssh/authorized_keys
+chown {{USER_NAME}}:{{GROUP_NAME}} /home/{{USER_NAME}}/.ssh/authorized_keys
+chmod 600 /home/{{USER_NAME}}/.ssh/authorized_keys
+
+systemctl enable qemu-guest-agent
+systemctl enable cockpit.socket
+
+
+#
+# SSH Keys!!!
+#
+
+# 1. ECDSA host key
+echo "{{SSH_HOST_ECDSA_PRIVATE_B64}}" | base64 -d > /etc/ssh/ssh_host_ecdsa_key
+echo "{{SSH_HOST_ECDSA_PUBLIC_B64}}" | base64 -d > /etc/ssh/ssh_host_ecdsa_key.pub
+
+chmod 600 /etc/ssh/ssh_host_ecdsa_key
+chown root:root /etc/ssh/ssh_host_ecdsa_key
+chmod 644 /etc/ssh/ssh_host_ecdsa_key.pub
+chown root:root /etc/ssh/ssh_host_ecdsa_key.pub
+
+# 2. ED25519 host key
+echo "{{SSH_HOST_ED25519_PRIVATE_B64}}" | base64 -d > /etc/ssh/ssh_host_ed25519_key
+echo "{{SSH_HOST_ED25519_PUBLIC_B64}}" | base64 -d > /etc/ssh/ssh_host_ed25519_key.pub
+
+chmod 600 /etc/ssh/ssh_host_ed25519_key
+chown root:root /etc/ssh/ssh_host_ed25519_key
+chmod 644 /etc/ssh/ssh_host_ed25519_key.
