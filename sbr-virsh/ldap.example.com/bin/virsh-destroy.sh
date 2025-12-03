@@ -13,8 +13,11 @@ SCRIPT_PATH="$(realpath "$0")"
 # 2. Get the folder path from the script path..
 SCRIPT_FOLDER="$(dirname "$SCRIPT_PATH")"
 
-# 3. Get the folder name from the script folder path..
-FOLDER_NAME="$(basename "$SCRIPT_FOLDER")"
+# 3. Get the parent folder of SCRIPT_FOLDER
+PARENT_FOLDER="$(dirname "$SCRIPT_FOLDER")"
+
+# 4. Get only the last component (folder name)
+FOLDER_NAME="$(basename "$PARENT_FOLDER")"
 
 # Name of the VM to be created..
 VM_NAME="$FOLDER_NAME"

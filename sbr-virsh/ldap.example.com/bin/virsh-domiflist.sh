@@ -13,10 +13,15 @@ SCRIPT_PATH="$(realpath "$0")"
 # 2. Získá adresář, ve kterém je skript umístěn
 SCRIPT_FOLDER="$(dirname "$SCRIPT_PATH")"
 
-# 3. Získá pouze název (poslední segment) adresáře
-FOLDER_NAME="$(basename "$SCRIPT_FOLDER")"
+# 3. Get the parent folder of SCRIPT_FOLDER
+PARENT_FOLDER="$(dirname "$SCRIPT_FOLDER")"
 
-# Název virtuálního stroje (VM)
+# 4. Get only the last component (folder name)
+FOLDER_NAME="$(basename "$PARENT_FOLDER")"
+
+# Name of the VM to be created..
 VM_NAME="$FOLDER_NAME"
 
+
+echo "\$ sudo virsh domiflist $VM_NAME"
 sudo virsh domiflist $VM_NAME

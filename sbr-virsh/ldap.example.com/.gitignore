@@ -1,0 +1,8 @@
+anaconda-ks.cfg
+authorized_keys
+ssh_host_ecdsa_key.b64
+ssh_host_ecdsa_key.pub.b64
+ssh_host_ed25519_key.b64
+ssh_host_ed25519_key.pub.b64
+ssh_host_rsa_key.b64
+ssh_host_rsa_key.pub.b64
