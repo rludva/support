@@ -14,11 +14,8 @@ if [[ ! -d "$HOSTDIR" ]]; then
 fi
 
 # Remove the registration from subscription-manager inside the VM..
-echo "Execution of unregister and clean for $VM_NME.."
-ssh $USER@$VM_NAME "sudo subscription-manager unregister && sudo subscription-manager clean"
-
-# Make it possible to break the script..
-source $SCRIPT_FOLDER/wait.sh
+echo "Execution of unregister and clean for $VM_NAME.."
+ssh $USER@$VM_NAME "sudo subscription-manager unregister && sudo subscription-manager clean" || true
 
 # Destroy and undefine the VM..
 sudo virsh destroy $VM_NAME

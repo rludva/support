@@ -6,7 +6,6 @@ VM_NAME="${1:?Usage: $0 <hostname>}"
 
 BASEDIR="$(cd "$(dirname "$0")/.." && pwd)"
 HOSTDIR="$BASEDIR/hosts/$VM_NAME"
-RESOURCES_DIR="$HOSTDIR"
 
 if [[ ! -d "$HOSTDIR" ]]; then
     echo "Host directory not found: $HOSTDIR"
@@ -36,5 +35,5 @@ sudo virt-install \
   --console pty,target_type=serial \
   --disk path=$IMAGE_FILE,device=cdrom,readonly=on \
   --extra-args 'console=ttyS0,115200n8 inst.text inst.repo=cdrom inst.ks=file:/anaconda-ks.cfg' \
-  --initrd-inject=anaconda-ks.cfg \
+  --initrd-inject=$HOSTDIR/anaconda-ks.cfg \
   --autostart
