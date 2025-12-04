@@ -1,13 +1,17 @@
 #!/bin/bash
-# Script will generate anaconda-ks.cfg
+set -euo pipefail
 
-SCRIPT_PATH="$(realpath "$0")"
-SCRIPT_FOLDER="$(dirname "$SCRIPT_PATH")"
-PARENT_FOLDER="$(dirname "$SCRIPT_FOLDER")"
-FOLDER_NAME="$(basename "$PARENT_FOLDER")"
-VM_NAME="$FOLDER_NAME"
+#
+VM_NAME="${1:?Usage: $0 <hostname>}"
 
-RESOURCES_DIR="$SCRIPT_FOLDER/.."
+BASEDIR="$(cd "$(dirname "$0")/.." && pwd)"
+HOSTDIR="$BASEDIR/hosts/$VM_NAME"
+RESOURCES_DIR="$HOSTDIR"
+
+if [[ ! -d "$HOSTDIR" ]]; then
+    echo "Host directory not found: $HOSTDIR"
+    exit 1
+fi
 
 # 1. Type the root password..
 read -s -p "Type root password: " ROOT_PASSWORD
@@ -34,6 +38,8 @@ GROUP_ID=${USER_ID:-1000}
 # 4. Generating SSH Keys..
 
 # 4.1 ECDSA
+SSH_HOST_ECDSA_PRIVATE_B64=""
+SSH_HOST_ECDSA_PUBLIC_B64=""
 if [ -f "$RESOURCES_DIR/ssh_host_ecdsa_key.b64" ]; then
   echo " -> Existing ECDSA host key found, reusing it."
   SSH_HOST_ECDSA_PRIVATE_B64=$(cat "$RESOURCES_DIR/ssh_host_ecdsa_key.b64")
@@ -51,6 +57,8 @@ if [ -z "$SSH_HOST_ECDSA_PRIVATE_B64" ] || [ -z "$SSH_HOST_ECDSA_PUBLIC_B64" ]; 
 fi
 
 # 4.2 ED25519
+SSH_HOST_ED25519_PRIVATE_B64=""
+SSH_HOST_ED25519_PUBLIC_B64=""
 if [ -f "$RESOURCES_DIR/ssh_host_ed25519_key.b64" ]; then
   echo " -> Existing ED25519 host key found, reusing it."
   SSH_HOST_ED25519_PRIVATE_B64=$(cat "$RESOURCES_DIR/ssh_host_ed25519_key.b64")
@@ -69,6 +77,8 @@ fi
 
 
 # 4.3 RSA
+SSH_HOST_RSA_PRIVATE_B64=""
+SSH_HOST_RSA_PUBLIC_B64=""
 if [ -f "$RESOURCES_DIR/ssh_host_rsa_key.b64" ]; then
   echo " -> Existing RSA host key found, reusing it."
   SSH_HOST_RSA_PRIVATE_B64=$(cat "$RESOURCES_DIR/ssh_host_rsa_key.b64")
@@ -89,6 +99,7 @@ fi
 
 # 5.1 Organization
 ORGANIZATION_FILE="/var/passwd/redhat/organization"
+ORGANIZATION=""
 if [ -f "$ORGANIZATION_FILE" ]; then
   ORGANIZATION=$(cat "$ORGANIZATION_FILE" | base64 -d | tr -d '[:space:]')
   echo " -> Organization ID got from $ORGANIZATION_FILE"
@@ -101,6 +112,7 @@ fi
 
 # 5.2 Activation Key
 ACTIVATION_KEY_FILE="/var/passwd/redhat/activation_key"
+ACTIVATION_KEY=""
 if [ -f "$ACTIVATION_KEY_FILE" ]; then
   ACTIVATION_KEY=$(cat "$ACTIVATION_KEY_FILE" | base64 -d | tr -d '[:space:]')
   echo " -> Activation Key got from $ACTIVATION_KEY_FILE"
@@ -112,6 +124,7 @@ fi
 
 # 6. Generate authorized_keys..
 AUTHORIZED_SSH_KEYS_FILE="$RESOURCES_DIR/authorized_keys"
+AUTHORIZED_SSH_KEYS=""
 if [ -f "$AUTHORIZED_SSH_KEYS_FILE" ]; then
   AUTHORIZED_SSH_KEYS=$(cat "$AUTHORIZED_SSH_KEYS_FILE")
   echo " -> Authorized keys got from $AUTHORIZED_SSH_KEYS_FILE"

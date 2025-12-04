@@ -1,26 +1,17 @@
 #!/bin/bash
+set -euo pipefail
 
-# Example of values:
-# ------------------
-# SCRIPT_PATH=/var/virsh/bastion.local.nutius.com/virsh-ipaddress.sh
-# SCRIPT_FOLDER=/var/virsh/bastion.local.nutius.com
-# FOLDER_NAME=bastion.local.nutius.com
+#
+VM_NAME="${1:?Usage: $0 <hostname>}"
 
+BASEDIR="$(cd "$(dirname "$0")/.." && pwd)"
+HOSTDIR="$BASEDIR/hosts/$VM_NAME"
+RESOURCES_DIR="$HOSTDIR"
 
-# 1. Get the full path of the script..
-SCRIPT_PATH="$(realpath "$0")"
-
-# 2. Get the folder path from the script path..
-SCRIPT_FOLDER="$(dirname "$SCRIPT_PATH")"
-
-# 3. Get the parent folder of SCRIPT_FOLDER
-PARENT_FOLDER="$(dirname "$SCRIPT_FOLDER")"
-
-# 4. Get only the last component (folder name)
-FOLDER_NAME="$(basename "$PARENT_FOLDER")"
-
-# Name of the VM to be created..
-VM_NAME="$FOLDER_NAME"
+if [[ ! -d "$HOSTDIR" ]]; then
+    echo "Host directory not found: $HOSTDIR"
+    exit 1
+fi
 
 
 # Confuration parameters..
@@ -28,7 +19,7 @@ CPU_COUNT="2"
 RAM="2048"
 DISK_SIZE="20"
 MAC_ADDRESS="52:54:00:a1:b2:c3"
-NETWORK="default"
+NETWORK="br0-network"
 IMAGE_FILE="/var/lib/libvirt/images/iso/rhel-10.0-x86_64-dvd.iso"
 OS_VARIANT="rhel10.0"
 
