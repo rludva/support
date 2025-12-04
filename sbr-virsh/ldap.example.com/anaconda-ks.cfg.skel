@@ -11,7 +11,7 @@ timezone Europe/Prague --utc
 
 # --- NETWORKING ---
 # Set hostname and enable network via DHCP
-network --bootproto=dhcp --device=link --hostname=ldap.local.nutius.com --activate
+network --bootproto=dhcp --device=link --hostname={{VM_NAME}} --activate
 
 # --- SECURITY ---
 # Password for root (here "mypassword" is shown as plaintext for illustration)
@@ -108,3 +108,7 @@ echo "{{SSH_HOST_ED25519_PUBLIC_B64}}" | base64 -d > /etc/ssh/ssh_host_ed25519_k
 chmod 600 /etc/ssh/ssh_host_ed25519_key
 chown root:root /etc/ssh/ssh_host_ed25519_key
 chmod 644 /etc/ssh/ssh_host_ed25519_key.
+
+%end
+
+reboot

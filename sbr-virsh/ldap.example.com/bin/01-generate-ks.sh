@@ -1,8 +1,13 @@
 #!/bin/bash
 # Script will generate anaconda-ks.cfg
 
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-RESOURCES_DIR="$SCRIPT_DIR/.."
+SCRIPT_PATH="$(realpath "$0")"
+SCRIPT_FOLDER="$(dirname "$SCRIPT_PATH")"
+PARENT_FOLDER="$(dirname "$SCRIPT_FOLDER")"
+FOLDER_NAME="$(basename "$PARENT_FOLDER")"
+VM_NAME="$FOLDER_NAME"
+
+RESOURCES_DIR="$SCRIPT_FOLDER/.."
 
 # 1. Type the root password..
 read -s -p "Type root password: " ROOT_PASSWORD
@@ -134,7 +139,7 @@ sed -e "s|{{ROOT_PASSWORD_HASH}}|$ROOT_PASSWORD_HASH|g" \
     -e "s|{{GROUP_NAME}}|$GROUP_NAME|g" \
     -e "s|{{USER_ID}}|$USER_ID|g" \
     -e "s|{{GROUP_ID}}|$GROUP_ID|g" \
-    -e "s|{{AUTHORIZED_SSH_KEYS_B64}}|$AUTHORIZED_SSH_KEYS|g" \
+    -e "s|{{AUTHORIZED_SSH_KEYS_B64}}|$AUTHORIZED_SSH_KEYS_B64|g" \
     -e "s|{{SSH_HOST_ECDSA_PRIVATE_B64}}|$SSH_HOST_ECDSA_PRIVATE_B64|g" \
     -e "s|{{SSH_HOST_ECDSA_PUBLIC_B64}}|$SSH_HOST_ECDSA_PUBLIC_B64|g" \
     -e "s|{{SSH_HOST_ED25519_PRIVATE_B64}}|$SSH_HOST_ED25519_PRIVATE_B64|g" \
@@ -143,4 +148,5 @@ sed -e "s|{{ROOT_PASSWORD_HASH}}|$ROOT_PASSWORD_HASH|g" \
     -e "s|{{SSH_HOST_RSA_PUBLIC_B64}}|$SSH_HOST_RSA_PUBLIC_B64|g" \
     -e "s|{{ORGANIZATION}}|$ORGANIZATION|g" \
     -e "s|{{ACTIVATION_KEY}}|$ACTIVATION_KEY|g" \
+    -e "s|{{VM_NAME}}|$VM_NAME|g" \
   "$RESOURCES_DIR/anaconda-ks.cfg.skel" > "$RESOURCES_DIR/anaconda-ks.cfg"
