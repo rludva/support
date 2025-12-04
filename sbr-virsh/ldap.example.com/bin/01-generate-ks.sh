@@ -118,11 +118,11 @@ if [ -f "$AUTHORIZED_SSH_KEYS_FILE" ]; then
 fi
 
 if [ -z "$AUTHORIZED_SSH_KEYS" ]; then
-  echo "You can add SSH public keys to be added to the user's authorized_keys file."
+  echo "Typ authorized_keys.."
   echo "Enter each key followed by [ENTER]. When done, just press [ENTER] on an empty line."
   AUTHORIZED_SSH_KEYS=""
   while true; do
-    read -p "SSH Public Key: " SSH_KEY
+    read -p "SSH Authorized Key: " SSH_KEY
     if [ -z "$SSH_KEY" ]; then
       break
     fi
