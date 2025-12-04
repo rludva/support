@@ -114,7 +114,20 @@ chown root:root /etc/ssh/ssh_host_ed25519_key
 chmod 644 /etc/ssh/ssh_host_ed25519_key.pub
 chown root:root /etc/ssh/ssh_host_ed25519_key.pub
 
+#
+# Installation of tangd.service..
+#
+dnf install tang -y
+systemctl enable --now tangd.socket
+firewall-cmd --add-service=http --permanent
+firewall-cmd --reload
+systemctl status tangd.socket
+
+#
+# Data restore is processed outside of this script via SSH!
+#
 
 %end
+# --- END OF POST INSTALLATION ---
 
 reboot
