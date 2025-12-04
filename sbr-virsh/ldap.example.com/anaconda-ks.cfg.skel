@@ -30,6 +30,10 @@ user --name={{USER_NAME}} --uid={{USER_ID}} --gid={{GROUP_ID}} --groups=wheel --
 firewall --enabled --service=ssh
 selinux --enforcing
 
+# 🔐 Registration..
+rhsm --organization={{ORGANIZATION}} --activationkey={{ACTIVATION_KEY}}
+
+
 # --- DISK ---
 # Clear all partitions on the VM disk and create new ones automatically
 bootloader --location=mbr
