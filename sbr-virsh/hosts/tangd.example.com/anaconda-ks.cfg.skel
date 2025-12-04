@@ -117,7 +117,8 @@ chown root:root /etc/ssh/ssh_host_ed25519_key.pub
 #
 # Installation of tangd.service..
 #
-dnf install tang -y
+dnf install -y tang
+dnf install -y rsync
 systemctl enable --now tangd.socket
 firewall-cmd --add-service=http --permanent
 firewall-cmd --reload
