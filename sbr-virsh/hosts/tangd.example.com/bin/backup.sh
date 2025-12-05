@@ -3,8 +3,6 @@ set -euo pipefail
 
 #
 BASEDIR="$(cd "$(dirname "$0")/.." && pwd)"
-echo "BASEDIR=$BASEDIR"
-
 
 SCRIPT_PATH="$(realpath "$0")"
 SCRIPT_FOLDER="$(dirname "$SCRIPT_PATH")"
@@ -15,7 +13,7 @@ FOLDER_NAME="$(basename "$PARENT_FOLDER")"
 VM_NAME="$FOLDER_NAME"
 
 # Now define the source folder with tangd.servcie database..
-TANGD_DB_FOLDER="/var/lib/tang"
+TANGD_DB_FOLDER="/var/db/tang"
 
 # Create backup folder for the tangd.service database..
 BACKUP_FOLDER="$PARENT_FOLDER/chome"
