@@ -99,7 +99,6 @@ systemctl enable cockpit.socket
 # 1. ECDSA host key
 echo "{{SSH_HOST_ECDSA_PRIVATE_B64}}" | base64 -d > /etc/ssh/ssh_host_ecdsa_key
 echo "{{SSH_HOST_ECDSA_PUBLIC_B64}}" | base64 -d > /etc/ssh/ssh_host_ecdsa_key.pub
-
 chmod 600 /etc/ssh/ssh_host_ecdsa_key
 chown root:root /etc/ssh/ssh_host_ecdsa_key
 chmod 644 /etc/ssh/ssh_host_ecdsa_key.pub
@@ -108,13 +107,34 @@ chown root:root /etc/ssh/ssh_host_ecdsa_key.pub
 # 2. ED25519 host key
 echo "{{SSH_HOST_ED25519_PRIVATE_B64}}" | base64 -d > /etc/ssh/ssh_host_ed25519_key
 echo "{{SSH_HOST_ED25519_PUBLIC_B64}}" | base64 -d > /etc/ssh/ssh_host_ed25519_key.pub
-
 chmod 600 /etc/ssh/ssh_host_ed25519_key
 chown root:root /etc/ssh/ssh_host_ed25519_key
 chmod 644 /etc/ssh/ssh_host_ed25519_key.pub
 chown root:root /etc/ssh/ssh_host_ed25519_key.pub
 
+# 3. RSA host key
+echo "{{SSH_HOST_RSA_PRIVATE_B64}}" | base64 -d > /etc/ssh/ssh_host_rsa_key
+echo "{{SSH_HOST_RSA_PUBLIC_B64}}" | base64 -d > /etc/ssh/ssh_host_rsa_key.pub
+chmod 600 /etc/ssh/ssh_host_rsa_key
+chown root:root /etc/ssh/ssh_host_rsa_key
+chmod 644 /etc/ssh/ssh_host_rsa_key.pub
+chown root:root /etc/ssh/ssh_host_rsa_key.pub
+
+
+#
+# Installation of lorem-ipsum.service..
+#
+# dnf install -y rsync
+# dnf install -y lorem-ipsum
+# systemctl enable --now lorem-ipsum.socket
+# firewall-offline-cmd --add-service=lorem-ipsum-port
+
+
+#
+# Data restore is processed outside of this script via SSH!
+#
 
 %end
+# --- END OF POST INSTALLATION ---
 
 reboot
