@@ -18,13 +18,12 @@ if ! rpm -q openldap-clients &> /dev/null; then
     sudo dnf install -y openldap-clients
 fi
 
-# Function to generate SSHA password hash.
-# This function is an alternative to slappasswd, demonstrating how to create SSHA hashes manually.
-# The slappasswd utility is preferred for production use.
-# The slappasswd utlitiy is part of openldap-servers package.
+# Function to generate SSHA password hash..
+# This function is an alternative to `slappasswd`, demonstrating how to create SSHA hashes manually..
+# The `slappasswd` utility is preferred for production use..
+# The `slappasswd` utlitiy is part only of `openldap-servers` package..
 function generate_ssha() {
     local password="$1"
-    # Změna je pouze v os.urandom(8)
     python3 -c "import sys, os, hashlib, base64; \
         p = sys.argv[1].encode('utf-8'); \
         salt = os.urandom(8); \
@@ -95,16 +94,14 @@ echo "----------------------------------------------------------------"
 echo "Checking and importing schemas..."
 echo "----------------------------------------------------------------"
 
-# Funkce, která zkontroluje existenci schématu na vzdáleném serveru
-# Pokud neexistuje, nahraje ho.
+# Function that checks for schema existence on remote server and installs it if missing..
 function ensure_schema() {
-    local SCHEMA_KEYWORD="$1"  # Např. "cosine"
-    local SCHEMA_FILE="$2"     # Např. "/etc/openldap/schema/cosine.ldif"
+    local SCHEMA_KEYWORD="$1"  # "cosine"
+    local SCHEMA_FILE="$2"     # "/etc/openldap/schema/cosine.ldif"
     
     echo -n "Schema '$SCHEMA_KEYWORD': "
     
-    # 1. Kontrola: Hledáme v cn=config, zda existuje objekt obsahující název schématu
-    # Používáme grep -q pro tichý návrat exit code (0 = nalezeno, 1 = nenalezeno)
+    # Check if schema is already present on the LDAP server..
     if ssh -T "$VM_NAME" "sudo ldapsearch -Q -Y EXTERNAL -H ldapi:/// -b cn=schema,cn=config \"(cn=*$SCHEMA_KEYWORD*)\" dn 2>/dev/null | grep -q \"dn:\""; then
         echo "ALREADY EXISTS (Skipping)"
     else
@@ -113,7 +110,7 @@ function ensure_schema() {
     fi
 }
 
-# Nyní voláme funkci pro každé schéma bezpečně
+# Ensure required schemas are present..
 ensure_schema "cosine" "/etc/openldap/schema/cosine.ldif"
 ensure_schema "nis" "/etc/openldap/schema/nis.ldif"
 ensure_schema "inetorgperson" "/etc/openldap/schema/inetorgperson.ldif"
@@ -154,7 +151,7 @@ ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "
 
 
 
-# Uživatel: rludva (UID 1211)
+# User: rludva (UID 1001)
 USER_NAME="rludva"
 USER_FULL_NAME="Radomir Ludva"
 USER_FULL_SN_NAME="Ludva"
@@ -183,7 +180,7 @@ EOF
 ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f user_rludva.ldif
 
 
-# Uživatel: alice
+# User: alice
 USER_NAME="alice"
 USER_FULL_NAME="Alice Wonderland"
 USER_FULL_SN_NAME="Wonderland"
@@ -210,7 +207,7 @@ EOF
 ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f user_$USER_NAME.ldif
 
 
-# Uživatel: bob
+# User: bob
 USER_NAME="bob"
 USER_FULL_NAME="Bob Builder"
 USER_FULL_SN_NAME="Builder"
@@ -237,7 +234,7 @@ EOF
 ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f user_$USER_NAME.ldif
 
 
-# Uživatel: malory
+# User: malory
 USER_NAME="malory"
 USER_FULL_NAME="Malory Archer"
 USER_FULL_SN_NAME="Archer"
