@@ -68,7 +68,7 @@ LDAP_PASSWORD=$(getesPassword "ldap_root")
 LDAP_PASSWORD_HASH=$(generate_ssha "$LDAP_PASSWORD")
 
 
-cat <<EOF > ldap-config.ldif
+cat <<EOF > "$PASSDB_STORAGE/ldap-config.ldif"
 dn: olcDatabase={2}mdb,cn=config
 changetype: modify
 replace: olcSuffix
@@ -83,7 +83,7 @@ EOF
 
 # This is not working directly, so we need to use SSH to run it on the LDAP server..
 # ldapmodify -H ldap://ldap.local.nutius.com -Y EXTERNAL -H ldapi:/// -f ldap-config.ldif
-scp ldap-config.ldif "$VM_NAME":/tmp/ldap-config.ldif
+scp "$PASSDB_STORAGE/ldap-config.ldif" "$VM_NAME":/tmp/ldap-config.ldif
 ssh -t "$VM_NAME" "sudo ldapmodify -Y EXTERNAL -H ldapi:/// -f /tmp/ldap-config.ldif || true"
 
 
@@ -116,7 +116,7 @@ ensure_schema "nis" "/etc/openldap/schema/nis.ldif"
 ensure_schema "inetorgperson" "/etc/openldap/schema/inetorgperson.ldif"
 
 
-cat <<EOF > structure.ldif
+cat <<EOF > "$PASSDB_STORAGE/structure.ldif"
 dn: dc=nutius,dc=com
 objectClass: top
 objectClass: domain
@@ -147,7 +147,7 @@ cn: users
 gidNumber: 5000
 EOF
 
-ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f structure.ldif
+ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f "$PASSDB_STORAGE/structure.ldif"
 
 
 
@@ -161,7 +161,7 @@ USER_ID=1001
 USER_GID=5000
 echo "USER_PASSWORD=$USER_PASSWORD"
 
-cat <<EOF > user_$USER_NAME.ldif
+cat <<EOF > "$PASSDB_STORAGE/user_$USER_NAME.ldif"
 dn: uid=$USER_NAME,ou=People,dc=nutius,dc=com
 objectClass: inetOrgPerson
 objectClass: posixAccount
@@ -177,7 +177,7 @@ gecos: $USER_FULL_NAME
 userPassword: $USER_PASSWORD_HASH
 EOF
 
-ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f user_rludva.ldif
+ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f "$PASSDB_STORAGE/user_rludva.ldif"
 
 
 # User: alice
@@ -188,7 +188,7 @@ USER_PASSWORD=$(getesPassword "$USER_NAME")
 USER_PASSWORD_HASH=$(generate_ssha "$USER_PASSWORD")
 USER_ID=1002
 USER_GID=5000
-cat <<EOF > user_$USER_NAME.ldif
+cat <<EOF > "$PASSDB_STORAGE/user_$USER_NAME.ldif"
 dn: uid=$USER_NAME,ou=People,dc=nutius,dc=com
 objectClass: inetOrgPerson
 objectClass: posixAccount
@@ -204,7 +204,7 @@ gecos: $USER_FULL_NAME
 userPassword: $USER_PASSWORD_HASH
 EOF
 
-ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f user_$USER_NAME.ldif
+ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f "$PASSDB_STORAGE/user_$USER_NAME.ldif"
 
 
 # User: bob
@@ -215,7 +215,7 @@ USER_PASSWORD=$(getesPassword "$USER_NAME")
 USER_PASSWORD_HASH=$(generate_ssha "$USER_PASSWORD")
 USER_ID=1003
 USER_GID=5000
-cat <<EOF > user_$USER_NAME.ldif
+cat <<EOF > "$PASSDB_STORAGE/user_$USER_NAME.ldif"
 dn: uid=$USER_NAME,ou=People,dc=nutius,dc=com
 objectClass: inetOrgPerson
 objectClass: posixAccount
@@ -231,7 +231,7 @@ gecos: $USER_FULL_NAME
 userPassword: $USER_PASSWORD_HASH
 EOF
 
-ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f user_$USER_NAME.ldif
+ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f "$PASSDB_STORAGE/user_$USER_NAME.ldif"
 
 
 # User: malory
@@ -242,7 +242,7 @@ USER_PASSWORD=$(getesPassword "$USER_NAME")
 USER_PASSWORD_HASH=$(generate_ssha "$USER_PASSWORD")
 USER_ID=1004
 USER_GID=5000
-cat <<EOF > user_$USER_NAME.ldif
+cat <<EOF > "$PASSDB_STORAGE/user_$USER_NAME.ldif"
 dn: uid=$USER_NAME,ou=People,dc=nutius,dc=com
 objectClass: inetOrgPerson
 objectClass: posixAccount
@@ -258,4 +258,4 @@ gecos: $USER_FULL_NAME
 userPassword: $USER_PASSWORD_HASH
 EOF
 
-ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f user_$USER_NAME.ldif
+ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f "$PASSDB_STORAGE/user_$USER_NAME.ldif"
