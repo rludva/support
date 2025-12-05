@@ -21,15 +21,18 @@ Before using these scripts, ensure your host machine meets the following require
 Run this script once to set up the bridged network (`br0`). This allows virtual machines to be directly accessible from the external network.
 
 ```bash
-sudo ./bin/00-create-br0-network.sh
+$ sudo ./bin/00-create-br0-network.sh
 ```
 
 ### 2. Generate Kickstart Configuration
-Create the initial configuration for a specific host or use the existing one in the `hosts˛` folder.
-Replace <hostname> with your desired VM name (e.g., ldap, tangd).
+- Create the initial configuration for a specific host or use the existing one in the `hosts˛` folder..
+- Replace <hostname> with your desired VM name (e.g., ldap, tangd)..
+- For static DHCP leases, ensure `./hosts/<hostname>/mac_address` exists and contains the valid MAC address..
 
 ```bash
-./bin/01-generate-ks.sh <hostname>
+$ echo "52:54:00:xx:xx:xx" > hosts/<hostname>/mac_address
+
+$ ./bin/01-generate-ks.sh <hostname>
 ```
 
 Note: This generates a static `anaconda-ks.cfg` which serves as the base for the installation.
@@ -39,11 +42,11 @@ Note: This generates a static `anaconda-ks.cfg` which serves as the base for the
 Once the Kickstart file is ready, run the deploy script to create the VM and start the installation process.
 
 ```bash
-./bin/deploy.sh <hostname>
+$ ./bin/deploy.sh <hostname>
 ```
 
 ### 4. Remove a Virtual Machine
 To delete a VM and remove its associated storage volumes:
 ```bash
-./bin/remove.sh <hostname>
+$ ./bin/remove.sh <hostname>
 ```

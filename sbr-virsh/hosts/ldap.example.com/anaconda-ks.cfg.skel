@@ -34,6 +34,7 @@ selinux --enforcing
 rhsm --organization={{ORGANIZATION}} --activation-key={{ACTIVATION_KEY}}
 
 
+
 # --- DISK ---
 # Clear all partitions on the VM disk and create new ones automatically
 bootloader --location=mbr
@@ -128,7 +129,7 @@ chown root:root /etc/ssh/ssh_host_rsa_key.pub
 # dnf install -y lorem-ipsum
 # systemctl enable --now lorem-ipsum.socket
 # firewall-offline-cmd --add-service=lorem-ipsum-port
-
+dnf install -y rsync
 
 #
 # Data restore is processed outside of this script via SSH!
