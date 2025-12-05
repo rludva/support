@@ -122,17 +122,31 @@ chmod 644 /etc/ssh/ssh_host_rsa_key.pub
 chown root:root /etc/ssh/ssh_host_rsa_key.pub
 
 
+# rsync is not installed by default!
+dnf install -y rsync
+
+# Update all packages to the latest version!
+dnf update -y
+
+
 #
 # Installation of lorem-ipsum.service..
 #
-# dnf install -y rsync
 # dnf install -y lorem-ipsum
 # systemctl enable --now lorem-ipsum.socket
 # firewall-offline-cmd --add-service=lorem-ipsum-port
-dnf install -y rsync
+dnf install epel-release -y
+dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm -y
+dnf install openldap openldap-servers openldap-clients -y
+
+systemctl enable --now slapd
+
+firewall-offline-cmd --add-service=ldap
+firewall-offline-cmd --add-service=ldaps
+
 
 #
-# Data restore is processed outside of this script via SSH!
+# Data of LDAP restore are processed outside of this script via SSH!
 #
 
 %end
