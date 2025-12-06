@@ -1,0 +1,14 @@
+[Unit]
+Description=MariaDB container service
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/var/containers/mariadb/bin/start-mariadb.sh
+ExecStop=/var/containers/mariadb/bin/stop-mariadb.sh
+ExecReload=/var/containers/mariadb/bin/reset-mariadb.sh
+Restart=on-failure
+User=root
+
+[Install]
+WantedBy=multi-user.target
