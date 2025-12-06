@@ -120,11 +120,23 @@ chown root:root /etc/ssh/ssh_host_rsa_key
 chmod 644 /etc/ssh/ssh_host_rsa_key.pub
 chown root:root /etc/ssh/ssh_host_rsa_key.pub
 
+
+# rsync is not installed by default!
+dnf install -y rsync
+
+# Update all packages to the latest version!
+dnf update -y
+
+#
+# Installation of lorem-ipsum.service..
+#
+# dnf install -y lorem-ipsum
+# systemctl enable --now lorem-ipsum.socket
+# firewall-offline-cmd --add-service=lorem-ipsum-port
+
 #
 # Installation of tangd.service..
 #
-dnf install -y tang
-dnf install -y rsync
 systemctl enable --now tangd.socket
 firewall-offline-cmd --add-service=http
 

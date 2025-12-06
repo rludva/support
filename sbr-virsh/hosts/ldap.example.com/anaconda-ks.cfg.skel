@@ -146,7 +146,7 @@ firewall-offline-cmd --add-service=ldaps
 
 
 #
-# Data of LDAP restore are processed outside of this script via SSH!
+# Data restore is processed outside of this script via SSH!
 #
 
 %end

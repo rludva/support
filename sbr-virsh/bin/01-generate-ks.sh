@@ -163,3 +163,19 @@ sed -e "s|{{ROOT_PASSWORD_HASH}}|$ROOT_PASSWORD_HASH|g" \
     -e "s|{{ACTIVATION_KEY}}|$ACTIVATION_KEY|g" \
     -e "s|{{VM_NAME}}|$VM_NAME|g" \
   "$RESOURCES_DIR/anaconda-ks.cfg.skel" > "$RESOURCES_DIR/anaconda-ks.cfg"
+
+# Build update-ks.cfg when the build script is present..
+echo " -> Checking for update-ks.cfg build script.."
+BUILD_KS_SCRIPT="$RESOURCES_DIR/bin/build-update-ks.cfg.sh"
+if [ -f "$BUILD_KS_SCRIPT" ]; then
+  echo " -> Building update-ks.cfg.. ($BUILD_KS_SCRIPT)"
+  bash "$BUILD_KS_SCRIPT"
+fi
+
+# Check if there is update-ks.cfg.sh script for this host..
+echo " -> Checking for existence of update-ks.cfg.sh script.."
+UPDATE_KS_SCRIPT="$RESOURCES_DIR/bin/update-ks.cfg.sh"
+if [ -f "$UPDATE_KS_SCRIPT" ]; then
+  echo " -> Injecting  update-ks.cfg to the anaconda-ks.cfg.. ($UPDATE_KS_SCRIPT)"
+  bash "$UPDATE_KS_SCRIPT"
+fi
