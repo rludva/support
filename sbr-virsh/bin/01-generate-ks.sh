@@ -13,18 +13,51 @@ if [[ ! -d "$HOSTDIR" ]]; then
     exit 1
 fi
 
-# 1. Type the root password..
-read -s -p "Type root password: " ROOT_PASSWORD
-echo
+# -----------------------------------------------------
+# Get input from user with defaults from file or hardcoded default..
+function get_input() {
+  local prompt_label="$1"                 # e.g., "User ID" => "User ID (default: 1000): "
+  local file_path="$RESOURCES_DIR/$2"     # e.g., "user_uid" => "$RESOURCES_DIR/user_uid"
+  local hard_default="$3"                 # e.g., "1000"
 
-read -p "Type user name: " USER_NAME
-echo
+  local default="$hard_default"
 
-read -s -p "Type user password: " USER_PASSWORD
-echo
+  # 1. Attempt to read from file
+  #
+  # - Read the file content, stripping whitespace (newlines, spaces, tabs) (managed via read itself).
+  local file_content=""
+  if [ -f "$file_path" ]; then
+    read -r file_content < "$file_path" || true
+  fi
 
-read -p "User ID (leave empty for default): " USER_ID
-echo
+  # If we read something, use it as the default.
+  # Otherwise, keep the original $default.
+  default="${file_content:-$default}"
+
+  # 2. Prompt the user..
+  local user_input
+
+  # Read prompt must go to stderr to allow capturing the function output..
+  read -p "$prompt_label (default: $default): " user_input >&2
+
+  # 3. Output the result
+  echo "${user_input:-$default}"
+
+  # Write new value to file for future use..
+  echo "${user_input:-$default}" > "$file_path"
+}
+# -----------------------------------------------------
+# Generate a random password like..
+function gen_pass() {
+  openssl rand -base64 48 | tr -dc 'a-zA-Z0-9' | fold -w 4 | head -n 4 | paste -sd '-' -
+}
+# -----------------------------------------------------
+ROOT_PASSWORD=$(get_input "Root Password" "root_password" "$(gen_pass)")
+USER_NAME=$(get_input "User Name" "user_name" "$USER")
+USER_PASSWORD=$(get_input "User Password" "user_password" "$(gen_pass)")
+USER_ID=$(get_input "User ID" "user_uid" "1000")
+# -----------------------------------------------------
+
 
 # 2. Generate password hash..
 ROOT_PASSWORD_HASH=$(openssl passwd -6 "$ROOT_PASSWORD")
