@@ -21,7 +21,7 @@ cat << BUILD_UPDATE_KS_CFG_EOF > "$RESOURCES_DIR/update-ks.cfg"
 #
 # update-ks.cfg:
 # - content of this file is going to be added to the end of %post section in the anaconda-ks.cfg
-# 
+#
 # Generated: $(date +"%Y-%m-%d %H:%M:%S")
 # Host: $(hostname)
 #
