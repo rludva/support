@@ -1,4 +1,10 @@
+root_password
+user_name
+user_password
+user_uid
+user_gid
 anaconda-ks.cfg
+update-ks.cfg
 authorized_keys
 ssh_host_ecdsa_key.b64
 ssh_host_ecdsa_key.pub.b64
