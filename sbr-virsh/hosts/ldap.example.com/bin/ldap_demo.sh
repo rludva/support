@@ -44,31 +44,31 @@ PASSDB_STORAGE="/var/passwd/$VM_NAME"
 # Get existing password or create a new one and store it..
 # getes = get+set_tes => getes
 function getesPassword() {
-    local user_name="$1"
+  local user_name="$1"
     
-    # Path: /var/passwd/ldap.example.com/Manager.passwd
-    local dir_path="${PASSDB_STORAGE}"
-    local file_path="${dir_path}/${user_name}.passwd"
+  # Path: /var/passwd/ldap.example.com/Manager.passwd
+  local dir_path="${PASSDB_STORAGE}"
+  local file_path="${dir_path}/${user_name}.passwd"
     
-    # 1. Create the directory if it doesn't exist..
-    if [ ! -d "$dir_path" ]; then
-        mkdir -p "$dir_path"
-        echo "Created password storage folder: $dir_path" >&2
-    fi
+  # 1. Create the directory if it doesn't exist..
+  if [ ! -d "$dir_path" ]; then
+      mkdir -p "$dir_path"
+      echo "Created password storage folder: $dir_path" >&2
+  fi
 
-    # 2. Read existing password..
-    if [ -f "$file_path" ]; then
-        local password=$(cat "$file_path" | tr -d '[:space:]')
-        echo "$password"
-        return 0
-    fi
+  # 2. Read existing password..
+  local password=""
+  if [ -f "$file_path" ]; then
+    read -r password < "$file_path" || true   
+    [ -n "$password" ] && { echo "$password"; return; }
+  fi
 
-    # 3. Generate a new password and store it..
-    local password=$(openssl rand -base64 16)
-    echo "$password" > "$file_path"
+  # 3. Generate a new password and store it..
+  password=$(openssl rand -base64 16)
+  echo "$password" > "$file_path"
         
-    echo "Generated a new password for: $file_path" >&2
-    echo "$password"
+  echo "Generated a new password for: $file_path" >&2
+  echo "$password"
 }
 
 LDAP_PASSWORD=$(getesPassword "ldap_root")
@@ -103,18 +103,18 @@ echo "----------------------------------------------------------------"
 
 # Function that checks for schema existence on remote server and installs it if missing..
 function ensure_schema() {
-    local SCHEMA_KEYWORD="$1"  # "cosine"
-    local SCHEMA_FILE="$2"     # "/etc/openldap/schema/cosine.ldif"
+  local SCHEMA_KEYWORD="$1"  # "cosine"
+  local SCHEMA_FILE="$2"     # "/etc/openldap/schema/cosine.ldif"
     
-    echo -n "Schema '$SCHEMA_KEYWORD': "
+  echo -n "Schema '$SCHEMA_KEYWORD': "
     
-    # Check if schema is already present on the LDAP server..
-    if ssh -T "$VM_NAME" "sudo ldapsearch -Q -Y EXTERNAL -H ldapi:/// -b cn=schema,cn=config \"(cn=*$SCHEMA_KEYWORD*)\" dn 2>/dev/null | grep -q \"dn:\""; then
-        echo "ALREADY EXISTS (Skipping)"
-    else
-        echo "MISSING -> Installing..."
-        ssh -T "$VM_NAME" "sudo ldapadd -Y EXTERNAL -H ldapi:/// -f $SCHEMA_FILE"
-    fi
+  # Check if schema is already present on the LDAP server..
+  if ssh -T "$VM_NAME" "sudo ldapsearch -Q -Y EXTERNAL -H ldapi:/// -b cn=schema,cn=config \"(cn=*$SCHEMA_KEYWORD*)\" dn 2>/dev/null | grep -q \"dn:\""; then
+    echo "ALREADY EXISTS (Skipping)"
+  else
+    echo "MISSING -> Installing..."
+    ssh -T "$VM_NAME" "sudo ldapadd -Y EXTERNAL -H ldapi:/// -f $SCHEMA_FILE"
+  fi
 }
 
 # Ensure required schemas are present..
@@ -133,25 +133,13 @@ objectClass: organizationalRole
 cn: Manager
 description: LDAP Manager
 
-dn: ou=Admins,dc=nutius,dc=com
+dn: ou=admins,dc=nutius,dc=com
 objectClass: organizationalUnit
-ou: Admins
+ou: admins
 
-# 1. Vytvoření organizační jednotky pro lidi
-dn: ou=People,dc=nutius,dc=com
+dn: ou=users,dc=nutius,dc=com
 objectClass: organizationalUnit
-ou: People
-
-# 2. Vytvoření organizační jednotky pro skupiny
-dn: ou=Groups,dc=nutius,dc=com
-objectClass: organizationalUnit
-ou: Groups
-
-# 3. Vytvoření skupiny 'users' (GID 5000) uvnitř ou=Groups
-dn: cn=users,ou=Groups,dc=nutius,dc=com
-objectClass: posixGroup
-cn: users
-gidNumber: 5000
+ou: users
 EOF
 
 ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f "$PASSDB_STORAGE/structure.ldif"
@@ -167,21 +155,13 @@ USER_PASSWORD_HASH=$(generate_ssha "$USER_PASSWORD")
 USER_ID=1001
 USER_GID=5000
 echo "USER_PASSWORD=$USER_PASSWORD"
-
 cat <<EOF > "$PASSDB_STORAGE/user_$USER_NAME.ldif"
-dn: uid=$USER_NAME,ou=People,dc=nutius,dc=com
+dn: uid=$USER_NAME,ou=users,dc=nutius,dc=com
 objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: shadowAccount
 cn: $USER_FULL_NAME
 sn: $USER_FULL_SN_NAME
-uid: $USER_NAME
-uidNumber: $USER_ID
-gidNumber: $USER_GID
-homeDirectory: /home/$USER_NAME
-loginShell: /bin/bash
-gecos: $USER_FULL_NAME
 userPassword: $USER_PASSWORD_HASH
+mail: $USER_NAME@nutius.com
 EOF
 
 ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f "$PASSDB_STORAGE/user_rludva.ldif"
@@ -196,7 +176,7 @@ USER_PASSWORD_HASH=$(generate_ssha "$USER_PASSWORD")
 USER_ID=1002
 USER_GID=5000
 cat <<EOF > "$PASSDB_STORAGE/user_$USER_NAME.ldif"
-dn: uid=$USER_NAME,ou=People,dc=nutius,dc=com
+dn: uid=$USER_NAME,ou=users,dc=nutius,dc=com
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: shadowAccount
@@ -223,7 +203,7 @@ USER_PASSWORD_HASH=$(generate_ssha "$USER_PASSWORD")
 USER_ID=1003
 USER_GID=5000
 cat <<EOF > "$PASSDB_STORAGE/user_$USER_NAME.ldif"
-dn: uid=$USER_NAME,ou=People,dc=nutius,dc=com
+dn: uid=$USER_NAME,ou=users,dc=nutius,dc=com
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: shadowAccount
@@ -250,7 +230,7 @@ USER_PASSWORD_HASH=$(generate_ssha "$USER_PASSWORD")
 USER_ID=1004
 USER_GID=5000
 cat <<EOF > "$PASSDB_STORAGE/user_$USER_NAME.ldif"
-dn: uid=$USER_NAME,ou=People,dc=nutius,dc=com
+dn: uid=$USER_NAME,ou=users,dc=nutius,dc=com
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: shadowAccount
