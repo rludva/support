@@ -20,18 +20,15 @@ function get_input() {
   local file_path="$RESOURCES_DIR/$2"     # e.g., "user_uid" => "$RESOURCES_DIR/user_uid"
   local hard_default="$3"                 # e.g., "1000"
 
-  local default="$hard_default"
-
   # 1. Attempt to read from file
-  #
   # - Read the file content, stripping whitespace (newlines, spaces, tabs) (managed via read itself).
   local file_content=""
   if [ -f "$file_path" ]; then
     read -r file_content < "$file_path" || true
   fi
 
-  # If we read something, use it as the default.
-  # Otherwise, keep the original $default.
+  # If we read something, use it as default value, otherwise, keep the original $default.
+  local default="$hard_default"
   default="${file_content:-$default}"
 
   # 2. Prompt the user..
