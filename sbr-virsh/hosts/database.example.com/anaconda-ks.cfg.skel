@@ -139,16 +139,22 @@ dnf update -y
 # (Battery Included Installation)
 #
 dnf install -y container-tools
+
+# Install `mariadb` package as it provides `mysqldump` utility..
+dnf install -y mariadb
+
+# Default firewall for database..
 firewall-offline-cmd --add-service=3306
 
 # Prepare container specific files and directories
 $CONAINERS_DIR="/var/containers"
 mkdir --parents "$CONAINERS_DIR/mariadb"
+mkdir --parnet /var/containers/mariadb/backup
 mkdir --parnet /var/containers/mariadb/bin
 mkdir --parnet /var/containers/mariadb/data
 mkdir --parnet /var/containers/mariadb/logs
-#setfacl --recursive --modify u:{{USER_NAME}}:rwx "$CONAINERS_DIR"
-#setfacl --recursive --modify g:{{GROUP_NAME}}:rwx "$CONAINERS_DIR"
+setfacl --recursive --modify u:{{USER_NAME}}:rwx "$CONAINERS_DIR"
+setfacl --recursive --modify g:{{GROUP_NAME}}:rwx "$CONAINERS_DIR"
 
 
 # Generate MariaDB root password and store it in a file..
