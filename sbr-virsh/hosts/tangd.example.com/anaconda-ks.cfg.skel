@@ -138,6 +138,8 @@ dnf update -y
 # Installation of tangd.service..
 #
 systemctl enable --now tangd.socket
+
+# Enable and open HTTP for tangd.service..
 firewall-offline-cmd --add-service=http
 
 
