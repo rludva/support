@@ -127,7 +127,6 @@ if [[ ! "$MAC_ADDRESS" =~ ^52:54:00(:[0-9A-Fa-f]{2}){3}$ ]]; then
     exit 1
 fi
 
-echo "MAC Address: $MAC_ADDRESS"
 #
 # End of MAC address reading
 #
@@ -158,18 +157,33 @@ fi
 # --- 6. EXECUTION ---
 log_info "Starting virt-install..."
 
-# Process the installation..
-sudo virt-install \
+#
+# Prepare virt-install arguments..
+VIRSH_ARGS=(
   --name "$VM_NAME" \
   --ram $RAM \
   --vcpus $CPU_COUNT \
   --disk path=/var/lib/libvirt/images/${VM_NAME}.qcow2,size=$DISK_SIZE \
   --os-variant $OS_VARIANT \
   --location $IMAGE_FILE \
-  --network network=$NETWORK,mac=$MAC_ADDRESS \
   --graphics none \
   --console pty,target_type=serial \
   --disk path=$IMAGE_FILE,device=cdrom,readonly=on \
   --extra-args 'console=ttyS0,115200n8 inst.text inst.repo=cdrom inst.ks=file:/anaconda-ks.cfg' \
   --initrd-inject=$HOSTDIR/anaconda-ks.cfg \
   --autostart
+)
+
+#
+# If MAC address is empty, do not include it in the network argument..
+NETWORK_ARG="network=$NETWORK,mac=$MAC_ADDRESS"
+if [[ -z "$MAC_ADDRESS" ]] || [[ "$MAC_ADDRESS" == "52:54:00:00:00:00" ]]; then
+  NETWORK_ARG="network=$NETWORK"
+fi
+
+# Add network argument..
+ARGS+=(--network "$NETWORK_ARG")
+
+#
+# Process the installation..
+sudo virt-install "${VIRSH_ARGS[@]}"
