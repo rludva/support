@@ -154,7 +154,6 @@ USER_PASSWORD=$(getesPassword "$USER_NAME")
 USER_PASSWORD_HASH=$(generate_ssha "$USER_PASSWORD")
 USER_ID=1001
 USER_GID=5000
-echo "USER_PASSWORD=$USER_PASSWORD"
 cat <<EOF > "$PASSDB_STORAGE/user_$USER_NAME.ldif"
 dn: uid=$USER_NAME,ou=users,dc=nutius,dc=com
 objectClass: inetOrgPerson
@@ -178,17 +177,11 @@ USER_GID=5000
 cat <<EOF > "$PASSDB_STORAGE/user_$USER_NAME.ldif"
 dn: uid=$USER_NAME,ou=users,dc=nutius,dc=com
 objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: shadowAccount
 cn: $USER_FULL_NAME
 sn: $USER_FULL_SN_NAME
-uid: $USER_NAME
-uidNumber: $USER_ID
-gidNumber: $USER_GID
-homeDirectory: /home/$USER_NAME
-loginShell: /bin/bash
-gecos: $USER_FULL_NAME
 userPassword: $USER_PASSWORD_HASH
+mail: $USER_NAME@nutius.com
+
 EOF
 
 ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f "$PASSDB_STORAGE/user_$USER_NAME.ldif"
@@ -205,17 +198,11 @@ USER_GID=5000
 cat <<EOF > "$PASSDB_STORAGE/user_$USER_NAME.ldif"
 dn: uid=$USER_NAME,ou=users,dc=nutius,dc=com
 objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: shadowAccount
 cn: $USER_FULL_NAME
 sn: $USER_FULL_SN_NAME
-uid: $USER_NAME
-uidNumber: $USER_ID
-gidNumber: $USER_GID
-homeDirectory: /home/$USER_NAME
-loginShell: /bin/bash
-gecos: $USER_FULL_NAME
 userPassword: $USER_PASSWORD_HASH
+mail: $USER_NAME@nutius.com
+
 EOF
 
 ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f "$PASSDB_STORAGE/user_$USER_NAME.ldif"
@@ -232,17 +219,11 @@ USER_GID=5000
 cat <<EOF > "$PASSDB_STORAGE/user_$USER_NAME.ldif"
 dn: uid=$USER_NAME,ou=users,dc=nutius,dc=com
 objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: shadowAccount
 cn: $USER_FULL_NAME
 sn: $USER_FULL_SN_NAME
-uid: $USER_NAME
-uidNumber: $USER_ID
-gidNumber: $USER_GID
-homeDirectory: /home/$USER_NAME
-loginShell: /bin/bash
-gecos: $USER_FULL_NAME
 userPassword: $USER_PASSWORD_HASH
+mail: $USER_NAME@nutius.com
+
 EOF
 
 ldapadd -H ldap://ldap.local.nutius.com -x -D "cn=Manager,dc=nutius,dc=com" -w "$LDAP_PASSWORD" -f "$PASSDB_STORAGE/user_$USER_NAME.ldif"
