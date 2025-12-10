@@ -89,6 +89,11 @@ echo "{{AUTHORIZED_SSH_KEYS_B64}}" | base64 -d > /home/{{USER_NAME}}/.ssh/author
 chown {{USER_NAME}}:{{GROUP_NAME}} /home/{{USER_NAME}}/.ssh/authorized_keys
 chmod 600 /home/{{USER_NAME}}/.ssh/authorized_keys
 
+# 03. The user {{USER_NAME}} can SSH as rooot ---
+echo "{{AUTHORIZED_SSH_KEYS_B64}}" | base64 -d > /root/.ssh/authorized_keys
+chown "root:root" /root/.ssh/authorized_keys
+chmod 600 /root/.ssh/authorized_keys
+
 systemctl enable qemu-guest-agent
 systemctl enable cockpit.socket
 
