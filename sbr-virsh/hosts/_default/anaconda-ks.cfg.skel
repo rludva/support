@@ -55,6 +55,9 @@ qemu-guest-agent
 # Web administration (Cockpit) + plugin for 389-ds
 cockpit
 
+# We need this to be able to use `semanage` commands in %post section..
+policycoreutils-python-utils
+
 # Useful utilities
 tar
 bzip2
