@@ -38,18 +38,18 @@ load_param() {
     local filename="$1"
     local default="$2"
     local filepath="$HOSTDIR/$filename"
-    
+
     if [[ -f "$filepath" ]]; then
         # Read and trim whitespace
         local val
         val=$(cat "$filepath" | tr -d '[:space:]')
-        
+
         if [[ -n "$val" ]]; then
             echo "$val"
             return 0
         fi
     fi
-    
+
     # If file doesn't exist or is empty, return default
     echo "$default"
 }
@@ -86,16 +86,16 @@ if [[ ! "$RAM" =~ ^[0-9]+$ ]]; then
     exit 1
 fi
 
-# DISK
+# Disk
 DEFAULT_DISK_SIZE_FILENAME="virt-install.disk_size"
-DISK_SIZE=$(load_param "disk_size" "$DEFAULT_DISK_SIZE")
+DISK_SIZE=$(load_param "$DEFAULT_DISK_SIZE_FILENAME" $DEFAULT_DISK_SIZE)
 # Validation: Integer check
 if [[ ! "$DISK_SIZE" =~ ^[0-9]+$ ]]; then
     log_err "Invalid Disk Size value: '$DISK_SIZE' (integer expected)."
     exit 1
 fi
 
-# NETWORK
+# Network
 DEFAULT_NETWORK_FILENAME="virt-install.network"
 NETWORK=$(load_param "$DEFAULT_NETWORK_FILENAME" "$DEFAULT_NETWORK")
 # Validation: Not empty
@@ -104,10 +104,7 @@ if [[ -z "$NETWORK" ]]; then
     exit 1
 fi
 
-
-#
-# Read MAC address from file
-#
+# MAC address from file
 DEFAULT_MAC_ADDRESS_FILENAME="virt-install.mac_address"
 MAC_ADDRESS=$(load_param "$DEFAULT_MAC_ADDRESS_FILENAME" "$DEFAULT_MAC_ADDRESS")
 if [[ -z "$MAC_ADDRESS" ]]; then
@@ -126,10 +123,6 @@ if [[ ! "$MAC_ADDRESS" =~ ^52:54:00(:[0-9A-Fa-f]{2}){3}$ ]]; then
     echo "Expected format: 52:54:00:XX:XX:XX where X is a hexadecimal digit."
     exit 1
 fi
-
-#
-# End of MAC address reading
-#
 
 
 # Confuration other parameters..
@@ -153,6 +146,8 @@ if [[ ! -f "$IMAGE_FILE" ]]; then
     log_err "ISO image not found: $IMAGE_FILE"
     exit 1
 fi
+
+$BASEDIR/bin/wait.sh 20
 
 # --- 6. EXECUTION ---
 log_info "Starting virt-install..."
@@ -182,7 +177,7 @@ if [[ -z "$MAC_ADDRESS" ]] || [[ "$MAC_ADDRESS" == "52:54:00:00:00:00" ]]; then
 fi
 
 # Add network argument..
-ARGS+=(--network "$NETWORK_ARG")
+VIRSH_ARGS+=(--network "$NETWORK_ARG")
 
 #
 # Process the installation..
