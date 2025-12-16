@@ -149,6 +149,12 @@ firewall-offline-cmd --add-service=http
 # Data restore is processed outside of this script via SSH!
 #
 
+#
+# ./bin/update-ks.cfg.sh
+#
+# === BEGIN-UPDATE-KS.CFG ===
+# !!! THIS CONTENT IS GOING TO BE REPLACED WITH ./update-ks.cfg FILE.. !!!
+# === END-UPDATE-KS.CFG ===
 %end
 # --- END OF POST INSTALLATION ---
 

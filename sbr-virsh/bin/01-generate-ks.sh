@@ -202,10 +202,50 @@ if [ -f "$BUILD_KS_SCRIPT" ]; then
   bash "$BUILD_KS_SCRIPT"
 fi
 
-# Check if there is update-ks.cfg.sh script for this host..
-echo " -> Checking for existence of update-ks.cfg.sh script.."
-UPDATE_KS_SCRIPT="$RESOURCES_DIR/bin/update-ks.cfg.sh"
-if [ -f "$UPDATE_KS_SCRIPT" ]; then
-  echo " -> Injecting  update-ks.cfg to the anaconda-ks.cfg.. ($UPDATE_KS_SCRIPT)"
-  bash "$UPDATE_KS_SCRIPT"
+
+#
+# update-ks.cfg.sh
+#
+# --- CONFIGURATION ---
+TARGET_FILE="$RESOURCE_DIR/anaconda-ks.cfg"
+SOURCE_FILE="$RESOURCE_DIR/update-ks.cfg"
+
+# Improved marker names
+MARKER_START="# === BEGIN-UPDATE-KS.CFG ==="
+MARKER_END="# === END-UPDATE-KS.CFG ==="
+
+# Helper temporary file
+TEMP_FILE="${TARGET_FILE}.tmp"
+
+# --- CHECKS ---
+if [ ! -f "$TARGET_FILE" ]; then
+    echo "ERROR: Target file '$TARGET_FILE' does not exist!"
+    exit 1
 fi
+
+if [ ! -f "$SOURCE_FILE" ]; then
+    echo "ERROR: Source file '$SOURCE_FILE' does not exist!"
+    exit 1
+fi
+
+# Verify if markers are actually present in the file
+if ! grep -q "$MARKER_START" "$TARGET_FILE" || ! grep -q "$MARKER_END" "$TARGET_FILE"; then
+    echo "ERROR: Missing start or end marker in file '$TARGET_FILE'."
+    exit 1
+fi
+
+echo "Updating section in $TARGET_FILE..."
+
+# --- SED MAGIC (Clean version) ---
+# 1. /START/,/END/ {...}  -> Work only inside the block between markers
+# 2. /START/r FILE        -> At start marker, read file (inserts below it)
+# 3. /START/b             -> Is it the start marker? SKIP (so it is not deleted)
+# 4. /END/b               -> Is it the end marker? SKIP (so it is not deleted)
+# 5. d                    -> If you reached here (you are in the middle), DELETE the line.
+
+sed -i "/$MARKER_START/,/$MARKER_END/{
+    /$MARKER_START/r $SOURCE_FILE
+    /$MARKER_START/b
+    /$MARKER_END/b
+    d
+}" "$TARGET_FILE"
