@@ -207,8 +207,8 @@ fi
 # update-ks.cfg.sh
 #
 # --- CONFIGURATION ---
-TARGET_FILE="$RESOURCE_DIR/anaconda-ks.cfg"
-SOURCE_FILE="$RESOURCE_DIR/update-ks.cfg"
+TARGET_FILE="$RESOURCES_DIR/anaconda-ks.cfg"
+SOURCE_FILE="$RESOURCES_DIR/update-ks.cfg"
 
 # Improved marker names
 MARKER_START="# === BEGIN-UPDATE-KS.CFG ==="
