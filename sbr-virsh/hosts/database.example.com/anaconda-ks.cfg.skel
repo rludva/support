@@ -52,14 +52,11 @@ qemu-guest-agent
 # System Tools (the System Tools group from the menu)
 @system-tools
 
-# The LDAP server and tools itself
-389-ds-base
-389-ds-base-snmp
-
 # Web administration (Cockpit) + plugin for 389-ds
 cockpit
-#This package is not available in RHEL10?
-#cockpit-389-ds
+
+# We need this to be able to use `semanage` commands in %post section..
+policycoreutils-python-utils
 
 # Useful utilities
 tar

@@ -59,8 +59,9 @@ qemu-guest-agent
 
 # Web administration (Cockpit) + plugin for 389-ds
 cockpit
-#This package is not available in RHEL10?
-#cockpit-389-ds
+
+# We need this to be able to use `semanage` commands in %post section..
+policycoreutils-python-utils
 
 # Useful utilities
 tar
