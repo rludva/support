@@ -176,24 +176,10 @@ if [ -z "$AUTHORIZED_SSH_KEYS" ]; then
 fi
 AUTHORIZED_SSH_KEYS_B64=$(echo -n "$AUTHORIZED_SSH_KEYS" | base64 -w0)
 
-# Create final anaconda.ks.cfg file..
-sed -e "s|{{ROOT_PASSWORD_HASH}}|$ROOT_PASSWORD_HASH|g" \
-    -e "s|{{USER_NAME}}|$USER_NAME|g" \
-    -e "s|{{USER_PASSWORD_HASH}}|$USER_PASSWORD_HASH|g" \
-    -e "s|{{GROUP_NAME}}|$GROUP_NAME|g" \
-    -e "s|{{USER_ID}}|$USER_ID|g" \
-    -e "s|{{GROUP_ID}}|$GROUP_ID|g" \
-    -e "s|{{AUTHORIZED_SSH_KEYS_B64}}|$AUTHORIZED_SSH_KEYS_B64|g" \
-    -e "s|{{SSH_HOST_ECDSA_PRIVATE_B64}}|$SSH_HOST_ECDSA_PRIVATE_B64|g" \
-    -e "s|{{SSH_HOST_ECDSA_PUBLIC_B64}}|$SSH_HOST_ECDSA_PUBLIC_B64|g" \
-    -e "s|{{SSH_HOST_ED25519_PRIVATE_B64}}|$SSH_HOST_ED25519_PRIVATE_B64|g" \
-    -e "s|{{SSH_HOST_ED25519_PUBLIC_B64}}|$SSH_HOST_ED25519_PUBLIC_B64|g" \
-    -e "s|{{SSH_HOST_RSA_PRIVATE_B64}}|$SSH_HOST_RSA_PRIVATE_B64|g" \
-    -e "s|{{SSH_HOST_RSA_PUBLIC_B64}}|$SSH_HOST_RSA_PUBLIC_B64|g" \
-    -e "s|{{ORGANIZATION}}|$ORGANIZATION|g" \
-    -e "s|{{ACTIVATION_KEY}}|$ACTIVATION_KEY|g" \
-    -e "s|{{VM_NAME}}|$VM_NAME|g" \
-  "$ANACONDA_KS_CFG_SKELETON_FILE" > "$RESOURCES_DIR/anaconda-ks.cfg"
+
+# Start with skeleton file..
+cp "$ANACONDA_KS_CFG_SKELETON_FILE" "$RESOURCES_DIR/anaconda-ks.cfg"
+
 
 # Build update-ks.cfg when the build script is present..
 echo " -> Checking for update-ks.cfg build script.."
@@ -202,7 +188,6 @@ if [ -f "$BUILD_KS_SCRIPT" ]; then
   echo " -> Building update-ks.cfg.. ($BUILD_KS_SCRIPT)"
   bash "$BUILD_KS_SCRIPT"
 fi
-
 
 #
 # update-ks.cfg.sh
@@ -250,3 +235,24 @@ sed -i "/$MARKER_START/,/$MARKER_END/{
     /$MARKER_END/b
     d
 }" "$TARGET_FILE"
+
+
+# Replace template variable into real values..
+sed -i \
+    -e "s|{{ROOT_PASSWORD_HASH}}|$ROOT_PASSWORD_HASH|g" \
+    -e "s|{{USER_NAME}}|$USER_NAME|g" \
+    -e "s|{{USER_PASSWORD_HASH}}|$USER_PASSWORD_HASH|g" \
+    -e "s|{{GROUP_NAME}}|$GROUP_NAME|g" \
+    -e "s|{{USER_ID}}|$USER_ID|g" \
+    -e "s|{{GROUP_ID}}|$GROUP_ID|g" \
+    -e "s|{{AUTHORIZED_SSH_KEYS_B64}}|$AUTHORIZED_SSH_KEYS_B64|g" \
+    -e "s|{{SSH_HOST_ECDSA_PRIVATE_B64}}|$SSH_HOST_ECDSA_PRIVATE_B64|g" \
+    -e "s|{{SSH_HOST_ECDSA_PUBLIC_B64}}|$SSH_HOST_ECDSA_PUBLIC_B64|g" \
+    -e "s|{{SSH_HOST_ED25519_PRIVATE_B64}}|$SSH_HOST_ED25519_PRIVATE_B64|g" \
+    -e "s|{{SSH_HOST_ED25519_PUBLIC_B64}}|$SSH_HOST_ED25519_PUBLIC_B64|g" \
+    -e "s|{{SSH_HOST_RSA_PRIVATE_B64}}|$SSH_HOST_RSA_PRIVATE_B64|g" \
+    -e "s|{{SSH_HOST_RSA_PUBLIC_B64}}|$SSH_HOST_RSA_PUBLIC_B64|g" \
+    -e "s|{{ORGANIZATION}}|$ORGANIZATION|g" \
+    -e "s|{{ACTIVATION_KEY}}|$ACTIVATION_KEY|g" \
+    -e "s|{{VM_NAME}}|$VM_NAME|g" \
+   "$TARGET_FILE"
