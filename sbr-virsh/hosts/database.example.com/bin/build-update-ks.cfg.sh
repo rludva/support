@@ -26,9 +26,46 @@ cat << BUILD_UPDATE_KS_CFG_EOF > "$RESOURCES_DIR/update-ks.cfg"
 # Host: $(hostname)
 #
 
-mkdir -p /var/containers/mariadb/bin 
-mkdir -p /var/containers/mariadb/data
-mkdir -p /var/containers/mariadb/logs
+#
+# Installation of database service via container..
+# (Battery Included Installation)
+#
+dnf install -y container-tools
+
+# Install `mariadb` package as it provides `mysqldump` utility..
+dnf install -y mariadb
+
+# Default firewall for database..
+firewall-offline-cmd --add-service=3306
+
+# Prepare container specific files and directories
+CONAINERS_DIR="/var/containers"
+mkdir --parents "$CONAINERS_DIR/mariadb"
+mkdir --parnet /var/containers/mariadb/backup
+mkdir --parnet /var/containers/mariadb/bin
+mkdir --parnet /var/containers/mariadb/data
+mkdir --parnet /var/containers/mariadb/logs
+setfacl --recursive --modify u:{{USER_NAME}}:rwx "$CONAINERS_DIR"
+setfacl --recursive --modify g:{{GROUP_NAME}}:rwx "$CONAINERS_DIR"
+
+
+# Generate MariaDB root password and store it in a file..
+MARIADB_ROOT_PASSWORD=$(openssl rand -base64 24 | tr -d '/+=' | cut -c1-16)
+
+MARIADB_ROOT_PASSWORD_FILE="/var/passwd/containers/mariadb/MARIADB_ROOT_PASSWORD"
+DIR=$(dirname "$MARIADB_ROOT_PASSWORD_FILE")
+mkdir --parents "$DIR"
+setfacl --recursive --modify u:{{USER_NAME}}:rwx "$DIR"
+setfacl --recursive --modify g:{{GROUP_NAME}}:rwx "$DIR"
+
+echo -n "$MARIADB_ROOT_PASSWORD" | base64 > "$MARIADB_ROOT_PASSWORD_FILE"
+chmod o-r "$MARIADB_ROOT_PASSWORD_FILE"
+setfacl --recursive --modify u:{{USER_NAME}}:rwx "$MARIADB_ROOT_PASSWORD_FILE"
+setfacl --recursive --modify g:{{GROUP_NAME}}:rwx "$MARIADB_ROOT_PASSWORD_FILE"
+
+# Pull the latest MariaDB image..
+podman pull docker.io/library/mariadb:latest
+
 BUILD_UPDATE_KS_CFG_EOF
 
 #

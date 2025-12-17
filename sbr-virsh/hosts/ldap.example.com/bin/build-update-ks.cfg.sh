@@ -26,17 +26,20 @@ cat << BUILD_UPDATE_KS_CFG_EOF > "$RESOURCES_DIR/update-ks.cfg"
 # Host: $(hostname)
 #
 
-# Install useful tools..
-dnf install -y curl wget vim-enhanced bash-completion tar unzip git
+# The LDAP server and tools itself..
+sudo dnf install -y 389-ds-base 389-ds-base-snmp
 
-# 
-dnf install -y ca-certificates policycoreutils-python-utils
+# Let's use the OpenLDAP..
+dnf install epel-release -y
+dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm -y
+dnf install openldap openldap-servers openldap-clients -y
 
-# Install Podman and related tools..
-dnf install -y @container-tools
+# Enable LDAP service..
+systemctl enable --now slapd
 
-# Enable and open HTTP, HTTPS for services..
-firewall-offline-cmd --add-service=http --add-service=https
+# Enable LDAP service in firewall..
+firewall-offline-cmd --add-service=ldap
+firewall-offline-cmd --add-service=ldaps
 
 BUILD_UPDATE_KS_CFG_EOF
 

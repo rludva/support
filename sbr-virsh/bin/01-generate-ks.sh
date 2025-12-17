@@ -7,6 +7,7 @@ VM_NAME="${1:?Usage: $0 <hostname>}"
 BASEDIR="$(cd "$(dirname "$0")/.." && pwd)"
 HOSTDIR="$BASEDIR/hosts/$VM_NAME"
 RESOURCES_DIR="$HOSTDIR"
+ANACONDA_KS_CFG_SKELETON_FILE="$BASEDIR/res/anaconda-ks.cfg.skel"
 
 if [[ ! -d "$HOSTDIR" ]]; then
     echo "Host directory not found: $HOSTDIR"
@@ -175,7 +176,7 @@ if [ -z "$AUTHORIZED_SSH_KEYS" ]; then
 fi
 AUTHORIZED_SSH_KEYS_B64=$(echo -n "$AUTHORIZED_SSH_KEYS" | base64 -w0)
 
-# Create final anaconta.ks.cfg file..
+# Create final anaconda.ks.cfg file..
 sed -e "s|{{ROOT_PASSWORD_HASH}}|$ROOT_PASSWORD_HASH|g" \
     -e "s|{{USER_NAME}}|$USER_NAME|g" \
     -e "s|{{USER_PASSWORD_HASH}}|$USER_PASSWORD_HASH|g" \
@@ -192,7 +193,7 @@ sed -e "s|{{ROOT_PASSWORD_HASH}}|$ROOT_PASSWORD_HASH|g" \
     -e "s|{{ORGANIZATION}}|$ORGANIZATION|g" \
     -e "s|{{ACTIVATION_KEY}}|$ACTIVATION_KEY|g" \
     -e "s|{{VM_NAME}}|$VM_NAME|g" \
-  "$RESOURCES_DIR/anaconda-ks.cfg.skel" > "$RESOURCES_DIR/anaconda-ks.cfg"
+  "$ANACONDA_KS_CFG_SKELETON_FILE" > "$RESOURCES_DIR/anaconda-ks.cfg"
 
 # Build update-ks.cfg when the build script is present..
 echo " -> Checking for update-ks.cfg build script.."

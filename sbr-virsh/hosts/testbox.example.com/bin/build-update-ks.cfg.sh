@@ -13,6 +13,28 @@ FOLDER_NAME="$(basename "$PARENT_FOLDER")"
 VM_NAME="$FOLDER_NAME"
 RESOURCES_DIR="$PARENT_FOLDER"
 
+BASHRC_B64=$(cat <<'EOF' | base64 -w0
+# Shortcuts..
+alias r="tput reset"
+alias c="clear"
+alias e="exit"
+alias oo="sudo su"
+
+# Create same magic with dots..
+alias ..="cd .."
+alias ...="cd ..;cd .."
+alias ....="cd ..;cd ..;cd .."
+
+# Default and initial grep options:
+export GREP_OPTIONS='--color=auto'
+
+#
+mcdir()
+{
+  mkdir -p -- "$1" && cd -P -- "$1"
+}
+EOF
+)
 
 #
 #
@@ -25,6 +47,9 @@ cat << BUILD_UPDATE_KS_CFG_EOF > "$RESOURCES_DIR/update-ks.cfg"
 # Generated: $(date +"%Y-%m-%d %H:%M:%S")
 # Host: $(hostname)
 #
+
+# Add some usefull features and aliases to .bashrc
+echo "$BASHRC_B64" | base64 -d >> /home/{{USER_NAME}}/.bashrc
 BUILD_UPDATE_KS_CFG_EOF
 
 #

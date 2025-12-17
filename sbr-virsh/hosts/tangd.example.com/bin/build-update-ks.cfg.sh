@@ -26,18 +26,15 @@ cat << BUILD_UPDATE_KS_CFG_EOF > "$RESOURCES_DIR/update-ks.cfg"
 # Host: $(hostname)
 #
 
-# Install useful tools..
-dnf install -y curl wget vim-enhanced bash-completion tar unzip git
+#
+# --- Tang Server Configuration ---
+#
 
-# 
-dnf install -y ca-certificates policycoreutils-python-utils
+# Enable Tang socket (socket-activated service)..
+systemctl enable --now tangd.socket
 
-# Install Podman and related tools..
-dnf install -y @container-tools
-
-# Enable and open HTTP, HTTPS for services..
-firewall-offline-cmd --add-service=http --add-service=https
-
+# Allow HTTP traffic for Tang..
+firewall-offline-cmd --add-service=http
 BUILD_UPDATE_KS_CFG_EOF
 
 #
