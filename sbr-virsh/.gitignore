@@ -12,3 +12,7 @@ ssh_host_ed25519_key.b64
 ssh_host_ed25519_key.pub.b64
 ssh_host_rsa_key.b64
 ssh_host_rsa_key.pub.b64
+ssh_root_key.b64
+ssh_root_key.pub.b64
+ssh_user_key.b64
+ssh_user_key.pub.b64

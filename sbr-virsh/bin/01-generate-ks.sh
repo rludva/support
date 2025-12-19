@@ -68,6 +68,44 @@ GROUP_ID=${USER_ID:-1000}
 
 # 4. Generating SSH Keys..
 
+# 4.0.1 SSH keys for root..
+SSH_ROOT_PRIVATE_B64=""
+SSH_ROOT_PUBLIC_B64=""
+if [ -f "$RESOURCES_DIR/ssh_root_key.b64" ]; then
+  echo " -> Existing SSH root key found, reusing it."
+  SSH_ROOT_PRIVATE_B64=$(cat "$RESOURCES_DIR/ssh_root_key.b64")
+  SSH_ROOT_PUBLIC_B64=$(cat "$RESOURCES_DIR/ssh_root_key.pub.b64")
+fi
+if [ -z "$SSH_ROOT_PRIVATE_B64" ] || [ -z "$SSH_ROOT_PUBLIC_B64" ]; then
+  echo " -> Generating SSH root host key.."
+  TMP_KEY=$(mktemp --dry-run)
+  ssh-keygen -t ed25519 -N "" -f "$TMP_KEY" -C "root@$VM_NAME" >/dev/null 2>&1
+  SSH_ROOT_PRIVATE_B64=$(base64 -w0 "$TMP_KEY")
+  SSH_ROOT_PUBLIC_B64=$(base64 -w0 "$TMP_KEY.pub")
+  rm -f "$TMP_KEY" "$TMP_KEY.pub"
+  echo $SSH_ROOT_PRIVATE_B64 > "$RESOURCES_DIR/ssh_root_key.b64"
+  echo $SSH_ROOT_PUBLIC_B64 > "$RESOURCES_DIR/ssh_root_key.pub.b64"
+fi
+
+# 4.0.2 SSH keys for root..
+SSH_USER_PRIVATE_B64=""
+SSH_USER_PUBLIC_B64=""
+if [ -f "$RESOURCES_DIR/ssh_user_key.b64" ]; then
+  echo " -> Existing SSH user key found, reusing it."
+  SSH_USER_PRIVATE_B64=$(cat "$RESOURCES_DIR/ssh_user_key.b64")
+  SSH_USER_PUBLIC_B64=$(cat "$RESOURCES_DIR/ssh_user_key.pub.b64")
+fi
+if [ -z "$SSH_USER_PRIVATE_B64" ] || [ -z "$SSH_USER_PUBLIC_B64" ]; then
+  echo " -> Generating SSH user host key.."
+  TMP_KEY=$(mktemp --dry-run)
+  ssh-keygen -t ed25519 -N "" -f "$TMP_KEY" -C "$USER_NAME@$VM_NAME">/dev/null 2>&1
+  SSH_USER_PRIVATE_B64=$(base64 -w0 "$TMP_KEY")
+  SSH_USER_PUBLIC_B64=$(base64 -w0 "$TMP_KEY.pub")
+  rm -f "$TMP_KEY" "$TMP_KEY.pub"
+  echo $SSH_USER_PRIVATE_B64 > "$RESOURCES_DIR/ssh_user_key.b64"
+  echo $SSH_USER_PUBLIC_B64 > "$RESOURCES_DIR/ssh_user_key.pub.b64"
+fi
+
 # 4.1 ECDSA
 SSH_HOST_ECDSA_PRIVATE_B64=""
 SSH_HOST_ECDSA_PUBLIC_B64=""
@@ -245,6 +283,10 @@ sed -i \
     -e "s|{{GROUP_NAME}}|$GROUP_NAME|g" \
     -e "s|{{USER_ID}}|$USER_ID|g" \
     -e "s|{{GROUP_ID}}|$GROUP_ID|g" \
+    -e "s|{{SSH_ROOT_PRIVATE_B64}}|$SSH_ROOT_PRIVATE_B64|g" \
+    -e "s|{{SSH_ROOT_PUBLIC_B64}}|$SSH_ROOT_PUBLIC_B64|g" \
+    -e "s|{{SSH_USER_PRIVATE_B64}}|$SSH_USER_PRIVATE_B64|g" \
+    -e "s|{{SSH_USER_PUBLIC_B64}}|$SSH_USER_PUBLIC_B64|g" \
     -e "s|{{AUTHORIZED_SSH_KEYS_B64}}|$AUTHORIZED_SSH_KEYS_B64|g" \
     -e "s|{{SSH_HOST_ECDSA_PRIVATE_B64}}|$SSH_HOST_ECDSA_PRIVATE_B64|g" \
     -e "s|{{SSH_HOST_ECDSA_PUBLIC_B64}}|$SSH_HOST_ECDSA_PUBLIC_B64|g" \
