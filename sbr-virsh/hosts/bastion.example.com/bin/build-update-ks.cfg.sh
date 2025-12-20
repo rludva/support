@@ -25,6 +25,21 @@ cat << BUILD_UPDATE_KS_CFG_EOF > "$RESOURCES_DIR/update-ks.cfg"
 # Generated: $(date +"%Y-%m-%d %H:%M:%S")
 # Host: $(hostname)
 #
+
+# 1. Creation of ipset for blacklisted IPs..
+firewall-offline-cmd --new-ipset=blacklist --type=hash:ip
+
+# 2. Adding the ipset to the drop zone..
+firewall-offline-cmd --zone=drop --add-source=ipset:blacklist
+
+# 3. Adding blacklisted IPs to the ipset..
+firewall-offline-cmd --ipset=blacklist --add-entry=193.46.255.7
+firewall-offline-cmd --ipset=blacklist --add-entry=193.32.162.145
+firewall-offline-cmd --ipset=blacklist --add-entry=165.232.178.116
+
+# 4. The rest of blacklist scripts are going to be added into /root/.local/bin..
+mkdir /root/.local/bin
+
 BUILD_UPDATE_KS_CFG_EOF
 
 #
@@ -70,6 +85,14 @@ BUILD_UPDATE_KS_CFG_EOF
 }
 
 FILES_LIST=(
+ "/root/.local/bin/blacklist.txt"
+ "/root/.local/bin/block-ip.sh"
+ "/root/.local/bin/build-blacklist.sh"
+ "/root/.local/bin/bulk-block.sh"
+ "/root/.local/bin/create-ipset-blacklist.sh"
+ "/root/.local/bin/extract-user.sh"
+ "/root/.local/bin/get-entries-balcklist.sh"
+ "/root/.local/bin/get-entries-whitelist.sh"
 )
 
 # Iterace přes pole
