@@ -18,11 +18,13 @@ Dec 19 18:49:11 bastion.local.nutius.com sshd[54502]: Timeout before authenticat
 ```
 
 
-### blacklist.txt
+### blacklist.ips
 - List of IP addresses collected from bastion host and `journalctl -u sshd`.
 
+### whitelist.ips
+- List of whitelisted IP addresses that are not going to be blocked.
 
-### users.txt
+### users.ips
 - List of users that are used to access and attack through ssh on bastion host.
 - Extracted from `journalctl -u sshd`
 
@@ -46,11 +48,11 @@ Dec 19 18:56:08 bastion.local.nutius.com sshd-session[58366]: Connection closed 
 
 ### build-blacklist.sh
 - Build list of IP addresses thats try to attack with logging attempts to port 22/tcp (sshd)
-- Creates `blacklist.txt` file with these IPs
-- Can be executed multiple time and if IP is not present in the `blacklist.txt` it is added
+- Creates `blacklist.ips` file with these IPs
+- Can be executed multiple time and if IP is not present in the `blacklist.ips` it is added
 
 ### bulk-block.sh
-- Adds all IPS listed in `blacklist.txt` to the blacklist ipset using the `block-ip.sh` sript.
+- Adds all IPS listed in `blacklist.ips` to the blacklist ipset using the `block-ip.sh` sript.
 
 ### extract-user.sh
 - Extract users that are used to login to the system into a table.
