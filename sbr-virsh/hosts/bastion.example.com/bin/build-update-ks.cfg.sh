@@ -85,13 +85,14 @@ BUILD_UPDATE_KS_CFG_EOF
 }
 
 FILES_LIST=(
- "/root/.local/bin/blacklist.txt"
+ "/root/.local/bin/blacklist.ips"
+ "/root/.local/bin/whitelist.ips"
  "/root/.local/bin/block-ip.sh"
  "/root/.local/bin/build-blacklist.sh"
  "/root/.local/bin/bulk-block.sh"
  "/root/.local/bin/create-ipset-blacklist.sh"
  "/root/.local/bin/extract-user.sh"
- "/root/.local/bin/get-entries-balcklist.sh"
+ "/root/.local/bin/get-entries-blacklist.sh"
  "/root/.local/bin/get-entries-whitelist.sh"
 )
 
