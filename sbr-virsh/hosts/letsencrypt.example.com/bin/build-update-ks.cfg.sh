@@ -25,6 +25,51 @@ cat << BUILD_UPDATE_KS_CFG_EOF > "$RESOURCES_DIR/update-ks.cfg"
 # Generated: $(date +"%Y-%m-%d %H:%M:%S")
 # Host: $(hostname)
 #
+
+
+#
+# Let's Encrypt specific setup:
+
+# Enable http 80
+firewall-offline-cmd --add-service=http
+
+# The 80/tcp is usually in the standard configuration already set to http_port_t..
+# So use the || /bin/true to ignore errors if already set!
+semanage port -a -t http_port_t -p tcp 80 || /bin/true
+
+# Enable CodeReady Builder repository
+subscription-manager repos --enable codeready-builder-for-rhel-10-x86_64-rpms
+
+# Install required packages
+dnf install -y python3 python3-devel augeas-devel gcc openssl-devel
+
+# Setup Certbot in a virtual environment..
+python3 -m venv /opt/certbot/
+
+# Upgrade pip and install certbot
+/opt/certbot/bin/pip install --upgrade pip
+/opt/certbot/bin/pip install certbot
+
+# Create symlink for certbot command--
+ln -s /opt/certbot/bin/certbot /usr/bin/certbot
+
+# Setup cron job for automatic certificate renewal..
+echo "0 0,12 * * * root /opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && sudo certbot renew -q" | sudo tee -a /etc/crontab > /dev/null
+
+cat <<EOF > /usr/local/bin/renew-hook.sh
+#!/bin/bash
+#
+# Distribution logic to deploy new certificates after renewal..
+#
+# Use with sudo certbot renew --deploy-hook /usr/local/bin/renew-hook.sh
+# $ certbot certonly --standalone -d service1.apps.example.com --deploy-hook /usr/local/bin/renew-hook.sh
+
+EOF
+chmod +x /usr/local/bin/renew-hook.sh
+
+# End of LetsEncrypt specific setup
+# 
+
 BUILD_UPDATE_KS_CFG_EOF
 
 #
