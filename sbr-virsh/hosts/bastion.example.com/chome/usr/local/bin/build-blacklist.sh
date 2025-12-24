@@ -11,21 +11,21 @@ NC='\033[0m'
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # File where unique attacker IPs are stored..
-BLOCKLIST_FILE="$SCRIPT_DIR/blacklist.ips"
+BLOCKLIST_FILE="/var/data/blacklist.ips"
 if [ ! -f "$BLOCKLIST_FILE" ]; then
   echo -e "${YELLOW}Warning:${NC} Creating missing blocklist file at $BLOCKLIST_FILE"
   touch "$BLOCKLIST_FILE"
 fi
 
 # Get the directory where the block-ip.sh script is located..
-BLOCK_IP_SCRIPT="$SCRIPT_DIR/block-ip.sh"
+BLOCK_IP_SCRIPT="/usr/local/bin/block-ip.sh"
 if [ ! -f "$BLOCK_IP_SCRIPT" ]; then
   echo -e "${RED}ERROR: Script $BLOCK_IP_SCRIPT not found in the current folder.${NC}"
   exit 1
 fi
 
 # Get the whitelist file path..
-WHITELIST_FILE="$SCRIPT_DIR/whitelist.ips"
+WHITELIST_FILE="/var/data/whitelist.ips"
 if [ ! -f "$WHITELIST_FILE" ]; then
   echo -e "${YELLOW}Warning:${NC} Creating missing whitelist file at $WHITELIST_FILE"
   touch "$WHITELIST_FILE"

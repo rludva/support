@@ -7,7 +7,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-INPUT_FILE="blacklist.ips"
+INPUT_FILE="/var/data/blacklist.ips"
 
 if [ ! -f "$INPUT_FILE" ]; then
     echo -e "${RED}Error: $INPUT_FILE not found.${NC}"
