@@ -30,7 +30,7 @@ BLOCK_IP="$1"
 echo -e "${YELLOW}Processing block request for: ${NC}${BLOCK_IP}"
 
 # Get the whitelist file path..
-WHITELIST_FILE="$SCRIPT_DIR/whitelist.ips"
+WHITELIST_FILE="/var/data/whitelist.ips"
 if [ ! -f "$WHITELIST_FILE" ]; then
   echo -e "${YELLOW}Warning:${NC} Creating missing whitelist file at $WHITELIST_FILE"
   touch "$WHITELIST_FILE"
