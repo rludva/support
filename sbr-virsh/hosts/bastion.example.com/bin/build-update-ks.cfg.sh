@@ -40,6 +40,10 @@ firewall-offline-cmd --ipset=blacklist --add-entry=165.232.178.116
 # 4. The rest of blacklist scripts are going to be added into /root/.local/bin..
 mkdir /root/.local/bin
 
+# 5. Install net-tools package (ether-wake)
+#    Better to have it installed even the fackt that we use python to generate the WOL packet..
+dnf install -y net-tools
+
 BUILD_UPDATE_KS_CFG_EOF
 
 #
