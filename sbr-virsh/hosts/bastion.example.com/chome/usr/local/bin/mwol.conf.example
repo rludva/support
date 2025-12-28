@@ -1,0 +1,14 @@
+# Network interface (e.g., eth0, enp1s0, etc.)
+IFACE="eno1"
+BCAST_ADDR="192.168.0.255"
+
+
+# Global delay between packets in seconds (overrides script default)
+DELAY=1
+
+# Define your groups here
+# Format: ["group_name"]="MAC1 MAC2 MAC3 ..."
+declare -A HOST_GROUPS
+HOST_GROUPS["personal"]="11:22:33:44:55:66"
+HOST_GROUPS["lab1"]="01:01:02:03:04:05 01:02:03:04:05:06 01:03:04:05:06:07"
+HOST_GROUPS["server"]="e0:07:1b:ff:3c:4a"
