@@ -12,3 +12,22 @@ declare -A HOST_GROUPS
 HOST_GROUPS["personal"]="11:22:33:44:55:66"
 HOST_GROUPS["lab1"]="01:01:02:03:04:05 01:02:03:04:05:06 01:03:04:05:06:07"
 HOST_GROUPS["server"]="e0:07:1b:ff:3c:4a"
+
+
+#
+# SSH Settings for Shutdown
+# Format: ["group_name"]="user@host1 user@host2 ..."
+# --- SHUTDOWN SETTINGS (Vypínání) ---
+declare -A OFF_GROUPS
+OFF_GROUPS["personal"]="user@personal.example.com"
+OFF_GROUPS["lab1"]="core@master1.lab1.example.com core@master2.lab1.example.com core@master3.lab1.example.com core@worker1.lab1.example.com core@worker2.lab1.example.com core@worker3.lab1.example.com core@worker4.lab1.example.com core@worker5.lab1.example.com core@worker6.lab1.example.com core@worker7.lab1.example.com"
+OFF_GROUPS["server"]="user@server.example.com"
+
+
+# --- SSH KEYS (Cesty ke klíčům) ---
+declare -A OFF_KEYS
+OFF_KEYS["lab1"]="/home/user/.ssh/lab1-id_rsa"
+OFF_KEYS["personal"]="/home/user/.ssh/id_rsa"
+
+# Empty for default system key..
+OFF_KEYS["server"]=""
