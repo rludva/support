@@ -8,6 +8,7 @@ cdrom
 lang en_US.UTF-8
 keyboard cz-qwerty
 timezone Europe/Prague --utc
+timesource --ntp-server=tik.cesnet.cz --ntp-server=tak.cesnet.cz --ntp-server=0.cz.pool.ntp.org
 
 # --- NETWORKING ---
 # Set hostname and enable network via DHCP
@@ -58,6 +59,9 @@ cockpit
 # We need this to be able to use `semanage` commands in %post section..
 policycoreutils-python-utils
 
+# POSIX ACL utilities
+acl
+
 # Useful utilities
 tar
 bzip2
@@ -69,6 +73,26 @@ mc
 # --- POST INSTALLATION ---
 # Enable services after startup
 %post
+
+# 00 - 01 - Chrony NTP setup ---
+# Create directory for NetworkManager configuration if it doesn't exist..
+mkdir -p /etc/NetworkManager/conf.d
+
+# Ignore auto NTP settings from DHCP..
+cat <<EOF > /etc/NetworkManager/conf.d/10-ignore-ntp.conf
+[connection]
+ipv4.dhcp-ignore-auto-ntp=true
+ipv6.dhcp-ignore-auto-ntp=true
+EOF
+
+# Clean any existing DHCP chrony leases..
+rm -f /run/chrony-dhcp/*
+
+# Make sure that chronyd is enabled..
+systemctl enable chronyd
+# 00 - 01 - End of Chrony NTP setup ---
+#
+
 
 # 01. NOPASSWD for user {{USER_NAME}} ---
 # Create a sudoers drop-in file
