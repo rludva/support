@@ -25,6 +25,12 @@ if [ ! -f "$BLOCK_IP_SCRIPT" ]; then
   exit 1
 fi
 
+BLACKLIST_METRICS_SCRIPT="/usr/local/bin/blacklist-metrics.sh"
+if [ ! -f "$BLACKLIST_METRICS_SCRIPT" ]; then
+  echo -e "${RED}ERROR: Script $BLACKLIST_METRICS_SCRIPT not found in the current folder.${NC}"
+  exit 1
+fi
+
 # Get the whitelist file path..
 WHITELIST_FILE="/var/data/whitelist.ips"
 if [ ! -f "$WHITELIST_FILE" ]; then
@@ -72,6 +78,9 @@ for ITEM in $IPS; do
 
     # Execute the sub-script and add it also to the blacklist ipset..
     /bin/bash "$BLOCK_IP_SCRIPT" "$ITEM" || true
+
+    # Log the blacklist event..
+    /bin/bash "$BLACKLIST_METRICS_SCRIPT" "$ITEM" "ssh-bruteforce" || true
   fi
 done
 
