@@ -14,12 +14,12 @@ if [ ! -f "$INPUT_FILE" ]; then
     exit 1
 fi
 
-echo -e "${BLUE}================================================================================${NC}"
-echo -e "${CYAN}                    IP GEOLOCATION REPORT (Country & City)                    ${NC}"
-echo -e "${BLUE}================================================================================${NC}"
+echo -e "================================================================================"
+echo -e "                    IP GEOLOCATION REPORT (Country & City)                      "
+echo -e "================================================================================"
 
 # Table Header
-printf "${YELLOW}%-18s | %-20s | %-20s${NC}\n" "IP ADDRESS" "COUNTRY" "CITY"
+printf "%-18s | %-20s | %-20s\n" "IP ADDRESS" "COUNTRY" "CITY"
 echo "--------------------------------------------------------------------------------"
 
 # Process IPs
@@ -41,17 +41,17 @@ while read -r ip; do
         
         printf "%-18s | %-20s | %-20s\n" "$ip" "$COUNTRY" "$CITY"
     else
-        printf "%-18s | ${RED}%-20s${NC} | %-20s\n" "$ip" "Unknown" "N/A"
+        printf "%-18s | %-20s | %-20s\n" "$ip" "Unknown" "N/A"
     fi
 
     # API Management: 500 IPs is a lot for a free API. 
     # We pause for 1.5 seconds every 40 requests to stay under the limit.
     ((count++))
     if (( count % 40 == 0 )); then
-        echo -e "${BLUE}[Rate-limit protection: Pausing for 60s]${NC}"
+        #echo -e "${BLUE}[Rate-limit protection: Pausing for 60s]${NC}"
         sleep 60
     fi
 
 done < "$INPUT_FILE"
 
-echo -e "${BLUE}================================================================================${NC}"
+echo "================================================================================"

@@ -7,9 +7,9 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 # Time range to analyze
-SINCE="-100days"
+SINCE="-1000days"
 
-echo -e "${CYAN}Analyzing SSH logs for targeted usernames (last ${SINCE})...${NC}"
+echo -e "Analyzing SSH logs for targeted usernames (last ${SINCE})..."
 echo "----------------------------------------------------------------------"
 printf "%-10s %-20s\n" "ATTEMPTS" "USERNAME"
 echo "----------------------------------------------------------------------"
@@ -27,7 +27,7 @@ if [ -z "$USERS" ]; then
     echo -e "${YELLOW}No invalid usernames found in the specified time range.${NC}"
 else
     while read -r COUNT USERNAME; do
-        printf "%-10s ${GREEN}%-20s${NC}\n" "$COUNT" "$USERNAME"
+        printf "%-10s %-20s\n" "$COUNT" "$USERNAME"
     done <<< "$USERS"
 fi
 
