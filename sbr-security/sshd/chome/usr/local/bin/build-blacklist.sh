@@ -5,16 +5,17 @@ set -euo pipefail
 YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
 CYAN='\033[0;36m'
+RED='\033[0;31m'
 NC='\033[0m'
 
 # Get the directory where this script is located..
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # File where unique attacker IPs are stored..
-BLOCKLIST_FILE="/var/data/blacklist.ips"
-if [ ! -f "$BLOCKLIST_FILE" ]; then
-  echo -e "${YELLOW}Warning:${NC} Creating missing blocklist file at $BLOCKLIST_FILE"
-  touch "$BLOCKLIST_FILE"
+BLACKLIST_FILE="/var/data/blacklist.ips"
+if [ ! -f "$BLACKLIST_FILE" ]; then
+  echo -e "${YELLOW}Warning:${NC} Creating missing blocklist file at $BLACKLIST_FILE"
+  touch "$BLACKLIST_FILE"
 fi
 
 # Get the directory where the block-ip.sh script is located..
@@ -64,10 +65,10 @@ for ITEM in $IPS; do
   fi
 
   # Only process if the IP is not already in the file
-  if ! grep -qxF "$ITEM" "$BLOCKLIST_FILE"; then
+  if ! grep -qxF "$ITEM" "$BLACKLIST_FILE"; then
     echo -e "${YELLOW}New attacker detected: ${NC}$ITEM"
-    echo "$ITEM" >> "$BLOCKLIST_FILE"
-    ((NEW_COUNT++))
+    echo "$ITEM" >> "$BLACKLIST_FILE"
+    ((++NEW_COUNT))
 
     # Execute the sub-script and add it also to the blacklist ipset..
     /bin/bash "$BLOCK_IP_SCRIPT" "$ITEM" || true
