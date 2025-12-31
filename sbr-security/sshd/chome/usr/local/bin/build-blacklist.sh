@@ -68,7 +68,7 @@ for ITEM in $IPS; do
   if ! grep -qxF "$ITEM" "$BLACKLIST_FILE"; then
     echo -e "${YELLOW}New attacker detected: ${NC}$ITEM"
     echo "$ITEM" >> "$BLACKLIST_FILE"
-    ((++NEW_COUNT))
+    ((NEW_COUNT++)) || true
 
     # Execute the sub-script and add it also to the blacklist ipset..
     /bin/bash "$BLOCK_IP_SCRIPT" "$ITEM" || true
