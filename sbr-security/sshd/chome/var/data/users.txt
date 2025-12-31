@@ -1,1135 +1,743 @@
-[0;36mAnalyzing SSH logs for targeted usernames (last -100days)...[0m
+Analyzing SSH logs for targeted usernames (last -1000days)...
 ----------------------------------------------------------------------
 ATTEMPTS   USERNAME            
 ----------------------------------------------------------------------
-1153       [0;32madmin               [0m
-676        [0;32mubuntu              [0m
-560        [0;32muser                [0m
-449        [0;32mtest                [0m
-289        [0;32moracle              [0m
-212        [0;32mdebian              [0m
-211        [0;32mpostgres            [0m
-205        [0;32mpi                  [0m
-205        [0;32mftpuser             [0m
-195        [0;32mguest               [0m
-186        [0;32mgit                 [0m
-121        [0;32mtomcat              [0m
-114        [0;32mmysql               [0m
-109        [0;32mnewuser             [0m
-108        [0;32mnagios              [0m
-105        [0;32muser1               [0m
-102        [0;32mdocker              [0m
-99         [0;32madministrator       [0m
-95         [0;32mbackup              [0m
-83         [0;32mdeploy              [0m
-82         [0;32mwebmaster           [0m
-78         [0;32mdev                 [0m
-77         [0;32mwww-data            [0m
-75         [0;32mjenkins             [0m
-74         [0;32msolana              [0m
-72         [0;32mrosa                [0m
-70         [0;32mhadoop              [0m
-68         [0;32mcentos              [0m
-67         [0;32mnginx               [0m
-66         [0;32mdspace              [0m
-65         [0;32mec2-user            [0m
-64         [0;32mapache              [0m
-63         [0;32mdeveloper           [0m
-59         [0;32msolv                [0m
-54         [0;32msysadmin            [0m
-52         [0;32msol                 [0m
-51         [0;32mweblogic            [0m
-50         [0;32mubnt                [0m
-50         [0;32mtestuser            [0m
-49         [0;32msvn                 [0m
-49         [0;32msteam               [0m
-48         [0;32mes                  [0m
-48         [0;32madmin1              [0m
-47         [0;32modoo                [0m
-45         [0;32mtest1               [0m
-44         [0;32mftptest             [0m
-44         [0;32mansible             [0m
-43         [0;32mwww                 [0m
-39         [0;32msupport             [0m
-38         [0;32mzabbix              [0m
-36         [0;32mali                 [0m
-34         [0;32mweb                 [0m
-34         [0;32muftp                [0m
-34         [0;32mbot                 [0m
-32         [0;32mstudent             [0m
-31         [0;32mredis               [0m
-31         [0;32mminecraft           [0m
-30         [0;32msystem              [0m
-29         [0;32mdeployer            [0m
-27         [0;32mvyos                [0m
-27         [0;32msammy               [0m
-27         [0;32mredhat              [0m
-27         [0;32mmongodb             [0m
-27         [0;32mfedora              [0m
-26         [0;32muser2               [0m
-26         [0;32mteste               [0m
-26         [0;32mmyuser              [0m
-25         [0;32mserver              [0m
-25         [0;32mdemo                [0m
-24         [0;32mpaula               [0m
-24         [0;32mAntminer            [0m
-23         [0;32mnode                [0m
-23         [0;32mgpadmin             [0m
-22         [0;32mvpn                 [0m
-22         [0;32mvnc                 [0m
-22         [0;32muser01              [0m
-22         [0;32mserver1             [0m
-22         [0;32mfrontlike           [0m
-22         [0;32mbotuser             [0m
-21         [0;32mtuan                [0m
-21         [0;32mtestftp             [0m
-21         [0;32msangoma             [0m
-21         [0;32momid                [0m
-21         [0;32mmax                 [0m
-21         [0;32minvitado            [0m
-21         [0;32mgmodserver          [0m
-21         [0;32mgitlab-runner       [0m
-20         [0;32mzjw                 [0m
-20         [0;32mvlad                [0m
-20         [0;32mtester              [0m
-20         [0;32mrunner              [0m
-20         [0;32mcisco               [0m
-19         [0;32mvbox                [0m
-19         [0;32mtesting             [0m
-19         [0;32mapp                 [0m
-18         [0;32mying                [0m
-18         [0;32myang                [0m
-18         [0;32mvictor              [0m
-18         [0;32mtest2               [0m
-18         [0;32mtes                 [0m
-18         [0;32mproduction          [0m
-18         [0;32mmongod              [0m
-18         [0;32mmapadmin            [0m
-18         [0;32mmagento             [0m
-18         [0;32mleon                [0m
-18         [0;32mjoel                [0m
-18         [0;32mesuser              [0m
-18         [0;32mdaniel              [0m
-18         [0;32mcompta              [0m
-17         [0;32mnewadmin            [0m
-17         [0;32mandrew              [0m
-17         [0;32madmins              [0m
-16         [0;32muser10              [0m
-16         [0;32mts3                 [0m
-16         [0;32msuper               [0m
-16         [0;32msunil               [0m
-16         [0;32msftpuser            [0m
-16         [0;32mnexus               [0m
-16         [0;32mnextcloud           [0m
-16         [0;32mm                   [0m
-16         [0;32mjahan               [0m
-16         [0;32meth                 [0m
-16         [0;32merpnext             [0m
-16         [0;32mazure               [0m
-15         [0;32mwesley              [0m
-15         [0;32musername            [0m
-15         [0;32mteamspeak           [0m
-15         [0;32mosboxes             [0m
-15         [0;32mkt                  [0m
-15         [0;32mftp_user            [0m
-15         [0;32mdeep                [0m
-15         [0;32mcsgoserver          [0m
-15         [0;32mcoco                [0m
-15         [0;32malice               [0m
-14         [0;32muser02              [0m
-14         [0;32mtunnel              [0m
-14         [0;32mshiny               [0m
-14         [0;32mosmc                [0m
-14         [0;32mopenwrt             [0m
-14         [0;32mmarta               [0m
-14         [0;32mmailuser            [0m
-14         [0;32mmahesh              [0m
-14         [0;32mitadmin             [0m
-14         [0;32mgateway             [0m
-14         [0;32mfuho                [0m
-14         [0;32mftp1                [0m
-14         [0;32mcore                [0m
-14         [0;32mbaikal              [0m
-13         [0;32mwillie              [0m
-13         [0;32mvncuser             [0m
-13         [0;32mvalidator           [0m
-13         [0;32mtodus               [0m
-13         [0;32mthomas              [0m
-13         [0;32mtest_user           [0m
-13         [0;32mpublico             [0m
-13         [0;32mopc                 [0m
-13         [0;32mhelpdesk            [0m
-13         [0;32mfrappe              [0m
-13         [0;32malex                [0m
-13         [0;32mai                  [0m
-12         [0;32mwebapp              [0m
-12         [0;32musuario             [0m
-12         [0;32musertest            [0m
-12         [0;32muserftp             [0m
-12         [0;32muser3               [0m
-12         [0;32mtestadmin           [0m
-12         [0;32msimone              [0m
-12         [0;32msanjay              [0m
-12         [0;32mrolando             [0m
-12         [0;32mpublic              [0m
-12         [0;32mprueba              [0m
-12         [0;32mpq                  [0m
-12         [0;32mpgsql               [0m
-12         [0;32mpatrol              [0m
-12         [0;32moperador            [0m
-12         [0;32mlogstash            [0m
-12         [0;32mkafka               [0m
-12         [0;32mjustin              [0m
-12         [0;32mfrank               [0m
-12         [0;32mdevuser             [0m
-12         [0;32mdevtest             [0m
-12         [0;32mdbadmin             [0m
-12         [0;32mdana                [0m
-12         [0;32mcindy               [0m
-12         [0;32mchris               [0m
-12         [0;32mbernard             [0m
-12         [0;32mbb                  [0m
-12         [0;32mbackend             [0m
-12         [0;32marthur              [0m
-12         [0;32malba                [0m
-12         [0;32madrian              [0m
-11         [0;32mwebuser             [0m
-11         [0;32msonar               [0m
-11         [0;32msoftware            [0m
-11         [0;32mryan                [0m
-11         [0;32mrich                [0m
-11         [0;32mplex                [0m
-11         [0;32moleg                [0m
-11         [0;32mmaster              [0m
-11         [0;32mmaarch              [0m
-11         [0;32mlaura               [0m
-11         [0;32mguest1              [0m
-11         [0;32mdmdba               [0m
-11         [0;32mclient              [0m
-11         [0;32mbackups             [0m
-11         [0;32mappadmin            [0m
-11         [0;32mapagar              [0m
-10         [0;32myx                  [0m
-10         [0;32mwangbo              [0m
-10         [0;32muser4               [0m
-10         [0;32mts3srv              [0m
-10         [0;32mtest3               [0m
-10         [0;32msinusbot            [0m
-10         [0;32msfserver            [0m
-10         [0;32msara                [0m
-10         [0;32mrsync               [0m
-10         [0;32mminer               [0m
-10         [0;32mkris                [0m
-10         [0;32mjupyter             [0m
-10         [0;32mjesus               [0m
-10         [0;32mglassfish           [0m
-10         [0;32mgituser             [0m
-10         [0;32mdevops              [0m
-10         [0;32mdavid               [0m
-10         [0;32mdanny               [0m
-10         [0;32mcontador            [0m
-10         [0;32mcarol               [0m
-10         [0;32mactivemq            [0m
-9          [0;32mxq                  [0m
-9          [0;32mwireguard           [0m
-9          [0;32mwebadmin            [0m
-9          [0;32mwahyu               [0m
-9          [0;32mvps                 [0m
-9          [0;32mvijay               [0m
-9          [0;32mveronica            [0m
-9          [0;32mvagrant             [0m
-9          [0;32muser123             [0m
-9          [0;32mts3server           [0m
-9          [0;32mtorrent             [0m
-9          [0;32mtomas               [0m
-9          [0;32mtest4               [0m
-9          [0;32mtest123             [0m
-9          [0;32mteamspeak3          [0m
-9          [0;32mtan                 [0m
-9          [0;32msystems             [0m
-9          [0;32msybase              [0m
-9          [0;32msquid               [0m
-9          [0;32mspace               [0m
-9          [0;32mservice             [0m
-9          [0;32mrana                [0m
-9          [0;32mpatrick             [0m
-9          [0;32moscar               [0m
-9          [0;32mnoaccess            [0m
-9          [0;32mmpi                 [0m
-9          [0;32mlucas               [0m
-9          [0;32mljh                 [0m
-9          [0;32missabel             [0m
-9          [0;32mhuawei              [0m
-9          [0;32mhl                  [0m
-9          [0;32mganesh              [0m
-9          [0;32mftp-test            [0m
-9          [0;32mdan                 [0m
-9          [0;32mbuilder             [0m
-9          [0;32manderson            [0m
-9          [0;32malexis              [0m
-9          [0;32madriano             [0m
-9          [0;32madam                [0m
-8          [0;32mwebserver           [0m
-8          [0;32mVPN                 [0m
-8          [0;32mvanessa             [0m
-8          [0;32muser5               [0m
-8          [0;32mty                  [0m
-8          [0;32mtuser               [0m
-8          [0;32mtestssh             [0m
-8          [0;32mtele                [0m
-8          [0;32msuporte             [0m
-8          [0;32mstack               [0m
-8          [0;32msshtunnel           [0m
-8          [0;32msmbuser             [0m
-8          [0;32mshare               [0m
-8          [0;32msergey              [0m
-8          [0;32msample              [0m
-8          [0;32mpython              [0m
-8          [0;32mpms                 [0m
-8          [0;32mphpmyadmin          [0m
-8          [0;32mpagar               [0m
-8          [0;32mnodered             [0m
-8          [0;32mnetflow             [0m
-8          [0;32mnb                  [0m
-8          [0;32mmom                 [0m
-8          [0;32mlukas               [0m
-8          [0;32mklaus               [0m
-8          [0;32mjeremy              [0m
-8          [0;32mjames               [0m
-8          [0;32mirfan               [0m
-8          [0;32minstall             [0m
-8          [0;32minformix            [0m
-8          [0;32mhik                 [0m
-8          [0;32mhdfs                [0m
-8          [0;32mftpadmin            [0m
-8          [0;32mfourjs              [0m
-8          [0;32mfernando            [0m
-8          [0;32mfelipe              [0m
-8          [0;32mfacturacion         [0m
-8          [0;32melastic             [0m
-8          [0;32mdelete              [0m
-8          [0;32mcroceiris           [0m
-8          [0;32mconsole             [0m
-8          [0;32mcacti               [0m
-8          [0;32mbryan               [0m
-8          [0;32mboris               [0m
-8          [0;32mbob                 [0m
-8          [0;32mbass                [0m
-8          [0;32mappuser             [0m
-8          [0;32manand               [0m
-8          [0;32madministrador       [0m
-7          [0;32mxbmc                [0m
-7          [0;32muser100             [0m
-7          [0;32mupdate              [0m
-7          [0;32mtushar              [0m
-7          [0;32mtrisha              [0m
-7          [0;32mtony                [0m
-7          [0;32mtom                 [0m
-7          [0;32mtaya                [0m
-7          [0;32mstephon             [0m
-7          [0;32mshayne              [0m
-7          [0;32mshannon             [0m
-7          [0;32msecret              [0m
-7          [0;32mreception           [0m
-7          [0;32mrebecca             [0m
-7          [0;32morangepi            [0m
-7          [0;32mopenhabian          [0m
-7          [0;32mopen                [0m
-7          [0;32mnikita              [0m
-7          [0;32mmonitor             [0m
-7          [0;32mmms                 [0m
-7          [0;32mmisty               [0m
-7          [0;32mkelly               [0m
-7          [0;32mkaia                [0m
-7          [0;32mjoana               [0m
-7          [0;32minstaller           [0m
-7          [0;32mhelp                [0m
-7          [0;32melsa                [0m
-7          [0;32mdownload            [0m
-7          [0;32mdemouser            [0m
-7          [0;32mdeasia              [0m
-7          [0;32mdawn                [0m
-7          [0;32mconfig              [0m
-7          [0;32mauto                [0m
-7          [0;32mansadmin            [0m
-7          [0;32manita               [0m
-7          [0;32ma                   [0m
-7          [0;32m123456              [0m
-7          [0;32m1234                [0m
-6          [0;32mzy                  [0m
-6          [0;32mzhou                [0m
-6          [0;32mzhangl              [0m
-6          [0;32myi                  [0m
-6          [0;32myangy               [0m
-6          [0;32mxerox               [0m
-6          [0;32mwso2                [0m
-6          [0;32mworker              [0m
-6          [0;32mwhmcs               [0m
-6          [0;32mwanghao             [0m
-6          [0;32mvicente             [0m
-6          [0;32mveterina            [0m
-6          [0;32mvas                 [0m
-6          [0;32mvalheim             [0m
-6          [0;32mutente              [0m
-6          [0;32museradmin           [0m
-6          [0;32muser03              [0m
-6          [0;32munity               [0m
-6          [0;32mu                   [0m
-6          [0;32mts3bot              [0m
-6          [0;32mtraining            [0m
-6          [0;32mtrack               [0m
-6          [0;32mtools               [0m
-6          [0;32mtomcatuser          [0m
-6          [0;32mtmpuser             [0m
-6          [0;32mtmp                 [0m
-6          [0;32mtk                  [0m
-6          [0;32mtin                 [0m
-6          [0;32mtiger               [0m
-6          [0;32mtestsftp            [0m
-6          [0;32mtemplate            [0m
-6          [0;32mtemp                [0m
-6          [0;32mteam06              [0m
-6          [0;32msubhana             [0m
-6          [0;32mstudent1            [0m
-6          [0;32mstorage             [0m
-6          [0;32mstephen             [0m
-6          [0;32msqoop               [0m
-6          [0;32msmkim               [0m
-6          [0;32msjen                [0m
-6          [0;32msignes              [0m
-6          [0;32msdtd                [0m
-6          [0;32msap                 [0m
-6          [0;32msai                 [0m
-6          [0;32msagar               [0m
-6          [0;32msaad                [0m
-6          [0;32mrupesh              [0m
-6          [0;32mrostam              [0m
-6          [0;32mrootuser            [0m
-6          [0;32mroot2               [0m
-6          [0;32mrocky               [0m
-6          [0;32mrizal               [0m
-6          [0;32mreza                [0m
-6          [0;32mredmine             [0m
-6          [0;32mrasel               [0m
-6          [0;32mramon               [0m
-6          [0;32mradix               [0m
-6          [0;32mqichen              [0m
-6          [0;32mqa                  [0m
-6          [0;32mprova               [0m
-6          [0;32mprog                [0m
-6          [0;32mproceso             [0m
-6          [0;32mprince              [0m
-6          [0;32mpraveen             [0m
-6          [0;32mpractice            [0m
-6          [0;32mpp                  [0m
-6          [0;32mpo7dev              [0m
-6          [0;32mpivpn               [0m
-6          [0;32moper                [0m
-6          [0;32moneadmin            [0m
-6          [0;32momar                [0m
-6          [0;32mociispth            [0m
-6          [0;32mnina                [0m
-6          [0;32mnes2                [0m
-6          [0;32mnasrin              [0m
-6          [0;32mnami                [0m
-6          [0;32mmyftp               [0m
-6          [0;32mmusicbot            [0m
-6          [0;32mmtvps1              [0m
-6          [0;32mmrodelo             [0m
-6          [0;32mmove                [0m
-6          [0;32mmoses               [0m
-6          [0;32mmonitoreo           [0m
-6          [0;32mmonit               [0m
-6          [0;32mmongo               [0m
-6          [0;32mml                  [0m
-6          [0;32mmhd                 [0m
-6          [0;32mmgeweb              [0m
-6          [0;32mmessagebus          [0m
-6          [0;32mme                  [0m
-6          [0;32mmcserver            [0m
-6          [0;32mmcc                 [0m
-6          [0;32mmarketing           [0m
-6          [0;32mmani                [0m
-6          [0;32mmaman               [0m
-6          [0;32mm1                  [0m
-6          [0;32mlzt                 [0m
-6          [0;32mlynx                [0m
-6          [0;32mlog                 [0m
-6          [0;32mlocal               [0m
-6          [0;32mlixiang             [0m
-6          [0;32mlighthouse          [0m
-6          [0;32mliam                [0m
-6          [0;32mleonard             [0m
-6          [0;32mlawrence            [0m
-6          [0;32mlabor               [0m
-6          [0;32mkube                [0m
-6          [0;32mkodi                [0m
-6          [0;32mkk                  [0m
-6          [0;32mkingbase            [0m
-6          [0;32mkasia               [0m
-6          [0;32mjosh                [0m
-6          [0;32mjonas               [0m
-6          [0;32mjon                 [0m
-6          [0;32mjob                 [0m
-6          [0;32mjitendra            [0m
-6          [0;32mjincao              [0m
-6          [0;32mjens                [0m
-6          [0;32mjason               [0m
-6          [0;32miview               [0m
-6          [0;32mit                  [0m
-6          [0;32mionguest            [0m
-6          [0;32minternal            [0m
-6          [0;32mincoming            [0m
-6          [0;32midc                 [0m
-6          [0;32mhyperic             [0m
-6          [0;32mhrm                 [0m
-6          [0;32mguest2              [0m
-6          [0;32mguest123            [0m
-6          [0;32mgitlab              [0m
-6          [0;32mgis                 [0m
-6          [0;32mghost               [0m
-6          [0;32mgemini              [0m
-6          [0;32mgbasedbt            [0m
-6          [0;32mg                   [0m
-6          [0;32mfw                  [0m
-6          [0;32mfront               [0m
-6          [0;32mflask               [0m
-6          [0;32mfestival            [0m
-6          [0;32mevil                [0m
-6          [0;32mester               [0m
-6          [0;32mesroot              [0m
-6          [0;32meoffice             [0m
-6          [0;32melaine              [0m
-6          [0;32mechuser             [0m
-6          [0;32mduser               [0m
-6          [0;32mdroidbot            [0m
-6          [0;32mdoiserver           [0m
-6          [0;32mdima                [0m
-6          [0;32mdevel               [0m
-6          [0;32mdennis              [0m
-6          [0;32mdeepak              [0m
-6          [0;32mdb2fenc1            [0m
-6          [0;32mdb2das1             [0m
-6          [0;32mdb2admin            [0m
-6          [0;32mdashboard           [0m
-6          [0;32mcychen              [0m
-6          [0;32mcvs                 [0m
-6          [0;32mcsgo                [0m
-6          [0;32mcooper              [0m
-6          [0;32mcontact             [0m
-6          [0;32mcms                 [0m
-6          [0;32mcloudadmin          [0m
-6          [0;32mcharles             [0m
-6          [0;32mceleryuser          [0m
-6          [0;32mcelery              [0m
-6          [0;32mcashier             [0m
-6          [0;32mcarlos1             [0m
-6          [0;32mcarl                [0m
-6          [0;32mbook                [0m
-6          [0;32mbodega              [0m
-6          [0;32mblog                [0m
-6          [0;32mbitrix              [0m
-6          [0;32mbaptiste            [0m
-6          [0;32mbackuppc            [0m
-6          [0;32mautomation          [0m
-6          [0;32mauditoria           [0m
-6          [0;32mastra               [0m
-6          [0;32mantonio             [0m
-6          [0;32manthony             [0m
-6          [0;32manon                [0m
-6          [0;32mankit               [0m
-6          [0;32mandy                [0m
-6          [0;32mandres              [0m
-6          [0;32mamssys              [0m
-6          [0;32mamir                [0m
-6          [0;32maltibase            [0m
-6          [0;32malmacen             [0m
-6          [0;32malma                [0m
-6          [0;32malireza             [0m
-6          [0;32malina               [0m
-6          [0;32malbert              [0m
-6          [0;32madministracion      [0m
-6          [0;32madmin2              [0m
-6          [0;32macct                [0m
-6          [0;32mabhinav             [0m
-5          [0;32mzimbra              [0m
-5          [0;32myleng               [0m
-5          [0;32myesung              [0m
-5          [0;32mweiqing             [0m
-5          [0;32musuario1            [0m
-5          [0;32mtempuser            [0m
-5          [0;32mssh                 [0m
-5          [0;32mspark               [0m
-5          [0;32mpuppet              [0m
-5          [0;32mpsybnc              [0m
-5          [0;32mPLMIMService        [0m
-5          [0;32mpepper              [0m
-5          [0;32moffice              [0m
-5          [0;32mmoon                [0m
-5          [0;32mminima              [0m
-5          [0;32mmerlin              [0m
-5          [0;32mmatrix              [0m
-5          [0;32mmatin               [0m
-5          [0;32mmanager             [0m
-5          [0;32mmadrid              [0m
-5          [0;32mlorenzo             [0m
-5          [0;32mll                  [0m
-5          [0;32mlibrary             [0m
-5          [0;32mkyle                [0m
-5          [0;32mjoro                [0m
-5          [0;32mjorge               [0m
-5          [0;32mjoggler             [0m
-5          [0;32mhduser              [0m
-5          [0;32mgeorge              [0m
-5          [0;32mgameserver          [0m
-5          [0;32mfoundry             [0m
-5          [0;32methereum            [0m
-5          [0;32mcustomer            [0m
-5          [0;32mcsserver            [0m
-5          [0;32mcontas              [0m
-5          [0;32mcf1c22              [0m
-5          [0;32mbtf                 [0m
-5          [0;32mbelkinstyle         [0m
-5          [0;32mbanco               [0m
-5          [0;32mazureuser           [0m
-5          [0;32mappltest            [0m
-5          [0;32mAdminGPON           [0m
-5          [0;32madmian              [0m
-5          [0;32mace                 [0m
-5          [0;32m1                   [0m
-4          [0;32mzookeeper           [0m
-4          [0;32mznc-admin           [0m
-4          [0;32mzhangfeng           [0m
-4          [0;32mxuhao               [0m
-4          [0;32mx                   [0m
-4          [0;32mwww-upload          [0m
-4          [0;32mwilson              [0m
-4          [0;32mwg                  [0m
-4          [0;32mweb1                [0m
-4          [0;32mweather             [0m
-4          [0;32mwangjia             [0m
-4          [0;32mwalid               [0m
-4          [0;32mvip                 [0m
-4          [0;32mventas              [0m
-4          [0;32mvboxadmin           [0m
-4          [0;32muser6               [0m
-4          [0;32muser11              [0m
-4          [0;32mtoro                [0m
-4          [0;32mtestmail            [0m
-4          [0;32mterraria            [0m
-4          [0;32mtaylor              [0m
-4          [0;32mtanvir              [0m
-4          [0;32msvnuser             [0m
-4          [0;32msuperv              [0m
-4          [0;32msun                 [0m
-4          [0;32mstory               [0m
-4          [0;32msshadmin            [0m
-4          [0;32mspeedtest           [0m
-4          [0;32mslr                 [0m
-4          [0;32mshubham             [0m
-4          [0;32msentry              [0m
-4          [0;32msecretaria          [0m
-4          [0;32mscsadmin            [0m
-4          [0;32msamuel              [0m
-4          [0;32msampserver          [0m
-4          [0;32msabina              [0m
-4          [0;32mrules               [0m
-4          [0;32mrpc                 [0m
-4          [0;32mroot123             [0m
-4          [0;32mroman               [0m
-4          [0;32mRizve               [0m
-4          [0;32mrene                [0m
-4          [0;32mreadonly            [0m
-4          [0;32mrc                  [0m
-4          [0;32mrafael              [0m
-4          [0;32mradmi               [0m
-4          [0;32mpruebas             [0m
-4          [0;32mpos                 [0m
-4          [0;32mpentaho             [0m
-4          [0;32mpelias              [0m
-4          [0;32mp                   [0m
-4          [0;32moracleadmin         [0m
-4          [0;32mnima                [0m
-4          [0;32mnetwork             [0m
-4          [0;32mmohammad            [0m
-4          [0;32mmedia               [0m
-4          [0;32mmc                  [0m
-4          [0;32mmartyn              [0m
-4          [0;32mmartin              [0m
-4          [0;32mmarcela             [0m
-4          [0;32mmanu                [0m
-4          [0;32mmain                [0m
-4          [0;32mmailer              [0m
-4          [0;32mmail1               [0m
-4          [0;32mliwei               [0m
-4          [0;32mlinaro              [0m
-4          [0;32mlab                 [0m
-4          [0;32mkm                  [0m
-4          [0;32mkelvin              [0m
-4          [0;32mkaren               [0m
-4          [0;32mkali                [0m
-4          [0;32mjla                 [0m
-4          [0;32mjboss               [0m
-4          [0;32mjay                 [0m
-4          [0;32mhive                [0m
-4          [0;32mhari                [0m
-4          [0;32mhacker              [0m
-4          [0;32mgithub              [0m
-4          [0;32mgeoserver           [0m
-4          [0;32mftpuser2            [0m
-4          [0;32mfinanceiro          [0m
-4          [0;32mesther              [0m
-4          [0;32meric                [0m
-4          [0;32merfan               [0m
-4          [0;32memail               [0m
-4          [0;32meen                 [0m
-4          [0;32mdefault             [0m
-4          [0;32mdeelip              [0m
-4          [0;32mdci                 [0m
-4          [0;32mdb2inst2            [0m
-4          [0;32mdb2inst1            [0m
-4          [0;32mdb2inst             [0m
-4          [0;32mdamien              [0m
-4          [0;32mcuckoo              [0m
-4          [0;32mcstrike             [0m
-4          [0;32mcmsadmin            [0m
-4          [0;32mcirros              [0m
-4          [0;32mcheryl              [0m
-4          [0;32mcertbot             [0m
-4          [0;32mbruno               [0m
-4          [0;32mbrenda              [0m
-4          [0;32mbpoint              [0m
-4          [0;32mbesei               [0m
-4          [0;32mav                  [0m
-4          [0;32mautumn              [0m
-4          [0;32mautologin           [0m
-4          [0;32masad                [0m
-4          [0;32mappman              [0m
-4          [0;32manton               [0m
-4          [0;32mansari              [0m
-4          [0;32mamit                [0m
-4          [0;32mamal                [0m
-4          [0;32malpha               [0m
-4          [0;32malfa                [0m
-4          [0;32malan                [0m
-4          [0;32mahmet               [0m
-4          [0;32madminuser           [0m
-4          [0;32mada                 [0m
-4          [0;32mabdo                [0m
-4          [0;32mabcd                [0m
-3          [0;32myzh                 [0m
-3          [0;32myuanfeng            [0m
-3          [0;32mxbox                [0m
-3          [0;32mwwUser              [0m
-3          [0;32mws                  [0m
-3          [0;32mwork                [0m
-3          [0;32mwlantest            [0m
-3          [0;32mwang                [0m
-3          [0;32mwahid               [0m
-3          [0;32mvpsuser             [0m
-3          [0;32mvmware              [0m
-3          [0;32mvivek               [0m
-3          [0;32mvirtual             [0m
-3          [0;32mvicky               [0m
-3          [0;32mvboxuser            [0m
-3          [0;32mvasadmin            [0m
-3          [0;32musuario2            [0m
-3          [0;32muser7               [0m
-3          [0;32mtrouble             [0m
-3          [0;32mtrader              [0m
-3          [0;32mtoor                [0m
-3          [0;32mtomcat7             [0m
-3          [0;32mteszt               [0m
-3          [0;32mtestuser1           [0m
-3          [0;32mteste1              [0m
-3          [0;32mtest6               [0m
-3          [0;32mtest5               [0m
-3          [0;32mtech                [0m
-3          [0;32msyncthing           [0m
-3          [0;32msuperuser           [0m
-3          [0;32msu                  [0m
-3          [0;32mstudent03           [0m
-3          [0;32msteamcmd            [0m
-3          [0;32msqladmin            [0m
-3          [0;32msql                 [0m
-3          [0;32msoporte             [0m
-3          [0;32msonos               [0m
-3          [0;32mSOL                 [0m
-3          [0;32msmp                 [0m
-3          [0;32msite                [0m
-3          [0;32msetup               [0m
-3          [0;32msetpriv             [0m
-3          [0;32mseamless            [0m
-3          [0;32mscanner             [0m
-3          [0;32msamp                [0m
-3          [0;32msales1              [0m
-3          [0;32mrustserver          [0m
-3          [0;32mrushi               [0m
-3          [0;32mroo                 [0m
-3          [0;32mritesh              [0m
-3          [0;32mricardo             [0m
-3          [0;32mred5                [0m
-3          [0;32mranger              [0m
-3          [0;32mquest               [0m
-3          [0;32mpty                 [0m
-3          [0;32mproxyuser           [0m
-3          [0;32mproradis            [0m
-3          [0;32mprint               [0m
-3          [0;32mpeter               [0m
-3          [0;32mpeng                [0m
-3          [0;32mpedro               [0m
-3          [0;32mpdv                 [0m
-3          [0;32mpay                 [0m
-3          [0;32mpark                [0m
-3          [0;32moracles             [0m
-3          [0;32mopsftp              [0m
-3          [0;32mopenstack           [0m
-3          [0;32mopenlava            [0m
-3          [0;32mopenfiler           [0m
-3          [0;32modoo9               [0m
-3          [0;32mobserver            [0m
-3          [0;32mnsroot              [0m
-3          [0;32mNSA                 [0m
-3          [0;32mnodejs              [0m
-3          [0;32mnil                 [0m
-3          [0;32mnfsuser             [0m
-3          [0;32mnetadmin            [0m
-3          [0;32mnaveen              [0m
-3          [0;32mnas                 [0m
-3          [0;32mmycat               [0m
-3          [0;32mmts                 [0m
-3          [0;32mmqm                 [0m
-3          [0;32mmexal               [0m
-3          [0;32mmapr                [0m
-3          [0;32mmanage              [0m
-3          [0;32mluciano             [0m
-3          [0;32mluan                [0m
-3          [0;32mlibuuid             [0m
-3          [0;32mkubernetes          [0m
-3          [0;32mkoha                [0m
-3          [0;32mkim                 [0m
-3          [0;32mkibana              [0m
-3          [0;32mkai                 [0m
-3          [0;32mjoaquin             [0m
-3          [0;32mjmarquez            [0m
-3          [0;32mjb                  [0m
-3          [0;32mjamie               [0m
-3          [0;32minternet            [0m
-3          [0;32mintegration         [0m
-3          [0;32mice                 [0m
-3          [0;32mhz                  [0m
-3          [0;32mhong                [0m
-3          [0;32mhermes              [0m
-3          [0;32mhello               [0m
-3          [0;32mheat                [0m
-3          [0;32mguest01             [0m
-3          [0;32mgreg                [0m
-3          [0;32mfurukawa            [0m
-3          [0;32mftp-user            [0m
-3          [0;32mftptest1            [0m
-3          [0;32mftproot             [0m
-3          [0;32mftpadmin1           [0m
-3          [0;32mfred                [0m
-3          [0;32mfaxadmin            [0m
-3          [0;32mfarmacia            [0m
-3          [0;32mfactorio            [0m
-3          [0;32mexplore             [0m
-3          [0;32mess                 [0m
-3          [0;32memilia              [0m
-3          [0;32melsearch            [0m
-3          [0;32mdj                  [0m
-3          [0;32mdirector            [0m
-3          [0;32mdevadmin            [0m
-3          [0;32mcynthia             [0m
-3          [0;32mcsuser              [0m
-3          [0;32mCisco               [0m
-3          [0;32mblue                [0m
-3          [0;32mbkp                 [0m
-3          [0;32mbitwarden           [0m
-3          [0;32mbigdata             [0m
-3          [0;32mbackupuser          [0m
-3          [0;32mb                   [0m
-3          [0;32master               [0m
-3          [0;32mappz                [0m
-3          [0;32manonymous           [0m
-3          [0;32mann                 [0m
-3          [0;32mamsftp              [0m
-3          [0;32malison              [0m
-3          [0;32malin                [0m
-3          [0;32mADMIN               [0m
-3          [0;32madmi                [0m
-3          [0;32maaPower             [0m
-3          [0;32m345gs5662d34        [0m
-2          [0;32mzjh                 [0m
-2          [0;32mzh                  [0m
-2          [0;32mzenith              [0m
-2          [0;32myogi                [0m
-2          [0;32mylee                [0m
-2          [0;32myckim               [0m
-2          [0;32myannick             [0m
-2          [0;32myam                 [0m
-2          [0;32mxxl                 [0m
-2          [0;32mwyse                [0m
-2          [0;32mwxx                 [0m
-2          [0;32mwordpress           [0m
-2          [0;32mwiki                [0m
-2          [0;32mwei                 [0m
-2          [0;32mwebadm              [0m
-2          [0;32mwangtao             [0m
-2          [0;32mwanda               [0m
-2          [0;32mwalle               [0m
-2          [0;32mwaleed              [0m
-2          [0;32mvpn123              [0m
-2          [0;32mvinay               [0m
-2          [0;32mvika                [0m
-2          [0;32mveeresh             [0m
-2          [0;32muucp                [0m
-2          [0;32musername1           [0m
-2          [0;32muserm               [0m
-2          [0;32muser_jenkins        [0m
-2          [0;32muserguest           [0m
-2          [0;32muser-backup         [0m
-2          [0;32muser15              [0m
-2          [0;32mUser                [0m
-2          [0;32mupload              [0m
-2          [0;32mtraccar             [0m
-2          [0;32mtf2server           [0m
-2          [0;32mtesttest            [0m
-2          [0;32mtester1             [0m
-2          [0;32mtest01              [0m
-2          [0;32mterrariaserver      [0m
-2          [0;32mtauro               [0m
-2          [0;32msumit               [0m
-2          [0;32msuman               [0m
-2          [0;32mSujan               [0m
-2          [0;32msubzero             [0m
-2          [0;32mstrycek             [0m
-2          [0;32mstp                 [0m
-2          [0;32mspotlight           [0m
-2          [0;32mspoj0               [0m
-2          [0;32msolar               [0m
-2          [0;32msoheil              [0m
-2          [0;32msl                  [0m
-2          [0;32msimon               [0m
-2          [0;32mshoutcast           [0m
-2          [0;32mshiv                [0m
-2          [0;32mshipping            [0m
-2          [0;32mshagrath            [0m
-2          [0;32mseekcy              [0m
-2          [0;32msdtdserver          [0m
-2          [0;32mscpuser             [0m
-2          [0;32msc                  [0m
-2          [0;32msbserver            [0m
-2          [0;32msatis               [0m
-2          [0;32msamba               [0m
-2          [0;32msales               [0m
-2          [0;32msafeuser            [0m
-2          [0;32mrust                [0m
-2          [0;32mruno                [0m
-2          [0;32mruben               [0m
-2          [0;32mrtorrent            [0m
-2          [0;32mrtest               [0m
-2          [0;32mrsyncuser           [0m
-2          [0;32mroyal               [0m
-2          [0;32mroot1               [0m
-2          [0;32mrodrigo             [0m
-2          [0;32mrobert              [0m
-2          [0;32mrema                [0m
-2          [0;32mrahul               [0m
-2          [0;32mrabbit              [0m
-2          [0;32mqw                  [0m
-2          [0;32mqadmin              [0m
-2          [0;32mpula                [0m
-2          [0;32mproject             [0m
-2          [0;32mproftpd             [0m
-2          [0;32mpro                 [0m
-2          [0;32mprasad              [0m
-2          [0;32mpranali             [0m
-2          [0;32mpizza               [0m
-2          [0;32mpieter              [0m
-2          [0;32mphp                 [0m
-2          [0;32mpeertube            [0m
-2          [0;32mpeer                [0m
-2          [0;32mpanfeng             [0m
-2          [0;32mpanel               [0m
-2          [0;32mossuser             [0m
-2          [0;32mopenvpn             [0m
-2          [0;32mopengts             [0m
-2          [0;32monlime_r            [0m
-2          [0;32modroid              [0m
-2          [0;32modoouser            [0m
-2          [0;32mnvr                 [0m
-2          [0;32mnvidia              [0m
-2          [0;32mnutanix             [0m
-2          [0;32mnicolas             [0m
-2          [0;32mnick                [0m
-2          [0;32mmumbleserver        [0m
-2          [0;32mmonitoring          [0m
-2          [0;32mmongouser           [0m
-2          [0;32mmohit               [0m
-2          [0;32mmike                [0m
-2          [0;32mmehdi               [0m
-2          [0;32mmcsrv               [0m
-2          [0;32mmcguitaruser        [0m
-2          [0;32mmbrown              [0m
-2          [0;32mmarvin              [0m
-2          [0;32mmarian              [0m
-2          [0;32mmarco               [0m
-2          [0;32mmama                [0m
-2          [0;32mmahsa               [0m
-2          [0;32mlorenza             [0m
-2          [0;32mlogger              [0m
-2          [0;32mlinuxtest           [0m
-2          [0;32mlinuxadmin          [0m
-2          [0;32mlaw                 [0m
-2          [0;32mlarry               [0m
-2          [0;32mlam                 [0m
-2          [0;32mlakshmi             [0m
-2          [0;32ml4d2server          [0m
-2          [0;32mkuba                [0m
-2          [0;32mkfserver            [0m
-2          [0;32mkevin               [0m
-2          [0;32mkbe                 [0m
-2          [0;32mkarthavya           [0m
-2          [0;32mkamera              [0m
-2          [0;32mjupyterhub          [0m
-2          [0;32mjulia               [0m
-2          [0;32mjuan                [0m
-2          [0;32mjohn1               [0m
-2          [0;32mjohn                [0m
-2          [0;32mjj                  [0m
-2          [0;32mjhlee               [0m
-2          [0;32mjesica              [0m
-2          [0;32mjeffrey             [0m
-2          [0;32mjbernal             [0m
-2          [0;32mjayesh              [0m
-2          [0;32miptv                [0m
-2          [0;32minvoices            [0m
-2          [0;32minsurgency          [0m
-2          [0;32minfo                [0m
-2          [0;32minfa                [0m
-2          [0;32micecast             [0m
-2          [0;32mhugo                [0m
-2          [0;32mhttpadmin           [0m
-2          [0;32mhp                  [0m
-2          [0;32mhossein             [0m
-2          [0;32mhomeassistant       [0m
-2          [0;32mhappy               [0m
-2          [0;32mhan                 [0m
-2          [0;32mguest9              [0m
-2          [0;32mguest10             [0m
-2          [0;32mgogs                [0m
-2          [0;32mglass               [0m
-2          [0;32mgit2                [0m
-2          [0;32mgeral               [0m
-2          [0;32mgeek                [0m
-2          [0;32mgast                [0m
-2          [0;32mgas                 [0m
-2          [0;32mfuser               [0m
-2          [0;32mftpusr              [0m
-2          [0;32mftp2                [0m
-2          [0;32mfran                [0m
-2          [0;32mfmaster             [0m
-2          [0;32mfirefart            [0m
-2          [0;32mfileserver          [0m
-2          [0;32mfifi                [0m
-2          [0;32mfauzi               [0m
-2          [0;32mfarhan              [0m
-2          [0;32meugene              [0m
-2          [0;32mesunny              [0m
-2          [0;32mesg                 [0m
-2          [0;32mesearch             [0m
-2          [0;32meprints             [0m
-2          [0;32melena               [0m
-2          [0;32melement             [0m
-2          [0;32medward              [0m
-2          [0;32meco                 [0m
-2          [0;32meas                 [0m
-2          [0;32mdzq                 [0m
-2          [0;32mdsm                 [0m
-2          [0;32mdrdev               [0m
-2          [0;32mdownloader          [0m
-2          [0;32mdockeruser          [0m
-2          [0;32mdevpi               [0m
-2          [0;32mdevhdfc             [0m
-2          [0;32mdepot               [0m
-2          [0;32mdd                  [0m
-2          [0;32mdbuser              [0m
-2          [0;32mdb2fenc2            [0m
-2          [0;32mdave                [0m
-2          [0;32mcsczserver          [0m
-2          [0;32mcs2server           [0m
-2          [0;32mcron                [0m
-2          [0;32mcrm                 [0m
-2          [0;32mcpanel              [0m
-2          [0;32mcouchdb             [0m
-2          [0;32mcosmo               [0m
-2          [0;32mconsulta            [0m
-2          [0;32mcomercial           [0m
-2          [0;32mcolin               [0m
-2          [0;32mcharan              [0m
-2          [0;32mcesar               [0m
-2          [0;32mcarlos              [0m
-2          [0;32mcarla               [0m
-2          [0;32mbuilduser           [0m
-2          [0;32mbuild               [0m
-2          [0;32mbtest               [0m
-2          [0;32mbsserver            [0m
-2          [0;32mbs                  [0m
-2          [0;32mbraun               [0m
-2          [0;32mboost               [0m
-2          [0;32mbla                 [0m
-2          [0;32mbart                [0m
-2          [0;32mayesha              [0m
-2          [0;32maxway               [0m
-2          [0;32marray               [0m
-2          [0;32marma3server         [0m
-2          [0;32mappserv             [0m
-2          [0;32mandrey              [0m
-2          [0;32mamin                [0m
-2          [0;32mamber               [0m
-2          [0;32malysha              [0m
-2          [0;32malexey              [0m
-2          [0;32maleks               [0m
-2          [0;32madmin3              [0m
-2          [0;32madc                 [0m
-2          [0;32macs                 [0m
-2          [0;32mabhi                [0m
-2          [0;32mabdi                [0m
-2          [0;32maaron               [0m
-2          [0;32maaa                 [0m
-2          [0;32m12345               [0m
-1          [0;32mDec 20 10:18:32 bastion.local.nutius.com sshd-session[66764]: Connection closed by invalid user  47.250.185.115 port 36374 [preauth][0m
-1          [0;32mDec 20 10:18:25 bastion.local.nutius.com sshd-session[66764]: Invalid user  from 47.250.185.115 port 36374[0m
-1          [0;32mDec 20 08:15:13 bastion.local.nutius.com sshd-session[64783]: Connection closed by invalid user  134.199.196.237 port 44986 [preauth][0m
-1          [0;32mDec 20 08:15:05 bastion.local.nutius.com sshd-session[64783]: Invalid user  from 134.199.196.237 port 44986[0m
-1          [0;32mDec 20 06:55:38 bastion.local.nutius.com sshd-session[64403]: Connection closed by invalid user  209.38.226.254 port 36862 [preauth][0m
-1          [0;32mDec 20 06:55:31 bastion.local.nutius.com sshd-session[64403]: Invalid user  from 209.38.226.254 port 36862[0m
-1          [0;32mDec 20 06:38:17 bastion.local.nutius.com sshd-session[64352]: Connection closed by invalid user  129.212.177.164 port 56138 [preauth][0m
-1          [0;32mDec 20 06:38:10 bastion.local.nutius.com sshd-session[64352]: Invalid user  from 129.212.177.164 port 56138[0m
-1          [0;32mDec 20 04:34:31 bastion.local.nutius.com sshd-session[63274]: Connection closed by invalid user  154.221.19.68 port 39148 [preauth][0m
-1          [0;32mDec 20 04:34:24 bastion.local.nutius.com sshd-session[63274]: Invalid user  from 154.221.19.68 port 39148[0m
-1          [0;32mDec 20 04:01:46 bastion.local.nutius.com sshd-session[63176]: Connection closed by invalid user  129.212.187.244 port 43200 [preauth][0m
-1          [0;32mDec 20 04:01:39 bastion.local.nutius.com sshd-session[63176]: Invalid user  from 129.212.187.244 port 43200[0m
-1          [0;32mDec 20 00:17:15 bastion.local.nutius.com sshd-session[61395]: Connection closed by invalid user  94.26.106.81 port 43366 [preauth][0m
-1          [0;32mDec 20 00:17:07 bastion.local.nutius.com sshd-session[61395]: Invalid user  from 94.26.106.81 port 43366[0m
-1          [0;32mDec 19 19:28:11 bastion.local.nutius.com sshd-session[58779]: Connection closed by invalid user  45.119.87.135 port 58860 [preauth][0m
-1          [0;32mDec 19 19:28:05 bastion.local.nutius.com sshd-session[58779]: Invalid user  from 45.119.87.135 port 58860[0m
-1          [0;32mDec 19 17:57:37 bastion.local.nutius.com sshd-session[57161]: Connection closed by invalid user  65.49.1.24 port 59569 [preauth][0m
-1          [0;32mDec 19 17:57:34 bastion.local.nutius.com sshd-session[57161]: Invalid user  from 65.49.1.24 port 59569[0m
-1          [0;32mDec 19 13:38:24 bastion.local.nutius.com sshd-session[54940]: Invalid user  from 45.135.232.92 port 56534[0m
-1          [0;32mDec 19 13:38:24 bastion.local.nutius.com sshd-session[54940]: Connection reset by invalid user  45.135.232.92 port 56534 [preauth][0m
-1          [0;32mDec 19 12:42:05 bastion.local.nutius.com sshd-session[53960]: Invalid user  from 2.57.121.25 port 19575[0m
-1          [0;32mDec 19 12:42:05 bastion.local.nutius.com sshd-session[53960]: Failed none for invalid user  from 2.57.121.25 port 19575 ssh2[0m
-1          [0;32mDec 19 12:42:05 bastion.local.nutius.com sshd-session[53960]: Disconnected from invalid user  2.57.121.25 port 19575 [preauth][0m
-1          [0;32mDec 19 12:25:29 bastion.local.nutius.com sshd-session[53147]: Connection closed by invalid user  14.103.183.21 port 39190 [preauth][0m
-1          [0;32mDec 19 12:25:24 bastion.local.nutius.com sshd-session[53147]: Invalid user  from 14.103.183.21 port 39190[0m
-1          [0;32mDec 19 11:42:08 bastion.local.nutius.com sshd-session[52548]: Invalid user  from 143.20.185.79 port 35440[0m
-1          [0;32mDec 19 11:42:08 bastion.local.nutius.com sshd-session[52548]: Failed none for invalid user  from 143.20.185.79 port 35440 ssh2[0m
-1          [0;32mDec 19 11:42:08 bastion.local.nutius.com sshd-session[52548]: Connection closed by invalid user  143.20.185.79 port 35440 [preauth][0m
-1          [0;32mDec 19 11:02:44 bastion.local.nutius.com sshd-session[51514]: Invalid user  from 2.57.121.25 port 43046[0m
-1          [0;32mDec 19 11:02:44 bastion.local.nutius.com sshd-session[51514]: Failed none for invalid user  from 2.57.121.25 port 43046 ssh2[0m
-1          [0;32mDec 19 11:02:44 bastion.local.nutius.com sshd-session[51514]: Disconnected from invalid user  2.57.121.25 port 43046 [preauth][0m
-1          [0;32mDec 19 03:25:36 bastion.local.nutius.com sshd-session[43466]: Connection closed by invalid user  118.178.56.144 port 42344 [preauth][0m
-1          [0;32mDec 19 03:25:32 bastion.local.nutius.com sshd-session[43466]: Invalid user  from 118.178.56.144 port 42344[0m
+914        admin               
+794        ubuntu              
+482        user                
+468        debian              
+328        test                
+270        oracle              
+246        postgres            
+222        git                 
+190        ftpuser             
+164        backup              
+160        dev                 
+152        developer           
+150        dspace              
+132        guest               
+128        solv                
+126        es                  
+124        docker              
+110        solana              
+104        mysql               
+104        elastic             
+102        elasticsearch       
+86         hadoop              
+84         pi                  
+82         centos              
+80         apache              
+78         deploy              
+74         nginx               
+72         ftptest             
+68         newuser             
+58         bitrix              
+52         testuser            
+48         steam               
+48         administrator       
+46         zabbix              
+46         test1               
+44         jenkins             
+40         odoo                
+40         nagios              
+38         tomcat              
+38         ali                 
+36         ansible             
+34         runner              
+34         minecraft           
+34         admin1              
+30         sammy               
+30         frappe              
+30         eth                 
+30         devops              
+28         usuario             
+28         monitor             
+28         master              
+28         deployer            
+26         sftpuser            
+24         weblogic            
+24         redis               
+24         ec2-user            
+24         adam                
+22         user1               
+22         teamspeak           
+22         server              
+21         test2               
+20         www-data            
+20         sol                 
+20         mongodb             
+20         bot                 
+20         andrew              
+18         www                 
+18         webmaster           
+18         usuario2            
+18         tiktok              
+18         svn                 
+18         redhat              
+18         mc                  
+18         fedora              
+16         victor              
+16         username            
+16         user2               
+16         system              
+16         student3            
+16         prueba              
+16         newftpuser          
+16         media               
+16         informix            
+16         guillaume           
+16         abc                 
+16         a                   
+15         devuser             
+14         tester              
+14         redmine             
+14         radarr              
+14         max                 
+14         erp                 
+14         dmdba               
+14         deepak              
+14         daniela             
+14         brun                
+12         walter              
+12         user3               
+12         user01              
+12         super               
+12         rocky               
+12         nokia               
+12         me                  
+12         jeff                
+12         jairo               
+12         ftp_user            
+12         frontend            
+12         farmacia            
+12         exit                
+12         abdel               
+10         vncuser             
+10         vishnu              
+10         trader              
+10         tidb                
+10         sysadmin            
+10         SOL                 
+10         shivam              
+10         sasha               
+10         ramon               
+10         pruebas             
+10         power               
+10         portal              
+10         mainuser            
+10         kirin               
+10         jellyfin            
+10         jahan               
+10         heat                
+10         gitlab-runner       
+10         github              
+10         gerrit              
+10         game                
+10         ftpdata             
+10         fabio               
+10         erpnext             
+10         elasticuser         
+10         eddie               
+10         dns                 
+10         dixi                
+10         demouser            
+10         davide              
+10         danil               
+10         cubrid              
+10         coin                
+10         chrome              
+10         builder             
+10         bs                  
+10         bitnami             
+10         arkserver           
+8          work                
+8          validator           
+8          ts3server           
+8          tomcatuser          
+8          test123             
+8          tesoreria           
+8          taher               
+8          sysadm              
+8          support             
+8          student2            
+8          student             
+8          sri                 
+8          seafile             
+8          scpuser             
+8          sameer              
+8          safeuser            
+8          rogerio             
+8          roberto             
+8          rafael              
+8          pro                 
+8          nimesh              
+8          msf                 
+8          mina                
+8          milky               
+8          marina              
+8          luis                
+8          kafka               
+8          kacper              
+8          jupyterhub          
+8          javier              
+8          james               
+8          jake                
+8          irfan               
+8          honey               
+8          gas                 
+8          g                   
+8          fourjs              
+8          fatemeh             
+8          eva                 
+8          demo                
+8          deleteme            
+8          deep                
+8          db2inst1            
+8          david               
+8          box                 
+8          botuser             
+8          ase                 
+8          arnaldo             
+8          anand               
+8          alina               
+8          alfresco            
+6          zz                  
+6          zoom                
+6          yaroslav            
+6          yang                
+6          xiaoli              
+6          wyy                 
+6          web                 
+6          vika                
+6          user5               
+6          UBUNTU              
+6          ts1                 
+6          track               
+6          toor                
+6          thomas              
+6          testing             
+6          teamspeak3          
+6          t2                  
+6          suman               
+6          stats               
+6          smile               
+6          sinusbot1           
+6          simon               
+6          servidor            
+6          server1             
+6          sergey              
+6          samuel              
+6          rstudio             
+6          rooter              
+6          rdp                 
+6          pty                 
+6          pierre              
+6          peter               
+6          paulo               
+6          paolo               
+6          ops                 
+6          omar                
+6          oleg                
+6          nodeuser            
+6          nil                 
+6          nguyen              
+6          netflow             
+6          nas                 
+6          minikube            
+6          miner               
+6          metabase            
+6          matthew             
+6          lucas               
+6          logger              
+6          local               
+6          ll                  
+6          lgsm                
+6          lenovo              
+6          larry               
+6          king                
+6          k8s                 
+6          jose                
+6          jonathan            
+6          hyperspace          
+6          hub                 
+6          hik                 
+6          hari                
+6          gmodserver          
+6          george              
+6          ftpguest            
+6          esuser              
+6          ess                 
+6          elsearch            
+6          eli                 
+6          elcsoft             
+6          dockeruser          
+6          divya               
+6          db2das1             
+6          dave                
+6          dat                 
+6          daniel              
+6          cooper              
+6          control             
+6          butter              
+6          bryan               
+6          boy                 
+6          bogdan              
+6          blog                
+6          be                  
+6          ark                 
+6          andreas             
+6          andre               
+6          amsftp              
+6          amir                
+6          alan                
+6          ai                  
+6          adv                 
+6          adminuser           
+4          zulfikar            
+4          zihan               
+4          zeshan              
+4          z1                  
+4          x                   
+4          whmcs               
+4          whatsapp            
+4          webapp              
+4          vm                  
+4          vinay               
+4          vignesh             
+4          usuarioftp          
+4          user4               
+4          unix                
+4          unity               
+4          u                   
+4          ts                  
+4          trung               
+4          trac                
+4          torrent             
+4          toro                
+4          tol                 
+4          tmp                 
+4          testuser1           
+4          testtest            
+4          temp                
+4          tejas               
+4          team3               
+4          taba                
+4          t                   
+4          supplier            
+4          superset            
+4          student9            
+4          steamcmd            
+4          star                
+4          stack               
+4          sshuser             
+4          srs                 
+4          sophia              
+4          software            
+4          sls                 
+4          sk                  
+4          sinusbot            
+4          sftp                
+4          sdtdserver          
+4          scaner              
+4          sarah               
+4          sales               
+4          sagar               
+4          sabine              
+4          rustserver          
+4          rust                
+4          rr                  
+4          roy                 
+4          rootuser            
+4          robert              
+4          rms                 
+4          rizky               
+4          rescue              
+4          red5                
+4          rbackup             
+4          ramin               
+4          production          
+4          praveen             
+4          practice            
+4          pms                 
+4          platform            
+4          pedro               
+4          pagar               
+4          otsmanager          
+4          orangepi            
+4          openwrt             
+4          openvpn             
+4          odroid              
+4          odoo17              
+4          ocadmin             
+4          nvidia              
+4          notes               
+4          nominatim           
+4          nodejs              
+4          nicolas             
+4          nc                  
+4          navid               
+4          nate                
+4          naresh              
+4          nandan              
+4          nana                
+4          morgan              
+4          mohammad            
+4          mine                
+4          matias              
+4          magento             
+4          logviewer           
+4          log                 
+4          linda               
+4          lighthouse          
+4          libuuid             
+4          lfs                 
+4          leonardo            
+4          leo                 
+4          lekaren             
+4          komatsu             
+4          klaus               
+4          kim                 
+4          kevin               
+4          kamran              
+4          julien              
+4          jj                  
+4          jim                 
+4          itadmin             
+4          internal            
+4          infra               
+4          info                
+4          hussain             
+4          hugo                
+4          hoster              
+4          hduser              
+4          grid                
+4          greg                
+4          greek               
+4          geoserver           
+4          gemini              
+4          ganesh              
+4          ftpuser1            
+4          ftpUser             
+4          fmaster             
+4          fan                 
+4          extern              
+4          elaine              
+4          ejabberd            
+4          eas                 
+4          desarrollo          
+4          data                
+4          dasusr1             
+4          dante               
+4          cyprien             
+4          croceiris           
+4          cristian            
+4          common              
+4          cod4server          
+4          christian           
+4          chat                
+4          carla               
+4          brad                
+4          bodega              
+4          barbara             
+4          baikal              
+4          autologin           
+4          arma3server         
+4          app                 
+4          aleks               
+4          alejandro           
+4          ahmed               
+4          agent               
+4          adriano             
+4          administrador       
+4          admin4              
+4          abhi                
+4          aa                  
+2          zx                  
+2          zhouh               
+2          yuri                
+2          yuanwd              
+2          yessenia            
+2          yaya                
+2          xxl                 
+2          xmr                 
+2          xh                  
+2          xbmc                
+2          wx                  
+2          wwww                
+2          www-upload          
+2          wpyan               
+2          wp                  
+2          windows             
+2          william             
+2          wanghao             
+2          vps                 
+2          vpnuser1            
+2          vpnuser             
+2          vpn                 
+2          vnc                 
+2          vladimir            
+2          vinicius            
+2          vincent             
+2          venta               
+2          vbox                
+2          vault               
+2          user6               
+2          user19              
+2          user14              
+2          user04              
+2          uploader            
+2          upload              
+2          update              
+2          unreal              
+2          under               
+2          uftp                
+2          ubnt                
+2          ttt                 
+2          tsserver            
+2          ts3                 
+2          tp                  
+2          tony                
+2          tobi                
+2          tina                
+2          tiger               
+2          tezos               
+2          teszt               
+2          testusr             
+2          test-user           
+2          testsftp            
+2          test3               
+2          tempftp             
+2          tech                
+2          teacher             
+2          tarsys              
+2          talia               
+2          sybase              
+2          supermaint          
+2          strapi              
+2          storage             
+2          steve               
+2          sqoop               
+2          spider              
+2          soporte             
+2          smp                 
+2          site                
+2          sipv                
+2          sig                 
+2          share               
+2          sg                  
+2          sfc                 
+2          setup               
+2          service             
+2          serv                
+2          seb                 
+2          sandeep             
+2          sai                 
+2          rsync               
+2          rootftp             
+2          roman               
+2          ricky               
+2          reza                
+2          remote              
+2          rapid               
+2          radio               
+2          rachel              
+2          r00t                
+2          pzuser              
+2          pul                 
+2          pterodactyl         
+2          proxyuser           
+2          prios               
+2          pre                 
+2          prasad              
+2          postmaster          
+2          plex                
+2          pepper              
+2          pdv                 
+2          pc                  
+2          payroll             
+2          pavan               
+2          park                
+2          panel               
+2          oscar               
+2          opscode             
+2          operador            
+2          onkar               
+2          oem                 
+2          odoo13              
+2          nova                
+2          noc                 
+2          nikola              
+2          nikhil              
+2          nico                
+2          nexus               
+2          nacos               
+2          myuser              
+2          mysftp              
+2          mykim               
+2          murali              
+2          mp                  
+2          mostafa             
+2          morris              
+2          monit               
+2          mongouser           
+2          mongo               
+2          mis                 
+2          mikey               
+2          micro               
+2          michael             
+2          mcserver            
+2          martin              
+2          manu                
+2          manoj               
+2          mandy               
+2          manager             
+2          mahesh              
+2          lukas               
+2          luan                
+2          liyang              
+2          lisa                
+2          librenms            
+2          lia                 
+2          laisha              
+2          labuser             
+2          lab                 
+2          kodi                
+2          kingbase            
+2          khalil              
+2          kenyon              
+2          kent                
+2          keanu               
+2          kdk                 
+2          katlynn             
+2          kasia               
+2          joseph              
+2          jorge               
+2          john                
+2          johannes            
+2          joe                 
+2          job                 
+2          jira                
+2          jincao              
+2          jason1              
+2          jarservice          
+2          jailyn              
+2          jagdish             
+2          jacques             
+2          insurgency          
+2          indra               
+2          idc                 
+2          ian                 
+2          hydra               
+2          homeassistant       
+2          home                
+2          herman              
+2          henry               
+2          hausadel            
+2          harshit             
+2          hardik              
+2          haproxy             
+2          hacluster           
+2          guest123            
+2          gpadmin             
+2          glen                
+2          git2                
+2          garett              
+2          ftpadmin            
+2          fsc                 
+2          frontlike           
+2          freeswitch          
+2          freelancer          
+2          forum               
+2          files               
+2          felix               
+2          fctrserver          
+2          fastuser            
+2          facturacion         
+2          f                   
+2          eve                 
+2          elena               
+2          ekp                 
+2          ehsan               
+2          eadmin              
+2          dylan               
+2          dwight              
+2          downloader          
+2          dong                
+2          %domain%            
+2          diego               
+2          devil               
+2          develop             
+2          deployuser          
+2          dean                
+2          db-user             
+2          dashuai             
+2          dara                
+2          dana                
+2          csgoserver          
+2          container           
+2          contact             
+2          code                
+2          clouduser           
+2          cloudadmin          
+2          cloud               
+2          chenqun             
+2          chatbot             
+2          cent                
+2          canvas              
+2          cactiuser           
+2          cacti               
+2          buildbot            
+2          build               
+2          bruno               
+2          breanne             
+2          bots                
+2          bernardo            
+2          beehive             
+2          baptiste            
+2          backupuser          
+2          backend             
+2          azureuser           
+2          arun                
+2          artem               
+2          appuser             
+2          appltest            
+2          ansibleuser         
+2          anonymous           
+2          anon                
+2          anna                
+2          andrey              
+2          anas                
+2          amule               
+2          amina               
+2          alexis              
+2          albert              
+2          admini              
+2          admin2              
+2          acs                 
+2          abhishek            
+2          aaron               
+1          Dec 31 22:00:04 bastion.local.nutius.com sshd-session[164213]: Connection closed by invalid user  134.199.194.4 port 53208 [preauth]
+1          Dec 31 21:59:57 bastion.local.nutius.com sshd-session[164213]: Invalid user  from 134.199.194.4 port 53208
+1          Dec 31 18:06:39 bastion.local.nutius.com sshd-session[84286]: Connection closed by invalid user  185.184.208.48 port 45756 [preauth]
+1          Dec 31 18:06:32 bastion.local.nutius.com sshd-session[84286]: Invalid user  from 185.184.208.48 port 45756
+1          Dec 31 17:28:40 bastion.local.nutius.com sshd-session[83649]: Connection closed by invalid user  65.49.1.65 port 27823 [preauth]
+1          Dec 31 17:28:37 bastion.local.nutius.com sshd-session[83649]: Invalid user  from 65.49.1.65 port 27823
+1          Dec 31 16:59:20 bastion.local.nutius.com sshd-session[80854]: Connection closed by invalid user  134.199.200.104 port 50902 [preauth]
+1          Dec 31 16:59:12 bastion.local.nutius.com sshd-session[80854]: Invalid user  from 134.199.200.104 port 50902
+1          Dec 31 02:36:33 bastion.local.nutius.com sshd-session[72430]: Connection closed by invalid user  115.190.249.199 port 52208 [preauth]
+1          Dec 31 02:36:26 bastion.local.nutius.com sshd-session[72430]: Invalid user  from 115.190.249.199 port 52208
+1          Dec 31 01:53:46 bastion.local.nutius.com sshd-session[72034]: Invalid user  from 47.250.81.7 port 32678
+1          Dec 31 01:53:46 bastion.local.nutius.com sshd-session[72034]: Connection closed by invalid user  47.250.81.7 port 32678 [preauth]
+1          Dec 30 22:36:13 bastion.local.nutius.com sshd-session[71445]: Connection closed by invalid user  165.245.131.71 port 37576 [preauth]
+1          Dec 30 22:36:06 bastion.local.nutius.com sshd-session[71445]: Invalid user  from 165.245.131.71 port 37576
+1          Dec 30 21:03:57 bastion.local.nutius.com sshd-session[70531]: Connection closed by invalid user  176.65.132.95 port 39826 [preauth]
+1          Dec 30 21:03:49 bastion.local.nutius.com sshd-session[70531]: Invalid user  from 176.65.132.95 port 39826
+1          Dec 30 17:15:48 bastion.local.nutius.com sshd-session[68803]: Connection closed by invalid user  64.62.197.96 port 46865 [preauth]
+1          Dec 30 17:15:45 bastion.local.nutius.com sshd-session[68803]: Invalid user  from 64.62.197.96 port 46865
+1          Dec 30 16:17:29 bastion.local.nutius.com sshd-session[68471]: Connection closed by invalid user  165.245.129.163 port 35586 [preauth]
+1          Dec 30 16:17:21 bastion.local.nutius.com sshd-session[68471]: Invalid user  from 165.245.129.163 port 35586
+1          Dec 29 20:03:57 bastion.local.nutius.com sshd-session[59598]: Connection closed by invalid user  129.212.187.197 port 35560 [preauth]
+1          Dec 29 20:03:50 bastion.local.nutius.com sshd-session[59598]: Invalid user  from 129.212.187.197 port 35560
+1          Dec 29 18:28:03 bastion.local.nutius.com sshd-session[58770]: Connection closed by invalid user  116.193.191.209 port 51338 [preauth]
+1          Dec 29 18:27:56 bastion.local.nutius.com sshd-session[58770]: Invalid user  from 116.193.191.209 port 51338
 ----------------------------------------------------------------------
