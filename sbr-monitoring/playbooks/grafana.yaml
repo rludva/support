@@ -11,7 +11,7 @@
     architecture: "linux-amd64"
 
     hostname: "localhost"
-    port: "3000"
+    application_port: "3000"
     description: "Grafana"
     mapplication: "grafana"
     user: "grafana"
@@ -53,9 +53,9 @@
         group: "{{ group }}"
         recurse: true       
 
-    - name: "Add firewall exception for {{application}} port: {{port}}/tcp.."
+    - name: "Add firewall exception for {{application}} port: {{ application_port }}/tcp.."
       firewalld:
-        port: "{{port}}/tcp"
+        port: "{{ application_port }}/tcp"
         immediate: yes
         permanent: true
         state: enabled
