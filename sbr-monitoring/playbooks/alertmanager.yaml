@@ -6,7 +6,7 @@
   become: true
   vars:
     url: "https://github.com/prometheus/alertmanager/releases/download"
-    version: "0.25.0"
+    version: "0.30.0"
     application: "alertmanager"
     application_service: "{{ application }}.service"
     architecture: "linux-amd64"
