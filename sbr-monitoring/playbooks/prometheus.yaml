@@ -8,7 +8,7 @@
     # https://github.com/prometheus/prometheus/releases/download/v2.32.1/
     url: "https://github.com/prometheus/prometheus/releases/download"
     #version: "2.43.0"
-    version: "3.3.1"
+    version: "3.8.1"
     application: "prometheus"
     application_service: "{{ application }}.service"
     architecture: "linux-amd64"
@@ -41,6 +41,14 @@
       ansible.builtin.copy:
         src: /tmp/{{application}}-{{version}}.{{architecture}}/{{application}}
         dest: /usr/local/bin/{{application}}
+        owner: "{{user}}"
+        group: "{{user}}"
+        mode: "0755"
+
+    - name: "Copy {{application}} promtool binary to standard binary folder.."
+      ansible.builtin.copy:
+        src: /tmp/{{application}}-{{version}}.{{architecture}}/promtool
+        dest: /usr/local/bin/promtool
         owner: "{{user}}"
         group: "{{user}}"
         mode: "0755"
