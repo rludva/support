@@ -1,8 +1,7 @@
 
 ---
 - name: "Install Alertmanager and amtool.."
-  hosts:
-    - localhost
+  hosts: "alertmanager"
   become: true
   vars:
     url: "https://github.com/prometheus/alertmanager/releases/download"
@@ -12,7 +11,7 @@
     architecture: "linux-amd64"
 
     hostname: "localhost"
-    port: "9093"
+    application_port: "9093"
     description: "Alertmanager"
     user: "prometheus"
     group: "prometheus"
@@ -34,6 +33,7 @@
       ansible.builtin.unarchive:
         src: "/tmp/{{application}}-{{version}}.{{architecture}}.tar.gz"
         dest: "/tmp"
+        remote_src: yes
 
     - name: "Copy {{application}} binary to standard binary folder.."
       ansible.builtin.copy:
@@ -42,6 +42,7 @@
         owner: "{{user}}"
         group: "{{user}}"
         mode: "0755"
+        remote_src: yes
 
     # Alertmanager specific tool: amtool - View and modify the current Alertmanager state
     - name: "Copy `amtool` binary to standard binary folder.."
@@ -51,6 +52,7 @@
         owner: "{{user}}"
         group: "{{user}}"
         mode: "0755"
+        remote_src: yes
 
     - name: "Create storage folder for the {{application}} in /var/lib/{{application}}.."
       file:
@@ -69,14 +71,15 @@
         src: "{{ (playbook_dir + '/../root/etc/alertmanager/alertmanager.yml.j2') | realpath }}"
         dest: "/etc/alertmanager/alertmanager.yml"
 
-    - name: "Coyp default configuration file from the package to have it as an example.."
+    - name: "Copy default configuration file from the package to have it as an example.."
       ansible.builtin.copy:
         src: "/tmp/{{application}}-{{version}}.{{architecture}}/alertmanager.yml"
         dest: "/etc/{{application}}/alertmanager.yml.origin"
         owner: "{{user}}"
         group: "{{user}}"
-        mode: "0664"        
-    
+        mode: "0664"
+        remote_src: yes
+
     - name: "Create systemd service file for {{application}}.."
       template:
         src: "{{ (playbook_dir + '/../root/etc/systemd/system/' + application + '.service.j2') | realpath }}"
@@ -92,9 +95,9 @@
         enabled: yes
         state: started
 
-    - name: "Add firewall exception for {{application}} port: {{port}}/tcp.."
+    - name: "Add firewall exception for {{application}} port: {{ application_port }}/tcp.."
       firewalld:
-        port: "{{port}}/tcp"
+        port: "{{ application_port }}/tcp"
         immediate: yes
         permanent: true
         state: enabled
@@ -103,8 +106,8 @@
     - name: "Remove and clean the downloaded package.."
       ansible.builtin.file:
         path: "/tmp/{{application}}-{{version}}.{{architecture}}.tar.gz"
-        state: absent       
-        
+        state: absent
+
     - name: "Remove and clean the extracted package.."
       ansible.builtin.file:
         path: "/tmp/{{application}}-{{version}}.{{architecture}}"

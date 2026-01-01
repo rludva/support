@@ -1,8 +1,7 @@
 
 ---
 - name: "Install Prometheus.."
-  hosts:
-    - localhost
+  hosts: "prometheus"
   become: true
   vars:
     # https://github.com/prometheus/prometheus/releases/download/v2.32.1/
@@ -14,12 +13,11 @@
     architecture: "linux-amd64"
 
     hostname: "localhost"
-    port: "9090"
+    application_port: "9090"
     description: "Prometheus"
     user: "prometheus"
     group: "prometheus"
     exec: "/usr/local/bin/prometheus"
-    storage_tsdb_retention_time: "100d"  # default is 15d
 
   tasks:
     - name: "Create {{user}} user.."
@@ -46,14 +44,6 @@
         group: "{{user}}"
         mode: "0755"
 
-    - name: "Copy {{application}} promtool binary to standard binary folder.."
-      ansible.builtin.copy:
-        src: /tmp/{{application}}-{{version}}.{{architecture}}/promtool
-        dest: /usr/local/bin/promtool
-        owner: "{{user}}"
-        group: "{{user}}"
-        mode: "0755"
-
     - name: "Create storage folder for the {{application}} in /var/lib/{{application}}.."
       file:
         name: "/var/lib/{{application}}"
@@ -71,9 +61,9 @@
         src: "{{ (playbook_dir + '/../root/etc/prometheus/prometheus.yml.j2') | realpath }}"
         dest: "/etc/prometheus/prometheus.yml"
 
-    - name: "Add firewall exception for {{application}} port: {{port}}/tcp.."
+    - name: "Add firewall exception for {{application}} port: {{ application_port }}/tcp.."
       firewalld:
-        port: "{{port}}/tcp"
+        port: "{{ application_port }}/tcp"
         immediate: yes
         permanent: true
         state: enabled

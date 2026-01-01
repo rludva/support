@@ -1,8 +1,7 @@
 
 ---
 - name: "Install Prometheus Node Exporter.."
-  hosts:
-    - localhost
+  hosts: "node_exporter"
   become: true
   vars:
     # https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
@@ -71,7 +70,7 @@
         name: "{{ application }}"
         state: started
         enabled: yes
-        
+
     - name: "Check if {{ application_service }} is running"
       shell: "systemctl is-active {{ application_service }}"
       register: application_service_status
@@ -90,6 +89,6 @@
     - name: "Print additional configuration that must be added to prometheus.conf.."
       ansible.builtin.debug:
         msg:
-        - "     - job_name: 'node_exporter_{{ lookup('env', 'HOSTNAME') | replace('.', '_') }}'"
+        - "     - job_name: 'node_exporter_{{ inventory_hostname | replace('.', '_') }}'"
         - "       static_configs:"
-        - "       - targets: ['{{ lookup('env', 'HOSTNAME') }}:{{port}}']"
+        - "       - targets: ['{{ inventory_hostname }}:{{port}}']"
