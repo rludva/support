@@ -50,12 +50,31 @@ else
     echo -e "${YELLOW}Warning:${NC} Could not retrieve location for $IP"
 fi
 
-# 3️⃣ Formatting the record for the log
+# 3️⃣ Formatting the record for the log..
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
+# 4️⃣ Calculate widths considering multi-byte characters..
+# ${#VAR} in Bash returns the number of characters, 'wc -c' returns the number of bytes
+CHAR_COUNT_COUNTRY=${#COUNTRY}
+BYTE_COUNT_COUNTRY=$(echo -n "$COUNTRY" | wc -c)
+DIFF_COUNTRY=$(( BYTE_COUNT_COUNTRY - CHAR_COUNT_COUNTRY ))
+WIDTH_COUNTRY=$(( 30 + DIFF_COUNTRY ))
+
+CHAR_COUNT_CITY=${#CITY}
+BYTE_COUNT_CITY=$(echo -n "$CITY" | wc -c)
+DIFF_CITY=$(( BYTE_COUNT_CITY - CHAR_COUNT_CITY ))
+WIDTH_CITY=$(( 30 + DIFF_CITY ))
+
+# 5️⃣ Log the event..
 # Using fixed-width columns for better readability in the log file
 # Format: Timestamp | IP | Country | City | Reason
-printf "%-19s | %-15s | %-30s | %-30s | %s\n" \
+printf "%-19s | %-15s | %-${WIDTH_COUNTRY}s | %-${WIDTH_CITY}s | %s\n" \
     "$TIMESTAMP" "$IP" "$COUNTRY" "$CITY" "$REASON" >> "$METRICS_FILE"
+
+# Python Alternative:
+# python3 -c "print(f'{$TIMESTAMP:<19} | {$IP:<15} | {$COUNTRY:<30} | {$CITY:<30} | {$REASON}')" >> "$METRICS_FILE"
+
+# Original bash printf without multi-byte handling:
+# printf "%-19s | %-15s | %-30s | %-30s | %s\n" "$TIMESTAMP" "$IP" "$COUNTRY" "$CITY" "$REASON" >> "$METRICS_FILE"
 
 echo -e "${BLUE}Event logged to: ${NC}$METRICS_FILE"
