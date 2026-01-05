@@ -37,8 +37,8 @@ firewall-offline-cmd --ipset=blacklist --add-entry=193.46.255.7
 firewall-offline-cmd --ipset=blacklist --add-entry=193.32.162.145
 firewall-offline-cmd --ipset=blacklist --add-entry=165.232.178.116
 
-# 4. The rest of blacklist scripts are going to be added into /root/.local/bin..
-mkdir /root/.local/bin
+# 4. The rest of blacklist scripts are going to be added into /usr/local/bin..
+mkdir /usr/local/bin
 
 # 5. Install net-tools package (ether-wake)
 #    Better to have it installed even the fackt that we use python to generate the WOL packet..
@@ -52,10 +52,12 @@ add_file_to_ks() {
    local FILE_PATH="$1"
     
     # 0. Calculate paths..
-    local VM_DEST="$FILE_PATH"
     local LOCAL_SRC="$PARENT_FOLDER/chome/${FILE_PATH}"
     local KS_FILE="$RESOURCES_DIR/update-ks.cfg"
 
+    # 
+    local VM_DEST=$(echo "$FILE_PATH" | sed 's|^/home/user|/home/{{USER_NAME}}|')
+    
     echo "add_file_to_ks(): $LOCAL_SRC -> $VM_DEST"
 
     # 1. Prepare the heredoc start in update-ks.cfg..
@@ -89,15 +91,17 @@ BUILD_UPDATE_KS_CFG_EOF
 }
 
 FILES_LIST=(
- "/root/.local/bin/blacklist.ips"
- "/root/.local/bin/whitelist.ips"
- "/root/.local/bin/block-ip.sh"
- "/root/.local/bin/build-blacklist.sh"
- "/root/.local/bin/bulk-block.sh"
- "/root/.local/bin/create-ipset-blacklist.sh"
- "/root/.local/bin/extract-user.sh"
- "/root/.local/bin/get-entries-blacklist.sh"
- "/root/.local/bin/get-entries-whitelist.sh"
+ "/var/data/blacklist.ips"
+ "/var/data/whitelist.ips"
+ "/usr/local/bin/block-ip.sh"
+ "/usr/local/bin/build-blacklist.sh"
+ "/usr/local/bin/bulk-block.sh"
+ "/usr/local/bin/create-ipset-blacklist.sh"
+ "/usr/local/bin/extract-user.sh"
+ "/usr/local/bin/get-entries-blacklist.sh"
+ "/usr/local/bin/get-entries-whitelist.sh"
+ "/home/user/.local/bin/bashrc_a_comp.sh"
+ "/home/user/.bashrc_example"
 )
 
 # Iterace přes pole

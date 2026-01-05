@@ -183,6 +183,11 @@ dnf update -y
 # === BEGIN-UPDATE-KS.CFG ===
 # !!! THIS CONTENT IS GOING TO BE REPLACED WITH ./update-ks.cfg FILE.. !!!
 # === END-UPDATE-KS.CFG ===
+
+
+# If file are added to /home/{{USER_NAME}} set proper ownership..
+chown -R {{USER_NAME}}:{{GROUP_NAME}} /home/{{USER_NAME}}
+
 %end
 # --- END OF POST INSTALLATION ---
 

@@ -1,0 +1,49 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+if [ -d ~/.bashrc.d ]; then
+    for rc in ~/.bashrc.d/*; do
+        if [ -f "$rc" ]; then
+            . "$rc"
+        fi
+    done
+fi
+unset rc
+
+# a/on/off completion
+source $HOME/.local/bin/bashrc_a_comp.sh
+
+alias personal.example.com="ssh personal.example.com"
+alias server.example.com="ssh server.example.com"
+alias bastion.example.com="ssh bastion.example.com"
+alias database.example.com="ssh database.example.com"
+alias tangd.example.com="ssh tangd.example.com"
+alias web.example.com="ssh web.example.com"
+alias ldap.example.com="ssh ldap.example.com"
+alias haproxy.example.com="ssh haproxy.example.com"
+alias letsencrypt.example.com="ssh letsencrypt.example.com"
+
+
+echo "Number of blocked IPs: $(wc -l < /var/data/blacklist.ips)"
+echo
+
+echo "crontab -l"
+crontab -l
+echo
+
+echo "journalctl -u sshd | tail"
+journalctl -u sshd | tail
