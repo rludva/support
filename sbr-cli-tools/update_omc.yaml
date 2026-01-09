@@ -1,0 +1,67 @@
+#
+# This Ansible playbook downloads the latest release of the omc tool from GitHub and installs it to the local filesystem.
+# omc is a tool for off-line analyzing of OpenShift must-gather files.
+# 
+# Source code of the omc tool: https://github.com/gmeghnag/omc.git
+#
+
+---
+- name: "Update binary file from github.com releases of omc tool.."
+  hosts:
+    - localhost
+  become: true
+  gather_facts: false
+  vars:
+    # All the artifacts are downloaded to this directory..
+    # Feel free to change it to /tmp for example..
+    download_dir: "/var/downloads"
+
+    # The destination directory for the binary file..
+    destination_directory: "/opt/cli-tools"
+    destination_file_name: "omc"
+
+    # The GitHub repository specific variables..
+    repository_owner: "gmeghnag"
+    project_name: "omc"
+    release_file_name: "omc_Linux_x86_64"
+    github_repo_url: "https://github.com/{{ repository_owner  }}/{{ project_name }}"
+
+
+  tasks:
+    - name: Ensure the target directory for downloaded files exists ({{ download_dir }})..
+      file:
+        path: "{{ download_dir }}"
+        state: directory
+
+    - name: Get GitHub Releases
+      uri:
+        url: "https://api.github.com/repos/{{ repository_owner  }}/{{ project_name }}/releases/latest"
+        return_content: yes
+        headers:
+          Accept: "application/vnd.github.v3+json"
+      register: github_release
+
+    - name: Extract latest tag
+      set_fact:
+        latest_tag: "{{ github_release.json.tag_name }}"
+
+    - name: Display latest tag
+      debug:
+        msg: "Latest tag: {{ latest_tag }}"
+  
+    - name: Download {{ project_name }}
+      get_url:
+        url: "{{ github_repo_url }}/releases/download/{{ latest_tag }}/{{ release_file_name }}"
+        dest: "{{ download_dir }}/{{ release_file_name }}"
+
+    - name: Display downloaded version
+      debug:
+        msg: "{{ release_file_name }} version {{ latest_tag }} downloaded to {{ download_dir }}/{{ release_file_name }}"
+
+    - name: Move latest release of {{ destination_file_name }} to its destination on local filesystem.. ({{ destination_directory }}/{{ destination_file_name }})
+      ansible.builtin.copy:
+        src: "{{ download_dir }}/{{ release_file_name }}"
+        dest: "{{ destination_directory }}/{{ destination_file_name }}"
+        owner: "root"
+        group: "root"
+        mode: "0755"

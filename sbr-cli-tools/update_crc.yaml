@@ -1,0 +1,83 @@
+#
+# Default location to downlad OpenShift Local: https://console.redhat.com/openshift/create/local
+# 
+# Source code: https://github.com/crc-org/crc/
+#
+
+---
+- name: "Update binary file from github.com releases of OpenShift Local (crc).."
+  hosts:
+    - localhost
+  become: true
+  gather_facts: false
+  vars:
+    # All the artifacts are downloaded to this directory..
+    # Feel free to change it to /tmp for example..
+    download_dir: "/var/downloads"
+
+    # The destination directory for the binary file..
+    destination_directory: "/opt/cli-tools"
+    destination_file_name: "crc"
+
+    # The GitHub repository specific variables..
+    repository_owner: "crc-org"
+    project_name: "crc"
+    release_file_name: "crc"
+    release_archive_file_name: "{{ release_file_name }}-{{ release_system }}-{{ release_platform }}.tar.xz"
+    github_repo_url: "https://github.com/{{ repository_owner  }}/{{ project_name }}"
+
+    # The release specific variables that we are interested in..
+    # Feel free to change the release_platform to your CPU architecture..
+    release_platform: "amd64"
+    # Feel free to change the release_system to your operating system..
+    release_system: "linux"
+
+
+  tasks:
+    - name: Ensure the target directory for downloaded files exists ({{ download_dir }})..
+      file:
+        path: "{{ download_dir }}"
+        state: directory
+
+    - name: Get GitHub Releases..
+      uri:
+        url: "https://api.github.com/repos/{{ repository_owner  }}/{{ project_name }}/releases/latest"
+        return_content: yes
+        headers:
+          Accept: "application/vnd.github.v3+json"
+      register: github_release
+
+    - name: Extract latest tag..
+      set_fact:
+        latest_tag: "{{ github_release.json.tag_name }}"
+
+    - name: Remove the 'v' letter from version string..
+      set_fact:
+        latest_tag: "{{ latest_tag | regex_replace('^.', '') }}"
+
+    - name: Display latest tag..
+      debug:
+        msg: "Latest tag: {{ latest_tag }}"
+  
+    - name: Download {{ project_name }}..
+      get_url:
+        url: "https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/crc/{{ latest_tag }}/{{ release_archive_file_name }}"
+        dest: "{{ download_dir }}/{{ release_archive_file_name }}"
+
+    - name: Display downloaded version..
+      debug:
+        msg: "{{ release_archive_file_name }} version {{ latest_tag }} downloaded to {{ download_dir }}/{{ release_archive_file_name }}"
+
+    - name: Extract the {{ download_dir }}/{{ release_archive_file_name }} file..
+      ansible.builtin.unarchive:
+        src: "{{ download_dir }}/{{ release_archive_file_name }}"
+        dest: "{{ download_dir }}"
+        remote_src: yes
+
+    - name: Move latest release of {{ destination_file_name }} to its destination on local filesystem.. ({{ destination_directory }}/{{ destination_file_name }})..
+      ansible.builtin.copy:
+        src: "{{ download_dir }}/{{ release_file_name }}-{{ release_system }}-{{ latest_tag }}-{{ release_platform }}/{{ release_file_name }}"
+        dest: "{{ destination_directory }}/{{ destination_file_name }}"
+        owner: "root"
+        group: "root"
+        mode: "0755"

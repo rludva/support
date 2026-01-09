@@ -1,0 +1,67 @@
+#
+# This Ansible playbook downloads the latest release of the odo tool from GitHub and installs it to the local filesystem.
+# odo - container-based application development
+# 
+# Source code of the odo tool: https://github.com/redhat-developer/odo.git
+#
+
+---
+- name: "Update binary file from github.com releases of odo tool.."
+  hosts:
+    - localhost
+  become: true
+  gather_facts: false
+  vars:
+    # All the artifacts are downloaded to this directory..
+    # Feel free to change it to /tmp for example..
+    download_dir: "/var/downloads"
+
+    # The destination directory for the binary file..
+    destination_directory: "/opt/cli-tools"
+    destination_file_name: "odo"
+
+    # The GitHub repository specific variables..
+    repository_owner: "redhat-developer"
+    project_name: "odo"
+    release_file_name: "odo"
+    github_repo_url: "https://github.com/{{ repository_owner  }}/{{ project_name }}"
+
+
+  tasks:
+    - name: Ensure the target directory for downloaded files exists ({{ download_dir }})..
+      file:
+        path: "{{ download_dir }}"
+        state: directory
+
+    - name: Get GitHub Releases
+      uri:
+        url: "https://api.github.com/repos/{{ repository_owner  }}/{{ project_name }}/releases/latest"
+        return_content: yes
+        headers:
+          Accept: "application/vnd.github.v3+json"
+      register: github_release
+
+    - name: Extract latest tag
+      set_fact:
+        latest_tag: "{{ github_release.json.tag_name }}"
+
+    - name: Display latest tag
+      debug:
+        msg: "Latest tag: {{ latest_tag }}"
+  
+    - name: Download {{ project_name }}
+      get_url:
+        url: "https://developers.redhat.com/content-gateway/rest/mirror/pub/openshift-v4/clients/odo/{{ latest_tag }}/odo-linux-amd64"        
+        dest: "{{ download_dir }}/{{ release_file_name }}"
+
+    - name: Display downloaded version
+      debug:
+        msg: "{{ release_file_name }} version {{ latest_tag }} downloaded to {{ download_dir }}/{{ release_file_name }}"
+
+    - name: Move latest release of {{ destination_file_name }} to its destination on local filesystem.. ({{ destination_directory }}/{{ destination_file_name }})
+      ansible.builtin.copy:
+        src: "{{ download_dir }}/{{ release_file_name }}"
+        dest: "{{ destination_directory }}/{{ destination_file_name }}"
+        owner: "root"
+        group: "root"
+        mode: "0755"

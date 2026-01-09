@@ -1,0 +1,115 @@
+#
+# This Ansible playbook downloads the latest release of the chectl tool and installs it to the local filesystem.
+#  
+# Download links:
+# ---------------
+# - https://github.com/che-incubator/chectl/releases
+#
+
+---
+- name: "Update binary file from github.com releases of chectl tool.."
+  hosts:
+    - localhost
+  become: true
+  gather_facts: true
+  vars:
+    # All the artifacts are downloaded to this directory..
+    # Feel free to change it to /tmp for example..
+    download_dir: "/var/downloads"
+    # The destination directory for the binary file..
+    destination_directory: "/opt/cli-tools"
+    destination_file_name: "chectl"
+    # The GitHub repository specific variables..
+    repository_owner: "che-incubator"
+    project_name: "chectl"
+    release_file_name: "chectl"
+    release_archive_file_name: "{{ release_file_name }}-{{ release_system }}-{{ release_platform }}.tar.gz"
+
+    github_repo_url: "https://github.com/{{ repository_owner  }}/{{ project_name }}"
+
+    # The release specific variables that we are interested in..
+    # Feel free to change the release_platform to your CPU architecture..
+    release_platform: "x64"
+    # Feel free to change the release_system to your operating system..
+    release_system: "linux"
+
+    # Identify the invoking user
+    current_user: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
+    current_group: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
+  tasks:
+    - name: Ensure the target directory for downloaded files exists ({{ download_dir }})..
+      file:
+        path: "{{ download_dir }}"
+        state: directory
+    - name: Get GitHub Releases
+      uri:
+        url: "https://api.github.com/repos/{{ repository_owner  }}/{{ project_name }}/releases/latest"
+        return_content: yes
+        headers:
+          Accept: "application/vnd.github.v3+json"
+      register: github_release
+    - name: Extract latest tag
+      set_fact:
+        latest_tag: "{{ github_release.json.tag_name }}"
+    - name: Display latest tag
+      debug:
+        msg: "Latest tag: {{ latest_tag }}"
+  
+    - name: Download {{ project_name }}
+      get_url:
+        url: "{{ github_repo_url }}/releases/download/{{ latest_tag }}/{{ release_archive_file_name }}"
+        dest: "{{ download_dir }}/{{ release_archive_file_name }}"
+        owner: "root"
+        group: "root"
+        mode: "0644"
+
+    - name: Display downloaded version
+      debug:
+        msg: "{{ release_file_name }} version {{ latest_tag }} downloaded to {{ download_dir }}/{{ release_file_name }}"
+
+    - name: If exists old release in local filesystem, remove it.. ({{ destination_directory }}/{{ destination_file_name }})
+      ansible.builtin.file:
+        path: "{{ destination_directory }}/{{ destination_file_name }}"
+        state: absent
+
+    - name: Ensure the destination directory exists.. ({{ destination_directory }}/{{ destination_file_name }})
+      ansible.builtin.file:
+        path: "{{ destination_directory }}/{{ destination_file_name }}"
+        state: directory
+        owner: "root"
+        group: "root"
+        mode: "0755"
+
+    - name: Extract the {{ download_dir }}/{{ release_archive_file_name }} file..
+      ansible.builtin.unarchive:
+        src: "{{ download_dir }}/{{ release_archive_file_name }}"
+        dest: "{{ destination_directory }}/{{ destination_file_name }}"
+        remote_src: yes
+        owner: "root"
+        group: "root"
+        extra_opts: ['--strip-components=1']
+
+    - name: Remove local chectl/node overrides for root and current user..
+      ansible.builtin.file:
+        path: "{{ item.0 }}/{{ item.1 }}"
+        state: absent
+      with_nested:
+        - [ "/root", "/home/{{ current_user }}" ]
+        - [ ".local/share/chectl", ".cache/chectl", ".config/chectl" ]        
+
+    - name: Verify installation and capture version
+      ansible.builtin.command: "/opt/cli-tools/chectl/bin/chectl --version"
+      register: chectl_version_output
+      changed_when: false
+      failed_when: false
+
+    - name: Display installation summary
+      ansible.builtin.debug:
+        msg: 
+          - "------------------------------------------------"
+          - " INSTALLATION SUCCESSFUL"
+          - " Installed to: {{ destination_directory }}"
+          - " Owned by:     {{ current_user }}"
+          - " Version:      {{ chectl_version_output.stdout | default('Unknown') }}"
+          - "------------------------------------------------"
+
