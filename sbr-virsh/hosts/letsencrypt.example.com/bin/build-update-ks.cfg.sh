@@ -49,6 +49,7 @@ python3 -m venv /opt/certbot/
 # Upgrade pip and install certbot
 /opt/certbot/bin/pip install --upgrade pip
 /opt/certbot/bin/pip install certbot
+/opt/certbot/bin/pip install certbot-dns-route53
 
 # Create symlink for certbot command--
 ln -s /opt/certbot/bin/certbot /usr/bin/certbot
