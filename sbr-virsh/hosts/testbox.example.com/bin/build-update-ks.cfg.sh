@@ -2,16 +2,17 @@
 set -euo pipefail
 
 #
-BASEDIR="$(cd "$(dirname "$0")/.." && pwd)"
+SCRIPT_PATH="$(realpath "${BASH_SOURCE[0]}")"
 
-SCRIPT_PATH="$(realpath "$0")"
 SCRIPT_FOLDER="$(dirname "$SCRIPT_PATH")"
+BASEDIR="$(cd "$SCRIPT_FOLDER/.." && pwd)"
 PARENT_FOLDER="$(dirname "$SCRIPT_FOLDER")"
 FOLDER_NAME="$(basename "$PARENT_FOLDER")"
 
 # Name of the VM host..
 VM_NAME="$FOLDER_NAME"
 RESOURCES_DIR="$PARENT_FOLDER"
+
 
 BASHRC_B64=$(cat <<'EOF' | base64 -w0
 # Shortcuts..

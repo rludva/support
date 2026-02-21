@@ -224,7 +224,7 @@ echo " -> Checking for update-ks.cfg build script.."
 BUILD_KS_SCRIPT="$RESOURCES_DIR/bin/build-update-ks.cfg.sh"
 if [ -f "$BUILD_KS_SCRIPT" ]; then
   echo " -> Building update-ks.cfg.. ($BUILD_KS_SCRIPT)"
-  bash "$BUILD_KS_SCRIPT"
+  source "$BUILD_KS_SCRIPT"
 fi
 
 #

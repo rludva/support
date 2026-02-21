@@ -2,10 +2,10 @@
 set -euo pipefail
 
 #
-BASEDIR="$(cd "$(dirname "$0")/.." && pwd)"
+SCRIPT_PATH="$(realpath "${BASH_SOURCE[0]}")"
 
-SCRIPT_PATH="$(realpath "$0")"
 SCRIPT_FOLDER="$(dirname "$SCRIPT_PATH")"
+BASEDIR="$(cd "$SCRIPT_FOLDER/.." && pwd)"
 PARENT_FOLDER="$(dirname "$SCRIPT_FOLDER")"
 FOLDER_NAME="$(basename "$PARENT_FOLDER")"
 
