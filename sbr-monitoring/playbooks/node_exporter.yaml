@@ -1,7 +1,7 @@
 
 ---
 - name: "Install Prometheus Node Exporter.."
-  hosts: "node_exporter"
+  hosts: my_vms
   become: true
   vars:
     # https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
@@ -33,6 +33,7 @@
       ansible.builtin.unarchive:
         src: /tmp/{{application}}-{{version}}.{{architecture}}.tar.gz
         dest: /tmp
+        remote_src: yes
 
     - name: "Copy {{application}} binary to standard binary folder.."
       ansible.builtin.copy:
@@ -41,6 +42,7 @@
         owner: "{{user}}"
         group: "{{user}}"
         mode: "0755"
+        remote_src: yes
 
 #    - name: debug
 #      service:
@@ -89,6 +91,6 @@
     - name: "Print additional configuration that must be added to prometheus.conf.."
       ansible.builtin.debug:
         msg:
-        - "     - job_name: 'node_exporter_{{ inventory_hostname | replace('.', '_') }}'"
+        - "     - job_name: 'node_exporter_{{ lookup('env', 'HOSTNAME') | replace('.', '_') }}'"
         - "       static_configs:"
-        - "       - targets: ['{{ inventory_hostname }}:{{port}}']"
+        - "       - targets: ['{{ lookup('env', 'HOSTNAME') }}:{{port}}']"

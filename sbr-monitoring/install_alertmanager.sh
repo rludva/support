@@ -4,4 +4,4 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Run ansible-playbook with a path relative to the script location..
-ansible-playbook "${SCRIPT_DIR}/playbooks/alertmanager.yaml"
+ansible-playbook -i "${SCRIPT_DIR}/inventory.ini" "${SCRIPT_DIR}/playbooks/alertmanager.yaml"
