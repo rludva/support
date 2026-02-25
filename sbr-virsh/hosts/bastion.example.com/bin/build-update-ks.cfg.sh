@@ -49,15 +49,15 @@ BUILD_UPDATE_KS_CFG_EOF
 #
 # Function to add a file to the update-ks.cfg in base64 encoding..
 add_file_to_ks() {
-   local FILE_PATH="$1"
-    
+    local FILE_PATH="$1"
+
     # 0. Calculate paths..
     local LOCAL_SRC="$PARENT_FOLDER/chome/${FILE_PATH}"
     local KS_FILE="$RESOURCES_DIR/update-ks.cfg"
 
-    # 
+    #
     local VM_DEST=$(echo "$FILE_PATH" | sed 's|^/home/user|/home/{{USER_NAME}}|')
-    
+
     echo "add_file_to_ks(): $LOCAL_SRC -> $VM_DEST"
 
     # 1. Prepare the heredoc start in update-ks.cfg..
