@@ -1,0 +1,104 @@
+---
+- name: Fetch Let's Encrypt certificates and deploy them to rhokp host..
+  become: true
+  hosts: localhost
+  vars:
+    #
+    # ADJUST: 
+    # -------
+    # - Set the hostname or IP address of your letsencrypt_hostname variable as hostname here. 
+    # - This is where the certificates will be fetched from.
+    letsencrypt_hostname: letsencrypt.example.com
+
+    #
+    # ADJUST: 
+    # -------
+    # - Set the hostname or IP address of your rhokp_hostname variable as hostname here. 
+    # - This is where the generated secrets.yaml will be deployed.
+    rhokp_hostname: rhokp.example.com
+
+    #
+    # ADJUST: 
+    # -------
+    # - Set the domain name for which the certificates were issued here.
+    # - This is used to construct the path to the certificates on the letsencrypt host.
+    domain: "mimir.example.com"
+
+
+    deploy_user: "{{ lookup('env', 'USER') }}"
+
+    cert_path: /etc/letsencrypt/live/{{ domain }}
+    dest_path: /var/certificates/{{ domain }}
+    #
+    # The rhokp host does not have a clue what is the domain name, so we will just put the certificates in a common directory.
+    rhokp_dest_path: /var/certificates
+
+    remote_user: root
+
+    certificates:
+      - fullchain.pem
+      - privkey.pem
+      - chain.pem
+      - cert.pem
+    
+  tasks:
+    - name: Ensure destination directory exists on localhost..
+      ansible.builtin.file:
+        path: "{{ dest_path }}"
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        state: directory
+        mode: '0755'
+
+    - name: Print destination path..
+      ansible.builtin.debug:
+        msg: "Destination path: {{ dest_path }}"
+
+    - name: Save certificates from letsencrypt host to localhost..
+      ansible.builtin.fetch:
+        src: "{{ cert_path }}/{{ item }}"
+        dest: "{{ dest_path }}/{{ item }}"
+        flat: yes
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+      delegate_to: "{{ letsencrypt_hostname }}"
+      with_items:
+        - "{{ certificates }}"
+
+    - name: Ensure correct permissions for certificates on localhost..
+      ansible.builtin.file:
+        path: "{{ dest_path }}/{{ item }}"
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: '0600'
+      with_items:
+        - "{{ certificates }}"        
+
+    #
+    # => Push certificates to rhokp host..
+    #
+    - name: Remove existing certificates on rhokp host..
+      ansible.builtin.file:
+        path: "{{ dest_path }}"
+        state: absent
+      delegate_to: "{{ rhokp_hostname }}"
+
+    - name: Create destination directory on rhokp host..
+      ansible.builtin.file:
+        path: "{{ dest_path }}"
+        state: directory
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: '0755'
+      delegate_to: "{{ rhokp_hostname }}"
+
+    - name: Copy certificates to rhokp host..
+      ansible.builtin.copy:
+        src: "{{ dest_path }}/{{ item }}" 
+        dest: "{{ rhokp_dest_path }}/{{ item }}"
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: '0644'
+      delegate_to: "{{ rhokp_hostname }}"
+      with_items:
+        - "{{ certificates }}"

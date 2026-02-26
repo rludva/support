@@ -1,0 +1,80 @@
+---
+- name: Deploy Red Hat Off-line Knowledge Portal (RHOKP)
+  hosts: localhost
+  gather_facts: true
+  become: true
+  become_method: sudo
+  become_user: root
+
+  vars_files:
+    - secrets.yaml
+    
+  vars:
+    registry_host: "registry.redhat.io"
+    image: "offline-knowledge-portal/rhokp-rhel9"
+    tag: "latest"
+
+    home: "{{ ansible_env.HOME }}"
+
+  tasks:
+    - name: Print the access key for RHOKP..
+      ansible.builtin.debug:
+        msg: "Access Key: {{ rhokp_access_key }}"
+
+    - name: Login to the  Red Hat Registry via podman..
+      ansible.builtin.command:
+        cmd: "podman login --username {{ db_login }} --password {{ db_passwd }} --verbose {{ registry_host }}"
+
+    - name: Execute the podman system migrate to update ID mappings..
+      ansible.builtin.command: podman system migrate
+      register: podman_migrate_result
+      changed_when: "'Database migrated' in podman_migrate_result.stdout"
+      failed_when: 
+        - podman_migrate_result.rc != 0
+        - "'Error: ' in podman_migrate_result.stderr"
+
+    # https://docs.redhat.com/en/documentation/red_hat_offline_knowledge_portal/1#proc_launching-rhokp
+    # https://docs.redhat.com/en/documentation/red_hat_offline_knowledge_portal/1/html-single/user_guide/index#proc_launching-rhokp
+    - name: Pull the image with RHOKP..
+      ansible.builtin.command:
+        cmd: "podman pull {{ registry_host }}/{{ image }}:{{ tag }}"
+      register: pull_result
+      changed_when: "'Image is up to date' not in pull_result.stdout"
+
+    - name: Create httpd-ssl directory..
+      ansible.builtin.file:
+        path: "./httpd-ssl/certs"
+        state: directory
+        mode: '0755'
+        
+    - name: Create httpd-ssl directory..
+      ansible.builtin.file:
+        path: "./httpd-ssl/private"
+        state: directory
+        mode: '0755'
+
+    - name: Copy certificate to httpd-ssl directory..
+      ansible.builtin.copy:
+        src: "/var/certificates/fullchain.pem"
+        dest: "./httpd-ssl/certs/server.pem"
+        mode: '0644'
+
+    - name: Copy private key of certificate to httpd-ssl directory..
+      ansible.builtin.copy:
+        src: "/var/certificates/privkey.pem"
+        dest: "./httpd-ssl/private/server.pem"
+        mode: '0644'
+
+    - name: Podman run..
+      ansible.builtin.command:
+        cmd: >
+          podman run 
+            --rm
+            --env "ACCESS_KEY={{ rhokp_access_key }}" 
+            -p 8080:8080 
+            -p 8443:8443 
+            -v ./httpd-ssl:/opt/app-root/httpd-ssl:Z
+            -d 
+            {{ registry_host }}/{{ image }}:{{ tag }}
+      register: run_result
+      changed_when: "'created' in run_result.stdout or 'started' in run_result.stdout"
