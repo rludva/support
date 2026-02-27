@@ -24,16 +24,13 @@
     # - This is used to construct the path to the certificates on the letsencrypt host.
     domain: "mimir.example.com"
 
+    # Source path on the Let's Encrypt host
+    cert_path: "/etc/letsencrypt/live/{{ domain }}"
+    
+    # Destination path on the RHOKP host
+    rhokp_dest_path: "/var/certificates/rhokp"
 
     deploy_user: "{{ lookup('env', 'USER') }}"
-
-    cert_path: /etc/letsencrypt/live/{{ domain }}
-    dest_path: /var/certificates/{{ domain }}
-    #
-    # The rhokp host does not have a clue what is the domain name, so we will just put the certificates in a common directory.
-    rhokp_dest_path: /var/certificates
-
-    remote_user: root
 
     certificates:
       - fullchain.pem
@@ -42,63 +39,41 @@
       - cert.pem
     
   tasks:
-    - name: Ensure destination directory exists on localhost..
-      ansible.builtin.file:
-        path: "{{ dest_path }}"
-        owner: "{{ deploy_user }}"
-        group: "{{ deploy_user }}"
-        state: directory
-        mode: '0755'
-
-    - name: Print destination path..
-      ansible.builtin.debug:
-        msg: "Destination path: {{ dest_path }}"
-
-    - name: Save certificates from letsencrypt host to localhost..
-      ansible.builtin.fetch:
+    # Slurp certificates into memory..
+    - name: Read certificates from Let's Encrypt host into memory
+      ansible.builtin.slurp:
         src: "{{ cert_path }}/{{ item }}"
-        dest: "{{ dest_path }}/{{ item }}"
-        flat: yes
-        owner: "{{ deploy_user }}"
-        group: "{{ deploy_user }}"
+      register: slurped_certs
       delegate_to: "{{ letsencrypt_hostname }}"
-      with_items:
-        - "{{ certificates }}"
+      loop: "{{ certificates }}"
+      no_log: true # EXTREMELY IMPORTANT: Prevents printing the private key to the terminal!
 
-    - name: Ensure correct permissions for certificates on localhost..
+    # Prepare the destination directory on the RHOKP host..
+    - name: Remove existing certificates directory on RHOKP host
       ansible.builtin.file:
-        path: "{{ dest_path }}/{{ item }}"
-        owner: "{{ deploy_user }}"
-        group: "{{ deploy_user }}"
-        mode: '0600'
-      with_items:
-        - "{{ certificates }}"        
-
-    #
-    # => Push certificates to rhokp host..
-    #
-    - name: Remove existing certificates on rhokp host..
-      ansible.builtin.file:
-        path: "{{ dest_path }}"
+        path: "{{ rhokp_dest_path }}"
         state: absent
       delegate_to: "{{ rhokp_hostname }}"
 
-    - name: Create destination directory on rhokp host..
+    - name: Create destination directory on RHOKP host
       ansible.builtin.file:
-        path: "{{ dest_path }}"
+        path: "{{ rhokp_dest_path }}"
         state: directory
         owner: "{{ deploy_user }}"
         group: "{{ deploy_user }}"
         mode: '0755'
       delegate_to: "{{ rhokp_hostname }}"
 
-    - name: Copy certificates to rhokp host..
+    # Write certificates from memory directly to the target server..
+    - name: Copy certificates from memory to RHOKP host
       ansible.builtin.copy:
-        src: "{{ dest_path }}/{{ item }}" 
-        dest: "{{ rhokp_dest_path }}/{{ item }}"
+        content: "{{ item.content | b64decode }}"
+        dest: "{{ rhokp_dest_path }}/{{ item.item }}" # 'item.item' contains the original filename (e.g., cert.pem)
         owner: "{{ deploy_user }}"
         group: "{{ deploy_user }}"
-        mode: '0644'
+        mode: '0600'
       delegate_to: "{{ rhokp_hostname }}"
-      with_items:
-        - "{{ certificates }}"
+      loop: "{{ slurped_certs.results }}"
+      no_log: true
+      loop_control:
+        label: "{{ item.item }}" # Prints only the filename to the terminal, not the hidden content

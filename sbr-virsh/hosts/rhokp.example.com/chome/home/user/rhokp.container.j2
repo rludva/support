@@ -1,0 +1,23 @@
+[Unit]
+Description=Red Hat Off-line Knowledge Portal (RHOKP)
+After=network-online.target
+
+[Container]
+Image={{ registry_host }}/{{ image }}:{{ tag }}
+ContainerName=rhokp-service
+
+# Environment variables for the container
+Environment=ACCESS_KEY={{ rhokp_access_key }}
+
+# Port mappings..
+PublishPort=8080:8080
+PublishPort=8443:8443
+
+# Certificates volume mapping..
+Volume=/var/containers/rhokp/httpd-ssl:/opt/app-root/httpd-ssl:Z
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -8,7 +8,7 @@
 
   vars_files:
     - secrets.yaml
-    
+
   vars:
     registry_host: "registry.redhat.io"
     image: "offline-knowledge-portal/rhokp-rhel9"
@@ -33,8 +33,6 @@
         - podman_migrate_result.rc != 0
         - "'Error: ' in podman_migrate_result.stderr"
 
-    # https://docs.redhat.com/en/documentation/red_hat_offline_knowledge_portal/1#proc_launching-rhokp
-    # https://docs.redhat.com/en/documentation/red_hat_offline_knowledge_portal/1/html-single/user_guide/index#proc_launching-rhokp
     - name: Pull the image with RHOKP..
       ansible.builtin.command:
         cmd: "podman pull {{ registry_host }}/{{ image }}:{{ tag }}"
@@ -43,38 +41,45 @@
 
     - name: Create httpd-ssl directory..
       ansible.builtin.file:
-        path: "./httpd-ssl/certs"
+        path: "/var/containers/rhokp/httpd-ssl/certs"
         state: directory
         mode: '0755'
-        
+
     - name: Create httpd-ssl directory..
       ansible.builtin.file:
-        path: "./httpd-ssl/private"
+        path: "/var/containers/rhokp/httpd-ssl/private"
         state: directory
         mode: '0755'
 
     - name: Copy certificate to httpd-ssl directory..
       ansible.builtin.copy:
-        src: "/var/certificates/fullchain.pem"
-        dest: "./httpd-ssl/certs/server.pem"
+        src: "/var/certificates/rhokp/fullchain.pem"
+        dest: "/var/containers/rhokp/httpd-ssl/certs/server.pem"
         mode: '0644'
 
     - name: Copy private key of certificate to httpd-ssl directory..
       ansible.builtin.copy:
-        src: "/var/certificates/privkey.pem"
-        dest: "./httpd-ssl/private/server.pem"
+        src: "/var/certificates/rhokp/privkey.pem"
+        dest: "/var/containers/rhokp/httpd-ssl/private/server.pem"
         mode: '0644'
 
-    - name: Podman run..
-      ansible.builtin.command:
-        cmd: >
-          podman run 
-            --rm
-            --env "ACCESS_KEY={{ rhokp_access_key }}" 
-            -p 8080:8080 
-            -p 8443:8443 
-            -v ./httpd-ssl:/opt/app-root/httpd-ssl:Z
-            -d 
-            {{ registry_host }}/{{ image }}:{{ tag }}
-      register: run_result
-      changed_when: "'created' in run_result.stdout or 'started' in run_result.stdout"
+    - name: Create directory for Podman Quadlet file if it does not exist..
+      ansible.builtin.file:
+        path: /etc/containers/systemd/
+        state: directory
+        mode: '0755'
+
+    - name: Generate the Podman Quadlet file for RHOKP..
+      ansible.builtin.template:
+        src: rhokp.container.j2
+        dest: /etc/containers/systemd/rhokp.container
+        mode: '0640'
+      notify: Reload systemd and start RHOKP..
+
+  handlers:
+    - name: Reload systemd and start RHOKP..
+      ansible.builtin.systemd:
+        daemon_reload: yes
+        name: rhokp.service 
+        enabled: yes
+        state: restarted
