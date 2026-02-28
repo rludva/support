@@ -16,7 +16,7 @@ CONTAINER_NAME="$FOLDER_NAME"
 MARIADB_ROOT_PASSWORD=$(base64 -d /var/containers/$CONTAINER_NAME/.MARIADB_ROOT_PASSWORD | tr -d '\n')
 
 echo "➡️ Creating required directories..."
-sudo mkdir -p /var/containers/mariadb/data
+sudo mkdir -p /var/containers/$CONTAINER_NAME/data
 sudo mkdir -p /etc/containers/systemd
 
 # --- 2. CREATE QUADLET ---
@@ -37,7 +37,7 @@ Environment=MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
 PublishPort=3306:3306
 
 # Volume mapping pro perzistentní data..
-Volume=/var/containers/mariadb/data:/var/lib/mysql:Z
+Volume=/var/containers/$CONTAINER_NAME/data:/var/lib/mysql:Z
 
 [Service]
 Restart=always
