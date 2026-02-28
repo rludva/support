@@ -39,27 +39,23 @@ dnf install -y mariadb
 firewall-offline-cmd --add-service=3306
 
 # Prepare container specific files and directories
-mkdir --parents "/var/containers/mariadb"
-mkdir --parnet /var/containers/mariadb/backup
-mkdir --parnet /var/containers/mariadb/bin
-mkdir --parnet /var/containers/mariadb/data
-mkdir --parnet /var/containers/mariadb/logs
-setfacl --recursive --modify u:{{USER_NAME}}:rwx /var/containers
-setfacl --recursive --modify g:{{GROUP_NAME}}:rwx /var/containers
-
+mkdir --parents "/var/containers/mariadb-service"
+mkdir --parnets "/var/containers/mariadb-service/backup"
+mkdir --parnets "/var/containers/mariadb-service/bin"
+mkdir --parnets "/var/containers/mariadb-service/data"
+mkdir --parnets "/var/containers/mariadb-service/logs"
 
 # Generate MariaDB root password and store it in a file..
 MARIADB_ROOT_PASSWORD="$(openssl rand -base64 24 | tr -d '/+=' | cut -c1-16)"
+MARIADB_ROOT_PASSWORD_FILE="/var/containers/mariadb-service/.MARIADB_ROOT_PASSWORD"
 
-MARIADB_ROOT_PASSWORD_FILE="/var/passwd/containers/mariadb/MARIADB_ROOT_PASSWORD"
-mkdir --parents "/var/passwd/containers/mariadb"
-setfacl --recursive --modify u:{{USER_NAME}}:rwx "/var/passwd/containers/mariadb"
-setfacl --recursive --modify g:{{GROUP_NAME}}:rwx "/var/passwd/containers/mariadb"
-
+# Store the password in base64 encoding for later use in the administrative scripts..
 echo -n "\$MARIADB_ROOT_PASSWORD" | base64 > "\$MARIADB_ROOT_PASSWORD_FILE"
 chmod o-r "\$MARIADB_ROOT_PASSWORD_FILE"
-setfacl --recursive --modify u:{{USER_NAME}}:rwx "\$MARIADB_ROOT_PASSWORD_FILE"
-setfacl --recursive --modify g:{{GROUP_NAME}}:rwx "\$MARIADB_ROOT_PASSWORD_FILE"
+
+# Set permissions for the container files and directories..
+setfacl --recursive --modify u:{{USER_NAME}}:rwx /var/containers
+setfacl --recursive --modify g:{{GROUP_NAME}}:rwx /var/containers
 
 # Pull the latest MariaDB image..
 podman pull docker.io/library/mariadb:latest
@@ -111,12 +107,10 @@ BUILD_UPDATE_KS_CFG_EOF
 }
 
 FILES_LIST=(
-    "/var/containers/mariadb/bin/cli.sh"
-    "/var/containers/mariadb/bin/logs.sh"
-    "/var/containers/mariadb/bin/reset.sh"
-    "/var/containers/mariadb/bin/start.sh"
-    "/var/containers/mariadb/bin/stop.sh"
-    "/var/containers/mariadb/chome/etc/systemd/system/start-mysql.service"
+    "/var/containers/mariadb-service/bin/backup.sh"
+    "/var/containers/mariadb-service/bin/backup_all.sh"
+    "/var/containers/mariadb-service/bin/cli.sh"
+    "/var/containers/mariadb-service/bin/deploy.sh"
 )
 
 # Iterace přes pole

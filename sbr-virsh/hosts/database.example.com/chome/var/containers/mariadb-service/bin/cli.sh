@@ -12,9 +12,8 @@ FOLDER_NAME="$(basename "$PARENT_FOLDER")"
 # Name of the container..
 CONTAINER_NAME="$FOLDER_NAME"
 
-
-MARIADB_ROOT_PASSWORD=$(base64 -d /var/passwd/containers/mariadb/MARIADB_ROOT_PASSWORD | tr -d '\n')
-TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+# Get MariaDB root password..
+MARIADB_ROOT_PASSWORD=$(base64 -d /var/containers/$CONTAINER_NAME/.MARIADB_ROOT_PASSWORD | tr -d '\n')
 
 # Zjistí, jestli kontejner běží
 if ! sudo podman ps --filter "name=$CONTAINER_NAME" --format "{{.Names}}" | grep -q "^$CONTAINER_NAME$"; then
