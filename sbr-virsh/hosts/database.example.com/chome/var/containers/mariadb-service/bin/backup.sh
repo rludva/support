@@ -27,7 +27,7 @@ FOLDER_NAME="$(basename "$PARENT_FOLDER")"
 CONTAINER_NAME="$FOLDER_NAME"
 
 # Set MariaDB backup parameters..
-MARIADB_ROOT_PASSWORD=$(base64 -d /var/containers/mariadb/.MARIADB_ROOT_PASSWORD | tr -d '\n')
+MARIADB_ROOT_PASSWORD=$(base64 -d /var/containers/$CONTAINER_NAME/.MARIADB_ROOT_PASSWORD | tr -d '\n')
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
 
 # Database Credentials..
