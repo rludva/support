@@ -173,6 +173,7 @@ BUILD_UPDATE_KS_CFG_EOF
 }
 
 FILES_LIST=(
+  "/usr/local/bin/samba-add-user.sh"
 )
 
 # Iterace přes pole
