@@ -98,8 +98,8 @@ BUILD_UPDATE_KS_CFG_EOF
 }
 
 FILES_LIST=(
-  "/home/user/deploy-rhokp.yaml"
-  "/home/user/secrets.yaml"
+  "/var/containers/rhokp/deploy.yaml"
+  "/var/containers/rhokp/secrets.yaml"
 )
 
 # Iterace přes pole
