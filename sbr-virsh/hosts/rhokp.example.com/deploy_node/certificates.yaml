@@ -28,7 +28,7 @@
     cert_path: "/etc/letsencrypt/live/{{ domain }}"
     
     # Destination path on the RHOKP host
-    rhokp_dest_path: "/var/certificates/rhokp"
+    rhokp_dest_path: "/var/certificates/rhokp-service"
 
     deploy_user: "{{ lookup('env', 'USER') }}"
 

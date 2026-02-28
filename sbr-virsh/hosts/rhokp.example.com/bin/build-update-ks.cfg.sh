@@ -29,27 +29,7 @@ cat << BUILD_UPDATE_KS_CFG_EOF > "$RESOURCES_DIR/update-ks.cfg"
 # Enable and open HTTP, HTTPS for services..
 firewall-offline-cmd --add-service=http --add-service=https
 
-dnf install -y ansible-core
 dnf install -y podman
-
-##
-## ansible.posix
-mkdir -p /usr/share/ansible/collections
-
-# 1. Have to export HOME so Ansible knows where to store cache..
-export HOME=/root
-export PATH=$PATH:/usr/bin:/usr/local/bin
-
-# 2. Force non-interactive mode with no colors and no attempts to access TTY
-# Use the full path to the binary and suppress TTY-related errors
-ANSIBLE_NOCOLOR=1 ANSIBLE_LOG_PATH=/root/ansible-galaxy-debug.log \
-echo "Installing ansible.posix collection via ansible-galaxy..." \
-ansible-galaxy collection install ansible.posix \
-    -p /usr/share/ansible/collections \
-    --force \
-    < /dev/null > /root/galaxy_output.log 2>&1## 
-##
-##
 
 BUILD_UPDATE_KS_CFG_EOF
 
@@ -98,8 +78,7 @@ BUILD_UPDATE_KS_CFG_EOF
 }
 
 FILES_LIST=(
-  "/var/containers/rhokp/deploy.yaml"
-  "/var/containers/rhokp/secrets.yaml"
+  "/var/containers/rhokp-service/deploy.sh"
 )
 
 # Iterace přes pole
