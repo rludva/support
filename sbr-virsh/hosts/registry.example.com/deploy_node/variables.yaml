@@ -1,0 +1,27 @@
+---
+#
+# ADJUST: 
+# -------
+# - Set the hostname or IP address of your registry_hostname variable as hostname here. 
+registry_hostname: "registry.example.com"
+
+#
+# ADJUST: 
+# -------
+# - Set the port on which your registry is running here.
+registry_port: "5000"
+
+
+#
+# ADJUST: 
+# -------
+# - Set the domain name for which the certificates were issued here.
+# - This is used to construct the path to the certificates on the letsencrypt host.
+registry_url: "registry.service.example.com"
+
+#
+# ADJUST: 
+# -------
+# - Set the hostname or IP address of your letsencrypt_hostname variable as hostname here. 
+# - This is where the certificates will be fetched from.
+letsencrypt_hostname: "letsencrypt.example.com"

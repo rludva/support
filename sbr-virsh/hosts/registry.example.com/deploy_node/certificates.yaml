@@ -1,0 +1,60 @@
+---
+- name: Fetch Let's Encrypt certificates and deploy them to registry host..
+  become: true
+  hosts: localhost
+  vars_files:
+    - variables.yaml
+  vars:
+    # Source path on the Let's Encrypt host
+    cert_path: "/etc/letsencrypt/live/{{ registry_url }}"
+    
+    # Destination path on the registry host where the certificates will be copied to
+    registry_dest_path: "/var/certificates/registry-service"
+
+    deploy_user: "{{ lookup('env', 'USER') }}"
+
+    certificates:
+      - fullchain.pem
+      - privkey.pem
+      - chain.pem
+      - cert.pem
+    
+  tasks:
+    # Slurp certificates into memory..
+    - name: Read certificates from Let's Encrypt host into memory
+      ansible.builtin.slurp:
+        src: "{{ cert_path }}/{{ item }}"
+      register: slurped_certs
+      delegate_to: "{{ letsencrypt_hostname }}"
+      loop: "{{ certificates }}"
+      no_log: true # EXTREMELY IMPORTANT: Prevents printing the private key to the terminal!
+
+    # Prepare the destination directory on the registry host..
+    - name: Remove existing certificates directory on registry host
+      ansible.builtin.file:
+        path: "{{ registry_dest_path }}"
+        state: absent
+      delegate_to: "{{ registry_hostname }}"
+
+    - name: Create destination directory on registry host
+      ansible.builtin.file:
+        path: "{{ registry_dest_path }}"
+        state: directory
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: '0755'
+      delegate_to: "{{ registry_hostname }}"
+
+    # Write certificates from memory directly to the target server..
+    - name: Copy certificates from memory to registry host
+      ansible.builtin.copy:
+        content: "{{ item.content | b64decode }}"
+        dest: "{{ registry_dest_path }}/{{ item.item }}" # 'item.item' contains the original filename (e.g., cert.pem)
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: '0600'
+      delegate_to: "{{ registry_hostname }}"
+      loop: "{{ slurped_certs.results }}"
+      no_log: true
+      loop_control:
+        label: "{{ item.item }}" # Prints only the filename to the terminal, not the hidden content
