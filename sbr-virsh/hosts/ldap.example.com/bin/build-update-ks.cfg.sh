@@ -35,7 +35,7 @@ dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.
 dnf install openldap openldap-servers openldap-clients -y
 
 # Enable LDAP service..
-systemctl enable --now slapd
+systemctl enable slapd
 
 # Enable LDAP service in firewall..
 firewall-offline-cmd --add-service=ldap
