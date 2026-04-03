@@ -22,9 +22,12 @@ DEFAULT_DISK_SIZE="20"
 DEFAULT_NETWORK="br0-network"
 DEFAULT_MAC_ADDRESS="52:54:00:12:34:56"
 
-# Path to ISO (modify if your location differs)
-IMAGE_FILE="/var/lib/libvirt/images/iso/rhel-10.0-x86_64-dvd.iso"
-OS_VARIANT="rhel10.0"
+# Path to ISO..
+DEFAULT_IMAGE_FILE="/var/lib/libvirt/images/iso/rhel-10.0-x86_64-dvd.iso"
+DEFAULT_OS_VARIANT="rhel10.0"
+
+#
+DEFAULT_DISK2_SIZE=""
 
 # -----------------------------------------------------------------------------
 # HELPER FUNCTIONS
@@ -95,6 +98,16 @@ if [[ ! "$DISK_SIZE" =~ ^[0-9]+$ ]]; then
     exit 1
 fi
 
+# Disk2 (optional)
+DEFAULT_DISK2_SIZE_FILENAME="virt-install.disk2_size"
+DISK2_SIZE=$(load_param "$DEFAULT_DISK2_SIZE_FILENAME" "$DEFAULT_DISK2_SIZE")
+# Validation: Integer check..
+if [[ ! "$DISK2_SIZE" =~ ^[0-9]+$ ]]; then
+    log_err "Invalid Disk 2 Size value: '$DISK2_SIZE' (integer expected)."
+    exit 1
+fi
+
+
 # Network
 DEFAULT_NETWORK_FILENAME="virt-install.network"
 NETWORK=$(load_param "$DEFAULT_NETWORK_FILENAME" "$DEFAULT_NETWORK")
@@ -124,10 +137,24 @@ if [[ ! "$MAC_ADDRESS" =~ ^52:54:00(:[0-9A-Fa-f]{2}){3}$ ]]; then
     exit 1
 fi
 
+# IMAGE_FILE from file (optional, fallback to default if missing)
+IMAGE_FILE=$(load_param "virt-install.image_file" "$DEFAULT_IMAGE_FILE")
+if [[ -z "$IMAGE_FILE" ]]; then
+    log_err "ISO image file path cannot be empty."
+    exit 1
+fi
+if [[ ! -f "$IMAGE_FILE" ]]; then
+    log_err "ISO image file not found: $IMAGE_FILE"
+    exit 1
+fi
 
-# Confuration other parameters..
-IMAGE_FILE="/var/lib/libvirt/images/iso/rhel-10.0-x86_64-dvd.iso"
-OS_VARIANT="rhel10.0"
+# OS_VARIANT from file (optional, fallback to default if missing)
+OS_VARIANT=$(load_param "virt-install.os_variant" "$DEFAULT_OS_VARIANT")
+if [[ -z "$OS_VARIANT" ]]; then
+    log_err "OS variant cannot be empty."
+    exit 1
+fi
+
 
 # --- SUMMARY ---
 echo "----------------------------------------"
@@ -139,6 +166,7 @@ echo "Network:    $NETWORK"
 echo "MAC:        $MAC_ADDRESS"
 echo "ISO:        $IMAGE_FILE"
 echo "OS Variant: $OS_VARIANT"
+echo "Disk2 Size:  ${DISK2_SIZE:-N/A}"
 echo "----------------------------------------"
 
 # --- 5. RESOURCE CHECK ---
@@ -178,6 +206,11 @@ fi
 
 # Add network argument..
 VIRSH_ARGS+=(--network "$NETWORK_ARG")
+
+# Add second disk if specified..
+if [[ -n "$DISK2_SIZE" ]]; then
+  VIRSH_ARGS+=(--disk path=/var/lib/libvirt/images/${VM_NAME}-disk2.qcow2,size=$DISK2_SIZE)
+fi
 
 #
 # Process the installation..
