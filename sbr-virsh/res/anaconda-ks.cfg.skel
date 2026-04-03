@@ -36,11 +36,19 @@ rhsm --organization={{ORGANIZATION}} --activation-key={{ACTIVATION_KEY}}
 
 
 # --- DISK ---
-# Clear all partitions on the VM disk and create new ones automatically
-bootloader --location=mbr
+# Ignoring any other disks that might be present, use only the virtual disk vda for installation.
+ignoredisk --only-use=vda
+
+# Clear all existing partitions and use the whole disk for LVM setup..
 zerombr
-clearpart --all --initlabel
+clearpart --all --initlabel --drives=vda
+
+# Automatic partitioning with LVM on vda..
 autopart --type=lvm
+
+# Bootloader installation to MBR of vda..
+bootloader --location=mbr
+
 
 # --- PACKAGES ---
 %packages
