@@ -107,6 +107,19 @@ if [[ ! "$DISK2_SIZE" =~ ^[0-9]+$ ]]; then
     exit 1
 fi
 
+# Check existence of the disk image and remove if it already exists..
+IMAGE_DIR="/var/lib/libvirt/images"
+DISK_PATH="${IMAGE_DIR}/${VM_NAME}.qcow2"
+if [ -f "$DISK_PATH" ]; then
+    log_info "Info: Disk $DISK_PATH already exists. Removing existing disk..."
+    sudo rm -f "$DISK_PATH"
+fi
+DISK_PATH="${IMAGE_DIR}/${VM_NAME}-disk2.qcow2"
+if [ -f "$DISK_PATH" ]; then
+    log_info "Info: Disk $DISK_PATH already exists. Removing existing disk..."
+    sudo rm -f "$DISK_PATH"
+fi
+
 
 # Network
 DEFAULT_NETWORK_FILENAME="virt-install.network"
@@ -121,7 +134,7 @@ fi
 DEFAULT_MAC_ADDRESS_FILENAME="virt-install.mac_address"
 MAC_ADDRESS=$(load_param "$DEFAULT_MAC_ADDRESS_FILENAME" "$DEFAULT_MAC_ADDRESS")
 if [[ -z "$MAC_ADDRESS" ]]; then
-    echo "Error: The MAC_ADDRESS $MAC_ADDRESS is empty."
+    log_err "MAC address cannot be empty."
     exit 1
 fi
 
@@ -132,8 +145,8 @@ fi
 # {2} -> Repeat the previous group 2 times (4. and 5. oktet)
 # [0-9A-Fa-f]{2}$ -> Two hex digits at the end (6. oktet)
 if [[ ! "$MAC_ADDRESS" =~ ^52:54:00(:[0-9A-Fa-f]{2}){3}$ ]]; then
-    echo "Error: '$MAC_ADDRESS' not a valid MAC address."
-    echo "Expected format: 52:54:00:XX:XX:XX where X is a hexadecimal digit."
+    log_err "Invalid MAC address format: '$MAC_ADDRESS'."
+    log_info "Expected format: 52:54:00:XX:XX:XX where X is a hexadecimal digit."
     exit 1
 fi
 
@@ -157,17 +170,17 @@ fi
 
 
 # --- SUMMARY ---
-echo "----------------------------------------"
-echo "VM Name:    $VM_NAME"
-echo "CPU:        $CPU_COUNT"
-echo "RAM:        $RAM MB"
-echo "Disk:       $DISK_SIZE GB"
-echo "Network:    $NETWORK"
-echo "MAC:        $MAC_ADDRESS"
-echo "ISO:        $IMAGE_FILE"
-echo "OS Variant: $OS_VARIANT"
-echo "Disk2 Size:  ${DISK2_SIZE:-N/A}"
-echo "----------------------------------------"
+log_info "----------------------------------------"
+log_info "VM Name:    $VM_NAME"
+log_info "CPU:        $CPU_COUNT"
+log_info "RAM:        $RAM MB"
+log_info "Disk:       $DISK_SIZE GB"
+log_info "Network:    $NETWORK"
+log_info "MAC:        $MAC_ADDRESS"
+log_info "ISO:        $IMAGE_FILE"
+log_info "OS Variant: $OS_VARIANT"
+log_info "Disk2 Size:  ${DISK2_SIZE:-N/A}"
+log_info "----------------------------------------"
 
 # --- 5. RESOURCE CHECK ---
 if [[ ! -f "$IMAGE_FILE" ]]; then
