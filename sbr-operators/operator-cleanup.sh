@@ -3,6 +3,13 @@
 # Usage: ./operator-cleanup.sh <operator_name>
 #        ./operator-cleanup.sh openshift-gitops-operator.openshift-gitops-operator
 
+# Documentation:
+# --------------
+#
+# [1] Operator still present after operator is uninstalled
+#     https://access.redhat.com/solutions/6762071
+#
+
 set -euo pipefail
 
 if [ $# -ne 1 ]; then
@@ -22,6 +29,7 @@ if [ -z "$crds" ]; then
   echo "No CRDs found for operator $OPERATOR"
   exit 0
 fi
+exit
 
 # 2. Remove all instances of these CRDs..
 for crd in $crds; do
