@@ -48,13 +48,13 @@ process_certificate() {
 # Process certificates for different clusters..
 # (replace with your cluster name and domain)
 CLUSTER_NAME="sanpuru"
-CLUSTE_DOMAIN="example.com"
+CLUSTER_DOMAIN="example.com"
 process_certificate "console-tls" "console-openshift-console.apps.$CLUSTER_NAME.$CLUSTER_DOMAIN" "openshift-config"
 process_certificate "oauth-tls" "oauth-openshift.apps.$CLUSTER_NAME.$CLUSTER_DOMAIN"  "openshift-config"
 process_certificate "apps-tls" "apps.$CLUSTER_NAME.$CLUSTER_DOMAIN" "openshift-ingress"
 
 CLUSTER_NAME="mihon"
-CLUSTE_DOMAIN="example.com"
+CLUSTER_DOMAIN="example.com"
 process_certificate "console-tls" "console-openshift-console.apps.$CLUSTER_NAME.$CLUSTER_DOMAIN" "openshift-config"
 process_certificate "oauth-tls" "oauth-openshift.apps.$CLUSTER_NAME.$CLUSTER_DOMAIN"  "openshift-config"
 process_certificate "apps-tls" "apps.$CLUSTER_NAME.$CLUSTER_DOMAIN" "openshift-ingress"
