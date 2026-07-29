@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # This script is used to push certificates to a OpenShift cluster
-# from a bastion host. It retrieves certificates from the bastion host
+# from the letsencrypt host. It retrieves certificates from the letsencrypt host
 # and updates the corresponding secrets in the OpenShift cluster.
 MANAGEMENT_ACCOUNT="$USER"
-BASTION_HOST="bastion.example.com"
+LETSENCRYPT_HOST="bastion.example.com"
 PROCESS_HOST="$HOSTNAME"
 
 # Function to process a certificate and update the OpenShift secret..
@@ -19,7 +19,7 @@ process_certificate() {
 
 
   # Retrieve the certificate from the bastion host..
-  ssh $MANAGEMENT_ACCOUNT@$BASTION_HOST "sudo bash -c '
+  ssh $MANAGEMENT_ACCOUNT@$LETSENCRYPT_HOST "sudo bash -c '
     cd /etc/letsencrypt/live/$DOMAIN
     scp *.pem $MANAGEMENT_ACCOUNT@$PROCESS_HOST:$TMP_FOLDER
   '"
